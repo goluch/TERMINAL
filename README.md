@@ -1,2 +1,5 @@
-# TERMINAL
-Frontend for an existing TERMINAL app written in React.js
+# How to run dev server
+
+```
+npm run dev
+```
