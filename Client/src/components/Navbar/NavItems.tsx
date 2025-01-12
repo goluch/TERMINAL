@@ -16,7 +16,7 @@ const NavItems = (props: NavItemsProps) => {
                         to={{
                             pathname: `${item.href}`
                         }}
-                        aria-current={location.pathname===item.href}
+                        aria-current={(location.pathname===item.href) ? "page" : undefined}
                     >
                         {item.name}
                     </Link>
