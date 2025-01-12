@@ -11,7 +11,7 @@ const NavMobileDropdown = (props: MobileDropdownButtonProps) => {
     return (
         <Menu as="div" className="dropdown">
                 <MenuButton
-                    className="btn btn-ghost lg:hidden">
+                    className="btn btn-ghost md:hidden">
                     <Bars3Icon className="h-5 w-5"/>
                 </MenuButton>
             <MenuItems
