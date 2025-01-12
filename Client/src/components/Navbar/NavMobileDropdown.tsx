@@ -9,26 +9,25 @@ interface MobileDropdownButtonProps {
 
 const NavMobileDropdown = (props: MobileDropdownButtonProps) => {
     return (
-        <Menu as="div" className="relative ml-3 dropdown sm:hidden">
+        <Menu as="div" className="dropdown">
                 <MenuButton
-                    className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none hover:bg-gray-700 btn btn-ghost btn-circle text-gray-400">
-                    <Bars3Icon className="h-7 w-7 text-gray-400"/>
+                    className="btn btn-ghost lg:hidden">
+                    <Bars3Icon className="h-5 w-5"/>
                 </MenuButton>
             <MenuItems
+                as="ul"
                 transition
-                className="absolute left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
                 {props.navigationItems.map((item, index) => (
-                        <MenuItem key={index}>
-                        <Link
-                            to={{
-                                pathname: `${item.href}`
-                            }}
-                            aria-current={item.current ? 'page' : undefined}
-                            className='rounded-md block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none'
-                        >
-                            {item.name}
-                        </Link>
+                        <MenuItem key={index} as="li">
+                            <Link
+                                to={{
+                                    pathname: `${item.href}`
+                                }}
+                            >
+                                {item.name}
+                            </Link>
                         </MenuItem>
                 ))}
             </MenuItems>

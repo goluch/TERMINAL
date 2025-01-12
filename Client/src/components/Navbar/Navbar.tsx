@@ -3,8 +3,9 @@ import { CommandLineIcon} from '@heroicons/react/24/outline'
 import {useLocation} from "react-router-dom";
 import {useState, useEffect} from "react";
 import NavMobileDropdown from "./NavMobileDropdown.tsx";
-import UserItems from "./UserItems.tsx";
 import NavItems from "./NavItems.tsx";
+import UserProfileDropdown from "./UserProfileDropdown.tsx";
+import UserAuthButtons from "./UserAuthButtons.tsx";
 
 export interface Navigation {
     name: string;
@@ -13,6 +14,8 @@ export interface Navigation {
 }
 
 const Navbar = () => {
+
+    const [isAuth] = useState(true);
 
     const location = useLocation()
 
@@ -36,22 +39,26 @@ const Navbar = () => {
     }, [location.pathname]);
 
     return (
-        <Disclosure as="nav" className="bg-gray-800 navbar px-2 sm:px-6 lg:px-8 w-full">
-            <div className="relative flex h-16 items-center w-full">
+        <Disclosure as="nav" className="navbar bg-base-100">
 
-                {/*Small devices */}
+            <div className="navbar-start">
+                <CommandLineIcon className="h-10 w-10 hidden sm:block"/>
                 <NavMobileDropdown navigationItems={navigation}/>
-
-                {/*Default */}
-                <div className="flex flex-1  sm:items-stretch sm:justify-start flex-nowrap ">
-                    <div className="shrink-0 hidden sm:block content-center">
-                        <CommandLineIcon className="h-12 w-12 text-gray-400"/>
-                    </div>
-                    <NavItems  navigationItems={navigation}/>
-                </div>
-
-                <UserItems/>
             </div>
+
+            <div className="navbar-center hidden md:flex">
+                <NavItems navigationItems={navigation}/>
+            </div>
+
+            <div className="navbar-end">
+                {isAuth ?
+                    (<UserProfileDropdown />)
+                :
+                    (<UserAuthButtons />)
+                }
+            </div>
+
+
         </Disclosure>
     )
 };

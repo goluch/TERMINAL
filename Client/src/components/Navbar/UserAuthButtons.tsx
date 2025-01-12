@@ -1,32 +1,32 @@
 import {Link} from "react-router-dom";
 import {IdentificationIcon, KeyIcon} from "@heroicons/react/24/outline";
+import { Button } from '@headlessui/react'
 
 const UserAuthButtons = () => {
     return(
-        <ul className="menu-horizontal flex-nowrap">
-            <li className="p-2 text-sm ">
+        <>
+            <Button className="btn">
                 <Link
                     to={{
                         pathname: `/login`
                     }}
-                    className="flex rounded-md items-center p-1 text-gray-400 hover:bg-gray-700 "
                 >
-                    <KeyIcon className="h-6 w-6 mt-0.5 "/>
-                    <div className="p-1 text-base ">Login</div>
+                    <KeyIcon className="h-5 w-5"/>
+                    Login
                 </Link>
-            </li>
-            <li className="p-2 text-sm">
+            </Button>
+            <Button className="btn">
                 <Link
                     to={{
                         pathname: `/register`
                     }}
-                    className="flex rounded-md items-center p-1 text-gray-700 bg-gray-400 hover:bg-gray-300 hover:text-gray-800"
                 >
-                    <IdentificationIcon className="h-7 w-7 mt-0.5 "/>
-                    <div className="p-1 text-base">Sign up</div>
+                    <IdentificationIcon className="h-5 w-5"/>
+                    Sign up
                 </Link>
-            </li>
-        </ul>
+            </Button>
+        </>
+
     );
 };
 
