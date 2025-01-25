@@ -5,6 +5,7 @@ import SubmitButton from "./SubmitButton";
 import RememberMeButton from "./RememberMeButton";
 
 const LoginForm = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({
         email: "",
         password: "",
@@ -21,7 +22,11 @@ const LoginForm = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(userData);
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+            console.log(userData);
+        }, 2000);
     };
 
     return (
@@ -43,7 +48,7 @@ const LoginForm = () => {
                 onChange={handleChange}
                 />
                 <RememberMeButton />
-                <SubmitButton label="Login" />
+                <SubmitButton label="Sign in" isLoading={isLoading} />
             </form>
         </div>
     )
