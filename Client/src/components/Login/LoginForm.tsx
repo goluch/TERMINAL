@@ -50,7 +50,7 @@ const LoginForm = () => {
             <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
                 <InputField
                     name="email"
-                    type="email"
+                    type="text"
                     label="Email"
                     value={userData.email}
                     onChange={handleChange}
