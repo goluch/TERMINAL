@@ -4,13 +4,17 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import LoginPage from './pages/LoginPage.tsx'
+import Navbar from "./components/Navbar/Navbar.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
       <BrowserRouter>
+          <Navbar />
           <Routes>
-             <Route path="/" element={ <App/> } />
-             <Route path="/login" element={ <LoginPage/> } />
+              <Route path="/" element={ <App/> } />
+              <Route path="*" element={ <NotFoundPage/> } />
+              <Route path="/login" element={ <LoginPage/> } />
           </Routes>
       </BrowserRouter>
   </StrictMode>,
