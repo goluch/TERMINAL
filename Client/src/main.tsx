@@ -5,7 +5,8 @@ import './index.css'
 import App from './App.tsx'
 import Navbar from "./components/Navbar/Navbar.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
-import Settings from "./pages/Settings.tsx";
+import SettingsPage from "./pages/SettingsPage.tsx";
+import RegisterPage from "./pages/RegisterPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,7 +14,8 @@ createRoot(document.getElementById('root')!).render(
           <Navbar />
           <Routes>
               <Route path="/" element={ <App/> } />
-              <Route path="/settings" element={ <Settings/> } />
+              <Route path="/settings" element={ <SettingsPage/> } />
+              <Route path="/register" element={<RegisterPage />} />
               <Route path="*" element={ <NotFoundPage/> } />
           </Routes>
       </BrowserRouter>

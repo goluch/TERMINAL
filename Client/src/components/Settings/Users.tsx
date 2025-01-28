@@ -16,32 +16,55 @@ const Users = () => {
         {
             email: "Test",
             role: "Test"
+        },
+        {
+            email: "Testowy 2",
+            role: "Testoy2"
+        },
+        {
+            email: "Testowy 2",
+            role: "Testoy2"
+        },
+        {
+            email: "Testowy 2",
+            role: "Testoy2"
+        },
+        {
+            email: "Testowy 2",
+            role: "Testoy2"
+        },
+        {
+            email: "Testowy 2",
+            role: "Testoy2"
         }
     ];
 
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <div>
+        <div className="flex w-full flex-wrap justify-center bg-white p-3 rounded-md">
+
             {users.map((user) =>
-                <UserComp
+                < UserComp
                     key={user.email}
                     user={user}
                 />
             )}
 
-            <Button
-                className="btn "
-                onClick={() => setIsOpen(true)}
-            >
-                <PlusCircleIcon className="h-6 w-6 mt-0.5"/>
-                Invite User
-            </Button>
+            <div className="w-full flex justify-end">
+                <Button
+                    className="btn"
+                    onClick={() => setIsOpen(true)}
+                >
+                    <PlusCircleIcon className="h-6 w-6 mt-0.5"/>
+                    Invite User
+                </Button>
+            </div>
 
             <DialogComp
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
-                title="TEST"
+                title="Invite new user"
             >
                 <InvitationForm/>
             </DialogComp>

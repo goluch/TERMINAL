@@ -1,7 +1,7 @@
 const InvitationForm = () => {
     return (
         <div>
-            TEST
+            FORM
         </div>
     );
 };

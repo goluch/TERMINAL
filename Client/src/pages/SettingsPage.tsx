@@ -1,8 +1,10 @@
 import {Tab, TabGroup, TabList, TabPanel, TabPanels} from "@headlessui/react";
 import Users from "../components/Settings/Users.tsx";
 
-const Settings = () => {
+const SettingsPage = () => {
     return (
+        <div className="bg-gray-100 min-h-screen flex justify-center">
+            <div className="w-11/12 mt-2">
         <TabGroup>
             <TabList className="tabs tabs-lifted">
                 <Tab className="tab data-[active]:tab-active">Your Profile</Tab>
@@ -21,7 +23,9 @@ const Settings = () => {
                 </TabPanel>
             </TabPanels>
         </TabGroup>
+            </div>
+        </div>
     );
 };
 
-            export default Settings;
+            export default SettingsPage;
