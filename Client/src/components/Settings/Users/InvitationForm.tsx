@@ -54,7 +54,7 @@ const InvitationForm = () => {
             console.log(userData);
             setInvitationLink({
                 isValid: true,
-                link: "TESTES"
+                link: "http://localhost:5173/register"
             })
         }, 2000);
     }, [userData]);
