@@ -1,5 +1,5 @@
 import {Tab, TabGroup, TabList, TabPanel, TabPanels} from "@headlessui/react";
-import Users from "../components/Settings/Users.tsx";
+import Users from "../components/Settings/Users/Users.tsx";
 
 const SettingsPage = () => {
     return (
