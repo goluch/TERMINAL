@@ -1,16 +1,23 @@
-import {CommandLineIcon} from "@heroicons/react/24/outline";
+import { QueryClient } from "@tanstack/query-core";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router";
+import Navbar from "./components/Navbar/Navbar";
+import LoginPage from "./pages/LoginPage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
-        <div className="card-bordered rounded-lg bg-base-100 p-1">
-            <div className="card-body">
-                <div className="flex flex-row justify-between items-center g-1">
-                    <p className="text-2xl">Terminal</p>
-                    <CommandLineIcon className="h-6 w-6 mt-0.5"/>
-                </div>
-            </div>
-        </div>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
