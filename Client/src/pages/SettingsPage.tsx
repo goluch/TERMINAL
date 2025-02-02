@@ -7,19 +7,27 @@ const SettingsPage = () => {
             <div className="w-11/12 mt-2">
         <TabGroup>
             <TabList className="tabs tabs-lifted">
-                <Tab className="tab data-[active]:tab-active">Your Profile</Tab>
+                <Tab className="tab data-[active]:tab-active">Projects</Tab>
+                <Tab className="tab data-[active]:tab-active">Samples</Tab>
+                <Tab className="tab data-[active]:tab-active">Recipes</Tab>
+                <Tab className="tab data-[active]:tab-active">Tags</Tab>
                 <Tab className="tab data-[active]:tab-active">Users</Tab>
-                <Tab className="tab data-[active]:tab-active">Tab 3</Tab>
             </TabList>
             <TabPanels>
                 <TabPanel>
-                    Your Profile
+                    PROJECTS
+                </TabPanel>
+                <TabPanel>
+                    SAMPLES
+                </TabPanel>
+                <TabPanel>
+                    RECIPES
+                </TabPanel>
+                <TabPanel>
+                    TAGS
                 </TabPanel>
                 <TabPanel>
                     <Users/>
-                </TabPanel>
-                <TabPanel>
-                    Content 3
                 </TabPanel>
             </TabPanels>
         </TabGroup>

@@ -12,44 +12,18 @@ export interface User {
 
 const Users = () => {
 
-    const users: User[] = [
+    const user: User =
         {
             email: "Test",
             role: "Test"
-        },
-        {
-            email: "Testowy 2",
-            role: "Testoy2"
-        },
-        {
-            email: "Testowy 21",
-            role: "Testoy2"
-        },
-        {
-            email: "Testowy 22",
-            role: "Testoy2"
-        },
-        {
-            email: "Testowy 23",
-            role: "Testoy2"
-        },
-        {
-            email: "Testowy 24",
-            role: "Testoy2"
-        }
-    ];
+        };
 
     const [isOpen, setIsOpen] = useState(false)
 
     return (
         <div className="flex w-full flex-wrap justify-center bg-white p-3 rounded-md">
 
-            {users.map((user) =>
-                < UserComp
-                    key={user.email}
-                    user={user}
-                />
-            )}
+            <UserComp user={user} />
 
             <div className="w-full flex justify-end">
                 <Button
@@ -66,7 +40,7 @@ const Users = () => {
                 setIsOpen={setIsOpen}
                 title="Invite new user"
             >
-                <InvitationForm setDialogOpen={setIsOpen}/>
+                <InvitationForm />
             </DialogComp>
 
         </div>

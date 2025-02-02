@@ -1,6 +1,6 @@
 import {Button, Transition} from "@headlessui/react";
 import {useState} from "react";
-import {ClipboardIcon} from "@heroicons/react/16/solid";
+import {ClipboardIcon, CheckCircleIcon} from "@heroicons/react/16/solid";
 
 interface  InvitationLinkProps{
     link: string,
@@ -8,22 +8,35 @@ interface  InvitationLinkProps{
 
 const InvitationLink = (props: InvitationLinkProps) => {
 
-    const [open, setOpen] = useState(false);
+    const [linkIsOpen, setLinkIsOpen] = useState(false);
+    const [isCopied, setCopied] = useState(false);
 
     const handleCopy = () => {
+        setCopied(true);
         navigator.clipboard.writeText(props.link).then(() => {});
     }
 
     return (
         <>
-        <div className="w-full flex justify-center">
-            <Button className="btn m-1" onClick={() => setOpen((open) => !open)}>Show Link</Button>
-            <Button className="btn m-1" onClick={handleCopy}>
-                <ClipboardIcon className="h-4 w-4 mt-0.5"/>
-                Copy
-            </Button>
-        </div>
-            <Transition show={open}>
+            <div className="w-full flex justify-center">
+                <Button className="btn m-1" onClick={() => setLinkIsOpen((open) => !open)}>
+                    {!linkIsOpen
+                        ?
+                        (<>Show Link</>)
+                        :
+                        (<>Hide Link</>)
+                    }
+                </Button>
+                <Button className="btn m-1" onClick={handleCopy}>
+                    {!isCopied
+                        ?
+                        (<><ClipboardIcon className="h-4 w-4 mt-0.5"/>Copy</>)
+                        :
+                        (<><CheckCircleIcon className="h-4 w-4 mt-0.5"/> Copied </>)
+                    }
+                </Button>
+            </div>
+            <Transition show={linkIsOpen}>
                 <div className="transition duration-300 ease-in data-[closed]:opacity-0 link text-center">
                     {props.link}
                 </div>

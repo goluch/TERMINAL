@@ -7,35 +7,27 @@ interface UserProps {
 
 const UserComp = (props: UserProps) => {
     return (
-        <>
-            <div className="card w-96 shadow-xl my-4">
-                <div className="card-body">
+        <div className="card w-full my-4 items-center">
+            <div className="card-body w-96">
 
-                    <h2 className="card-title">USER</h2>
+                <h2 className="card-title">USER</h2>
+                <div className="divider"></div>
+                <div> Email: {props.user.email}</div>
+                <div> Role: {props.user.role}</div>
 
-                    <div> Email: {props.user.email}</div>
-                    <div> Role: {props.user.role}</div>
-
-                    <div className="card-actions justify-end">
-                        {/* TODO: Delete User, change role etc */}
-                        <Button
-                            className="btn btn-sm "
-                            onClick={() => console.log("Change password")}
-                        >
-                            Change Password
-                        </Button>
-                        <Button
-                            className="btn btn-error btn-sm"
-                            onClick={() => console.log("DELETE")}
-                        >
-                            Delete User
-                        </Button>
-                    </div>
-
+                <div className="card-actions justify-end">
+                    <Button
+                        className="btn btn-sm "
+                        onClick={() => console.log("Change password")}
+                    >
+                        Reset Password
+                    </Button>
                 </div>
+
             </div>
             <div className="divider"></div>
-        </>);
+        </div>
+    );
 };
 
 export default UserComp;
