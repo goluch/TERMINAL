@@ -1,5 +1,5 @@
 import { Button } from '@headlessui/react';
-import LoadingIndicator from "./LoadingIndicator";
+import LoadingIndicator from "../../Login/LoadingIndicator.tsx";
 
 interface SubmitButtonProps {
   label: string;
@@ -17,15 +17,6 @@ const SubmitButton = ({ label, isLoading }: SubmitButtonProps) => (
       {isLoading && 'Loading...'}
     </Button>
 
-    <div className="text-sm mt-3 text-center">
-      <span className="text-gray-600">Don't have an account yet? </span>
-      <a
-        href="#"
-        className="font-semibold text-indigo-600 hover:text-indigo-500"
-      >
-        Sign up
-      </a>
-    </div>
   </div>
 );
 

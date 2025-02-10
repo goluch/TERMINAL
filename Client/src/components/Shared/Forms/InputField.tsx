@@ -9,11 +9,13 @@ interface InputFieldProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isValid?: boolean;
+    validationInfo?: string;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, type, name, value, onChange, isValid = true }) => {
+const InputField: React.FC<InputFieldProps> = (
+    {label, type, name, value, onChange, isValid = true, validationInfo
+}) => {
     return (
-        console.log(isValid),
         <Field>
             <Label className="text-sm font-semibold text-gray-700">{label}</Label>
             <Input
@@ -26,9 +28,15 @@ const InputField: React.FC<InputFieldProps> = ({ label, type, name, value, onCha
                     "border-red-500": !isValid
                 })}
             />
-            {!isValid && <p className="text-sm text-red-500">Invalid {label}</p>}
+            {!isValid &&
+                (<>
+                    <p className="text-sm text-red-500">Invalid {label}</p>
+                     <p className="text-sm text-red-500">{validationInfo}</p>
+                </>)
+            }
         </Field>
     );
 };
+
 
 export default InputField;

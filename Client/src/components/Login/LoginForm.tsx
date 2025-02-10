@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import TerminalBanner from "./TerminalBanner";
-import InputField from "./InputField";
-import SubmitButton from "./SubmitButton";
+import TerminalBanner from "../Shared/Forms/TerminalBanner.tsx";
+import InputField from "../Shared/Forms/InputField.tsx";
+import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
 import RememberMeButton from "./RememberMeButton";
 
 const LoginForm = () => {
