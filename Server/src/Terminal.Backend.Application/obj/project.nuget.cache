@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "3ZUAvJZ5M3M=",
+  "success": true,
+  "projectFilePath": "/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/Terminal.Backend.Application.csproj",
+  "expectedPackageFiles": [
+    "/Users/gracjangrzech/.nuget/packages/mapster/7.4.0/mapster.7.4.0.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/mapster.core/1.2.1/mapster.core.1.2.1.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/mapster.dependencyinjection/1.0.1/mapster.dependencyinjection.1.0.1.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.1/microsoft.extensions.dependencyinjection.abstractions.8.0.1.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/microsoft.extensions.dependencymodel/6.0.0/microsoft.extensions.dependencymodel.6.0.0.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/scrutor/4.2.2/scrutor.4.2.2.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/serilog/3.1.1/serilog.3.1.1.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/system.buffers/4.5.1/system.buffers.4.5.1.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/system.memory/4.5.4/system.memory.4.5.4.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/system.text.encodings.web/6.0.0/system.text.encodings.web.6.0.0.nupkg.sha512",
+    "/Users/gracjangrzech/.nuget/packages/system.text.json/6.0.0/system.text.json.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
