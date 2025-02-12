@@ -1,0 +1,16 @@
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/bin/Debug/net8.0/Terminal.Backend.Application.deps.json
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/bin/Debug/net8.0/Terminal.Backend.Application.dll
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/bin/Debug/net8.0/Terminal.Backend.Application.pdb
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/bin/Debug/net8.0/Terminal.Backend.Core.dll
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/bin/Debug/net8.0/Terminal.Backend.Core.pdb
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.csproj.AssemblyReference.cache
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.AssemblyInfoInputs.cache
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.AssemblyInfo.cs
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.csproj.CoreCompileInputs.cache
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.sourcelink.json
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.395FA8A4.Up2Date
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.dll
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/refint/Terminal.Backend.Application.dll
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/Terminal.Backend.Application.pdb
+/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Application/obj/Debug/net8.0/ref/Terminal.Backend.Application.dll
