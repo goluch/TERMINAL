@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/Terminal.Backend.Api.props" />
+</Project>

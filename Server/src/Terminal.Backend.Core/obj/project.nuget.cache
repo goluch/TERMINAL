@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "lkfUaebiZfk=",
+  "success": true,
+  "projectFilePath": "/Users/gracjangrzech/Repos/TERMINAL_FRONT/Server/src/Terminal.Backend.Core/Terminal.Backend.Core.csproj",
+  "expectedPackageFiles": [
+    "/Users/gracjangrzech/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.1/microsoft.extensions.dependencyinjection.abstractions.8.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
