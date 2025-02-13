@@ -8,16 +8,15 @@ import NotFoundPage from "./pages/NotFoundPage";
 const queryClient = new QueryClient();
 
 export default function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Navbar />
+                <Routes>
+                    <Route path="*" element={<NotFoundPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
+    );
 }
