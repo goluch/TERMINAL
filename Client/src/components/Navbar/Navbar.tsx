@@ -18,6 +18,19 @@ const navigation: Navigation [] = [
     { name: 'Test3', href: '/tes3'},
 ]
 
+/**
+ * Navbar Component
+ *
+ * The Navbar component displays the navigation bar at the top of the page. It
+ * includes the site logo, navigation links, and user profile information.
+ *
+ * @example
+ * ```tsx
+ * <Navbar />
+ * ```
+ *
+ * @returns {JSX.Element} - The rendered Navbar component
+ */
 const Navbar = () => {
 
     const [isAuth] = useState(true);

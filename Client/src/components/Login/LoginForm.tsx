@@ -4,6 +4,21 @@ import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
 import RememberMeButton from "./RememberMeButton";
 
+
+/**
+ * LoginForm Component
+ *
+ * A form component for user login. It includes fields for email and password,
+ * a "Remember Me" checkbox, and a submit button. The form validates the email
+ * format and displays a loading indicator while the form is being submitted.
+ *
+ * @example
+ * ```tsx
+ * <LoginForm />
+ * ```
+ *
+ * @returns {JSX.Element} - The rendered LoginForm component.
+ */
 const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({
