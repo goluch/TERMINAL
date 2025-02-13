@@ -37,9 +37,9 @@ const UserProfileDropdown = () => {
                 </MenuItem>
                 <MenuItem as="li">
                     <a
-                        href="#"
+                        href="/login"
                     >
-                        Sign out
+                        Sign in
                     </a>
                 </MenuItem>
             </MenuItems>

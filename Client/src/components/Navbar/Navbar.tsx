@@ -13,7 +13,7 @@ export interface Navigation {
 
 const navigation: Navigation [] = [
     { name: 'Home',  href: '/'},
-    { name: 'Test1', href: '/test1' },
+    { name: 'Add project', href: '/add-new-project' },
     { name: 'Test2', href: '/test2'},
     { name: 'Test3', href: '/tes3'},
 ]

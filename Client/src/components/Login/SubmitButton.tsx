@@ -4,7 +4,7 @@ import LoadingIndicator from "./LoadingIndicator";
 
 export interface SubmitButtonProps {
   label: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 /**

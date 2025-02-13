@@ -7,6 +7,7 @@ export interface InputFieldProps {
     type: string;
     name: string;
     value: string;
+    description?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isValid?: boolean;
 }
@@ -27,7 +28,7 @@ export interface InputFieldProps {
  * />
  * ```
  */
-const InputField: React.FC<InputFieldProps> = ({ label, type, name, value, onChange, isValid = true }) => {
+const InputField: React.FC<InputFieldProps> = ({ label, type, name, value, description, onChange, isValid = true }) => {
     return (
         console.log(isValid),
         <Field>
@@ -42,7 +43,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, type, name, value, onCha
                     "border-red-500": !isValid
                 })}
             />
-            {!isValid && <p className="text-sm text-red-500">Invalid {label}</p>}
+            {!isValid && <p className="text-sm text-red-500">Invalid {description}</p>}
         </Field>
     );
 };
