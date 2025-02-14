@@ -4,13 +4,9 @@ import {UserCircleIcon} from "@heroicons/react/24/outline";
 /**
  * UserProfileDropdown Component
  *
- * The UserProfileDropdown component displays the user profile dropdown in the Navbar.
+ * A component that renders a user profile dropdown.
  *
- * @example
- * ```tsx
- * <UserProfileDropdown />
- * ```
- *
+ * @component
  * @returns {JSX.Element} - The rendered UserProfileDropdown component.
  */
 const UserProfileDropdown = () => {

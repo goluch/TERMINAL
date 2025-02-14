@@ -2,6 +2,9 @@ import React from 'react';
 import { Input, Label, Field } from '@headlessui/react';
 import clsx from 'clsx';
 
+/**
+ * Props interface for InputField component
+ */
 export interface InputFieldProps {
     label: string;
     type: string;
@@ -12,21 +15,12 @@ export interface InputFieldProps {
     isValid?: boolean;
 }
 
-
 /**
  * Reusable input field component with validation support.
- * 
- * @example
- * ```tsx
- * <InputField
- *   label="Email"
- *   type="email"
- *   name="email"
- *   value={email}
- *   onChange={handleEmailChange}
- *   isValid={isEmailValid}
- * />
- * ```
+ *
+ * @component
+ * @param {InputFieldProps} props - The props for the InputField component
+ * @returns {JSX.Element} - The rendered InputField component.
  */
 const InputField: React.FC<InputFieldProps> = ({ label, type, name, value, description, onChange, isValid = true }) => {
     return (

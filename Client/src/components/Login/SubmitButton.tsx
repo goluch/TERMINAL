@@ -1,7 +1,9 @@
 import { Button } from '@headlessui/react';
 import LoadingIndicator from "./LoadingIndicator";
 
-
+/**
+ * Props interface for SubmitButton component
+ */
 export interface SubmitButtonProps {
   label: string;
   isLoading?: boolean;
@@ -10,16 +12,10 @@ export interface SubmitButtonProps {
 /**
  * SubmitButton Component
  *
- * A button component for form submission. It displays a loading indicator when the form is being submitted.
- * The button is disabled while in the loading state.
+ * A simple submit button component that indicates a loading state.
  *
  * @component
- * @example
- * ```tsx
- * <SubmitButton label="Sign in" isLoading={false} />
- * ```
- *
- * @param {SubmitButtonProps} props - The props for the SubmitButton component.
+ * @param {SubmitButtonProps} props - The props for the SubmitButton component
  * @returns {JSX.Element} - The rendered SubmitButton component.
  */
 const SubmitButton = ({ label, isLoading }: SubmitButtonProps) => (

@@ -3,23 +3,21 @@ import {Link} from "react-router-dom";
 import {Bars3Icon} from '@heroicons/react/24/outline'
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
 
+/**
+ * Props interface for MobileDropdownButton component
+ */
 interface MobileDropdownButtonProps {
     navigationItems: Navigation [];
 }
 
 /**
- * NavMobileDropdown Component
+ * MobileDropdownButton Component
  *
- * The NavMobileDropdown component displays the navigation links in the Navbar
- * on mobile devices.
+ * A component that renders a mobile dropdown button.
  *
- * @example
- * ```tsx
- * <NavMobileDropdown navigationItems={navigation}/>
- * ```
- *
- * @param {MobileDropdownButtonProps} props - The props of the component.
- * @returns {JSX.Element} - The rendered NavMobileDropdown component.
+ * @component
+ * @param {MobileDropdownButtonProps} props - The props for the MobileDropdownButton component
+ * @returns {JSX.Element} - The rendered MobileDropdownButton component.
  */
 const NavMobileDropdown = (props: MobileDropdownButtonProps) => {
     return (

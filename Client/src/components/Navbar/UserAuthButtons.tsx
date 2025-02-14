@@ -5,13 +5,9 @@ import { Button } from '@headlessui/react'
 /**
  * UserAuthButtons Component
  *
- * The UserAuthButtons component displays the login and sign up buttons in the Navbar.
+ * A component that renders authentication buttons.
  *
- * @example
- * ```tsx
- * <UserAuthButtons />
- * ```
- *
+ * @component
  * @returns {JSX.Element} - The rendered UserAuthButtons component.
  */
 const UserAuthButtons = () => {

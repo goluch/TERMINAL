@@ -6,6 +6,9 @@ import NavItems from "./NavItems.tsx";
 import UserProfileDropdown from "./UserProfileDropdown.tsx";
 import UserAuthButtons from "./UserAuthButtons.tsx";
 
+/**
+ * Interface for navigation items
+ */
 export interface Navigation {
     name: string;
     href: string;
@@ -21,15 +24,10 @@ const navigation: Navigation [] = [
 /**
  * Navbar Component
  *
- * The Navbar component displays the navigation bar at the top of the page. It
- * includes the site logo, navigation links, and user profile information.
+ * A navigation bar component that includes navigation items, a user profile dropdown, and authentication buttons.
  *
- * @example
- * ```tsx
- * <Navbar />
- * ```
- *
- * @returns {JSX.Element} - The rendered Navbar component
+ * @component
+ * @returns {JSX.Element} - The rendered Navbar component.
  */
 const Navbar = () => {
 

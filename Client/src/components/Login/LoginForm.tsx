@@ -8,15 +8,10 @@ import RememberMeButton from "./RememberMeButton";
 /**
  * LoginForm Component
  *
- * A form component for user login. It includes fields for email and password,
- * a "Remember Me" checkbox, and a submit button. The form validates the email
- * format and displays a loading indicator while the form is being submitted.
+ * A form component for user login supporting email validation.
  *
- * @example
- * ```tsx
- * <LoginForm />
- * ```
- *
+ * @component
+ * @param {LoginFormProps} props - The props for the LoginForm component
  * @returns {JSX.Element} - The rendered LoginForm component.
  */
 const LoginForm = () => {
