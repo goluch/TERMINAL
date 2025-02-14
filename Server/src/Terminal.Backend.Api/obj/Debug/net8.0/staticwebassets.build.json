@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "s8p7oP4OZefR3CBDlPpyOun7cbDtoj2Af8ikdTIkqdI=",
+  "Source": "Terminal.Backend.Api",
+  "BasePath": "_content/Terminal.Backend.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
