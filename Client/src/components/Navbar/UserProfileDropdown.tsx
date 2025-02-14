@@ -1,5 +1,6 @@
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
 import {UserCircleIcon} from "@heroicons/react/24/outline";
+import {Link} from "react-router-dom";
 
 /**
  * UserProfileDropdown Component
@@ -28,13 +29,20 @@ const UserProfileDropdown = () => {
                 as="ul"
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
+
                 <MenuItem as="li">
-                    <a
-                        href="#"
-                    >
-                        Your Profile
-                    </a>
+                    {({ close }) => (
+                        <Link
+                            to={{
+                                pathname: `/settings`
+                            }}
+                            onClick={close}
+                        >
+                            Settings
+                        </Link>
+                    )}
                 </MenuItem>
+
                 <MenuItem as="li">
                     <a
                         href="/login"
