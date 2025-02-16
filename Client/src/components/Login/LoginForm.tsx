@@ -7,6 +7,16 @@ import { useLoginMutation } from "../../hooks/apiHooks";
 import { LoginRequest } from "../../api/terminalSchemas";
 import { Navigate } from "react-router-dom";
 
+
+/**
+ * LoginForm Component
+ *
+ * A form component for user login supporting email validation.
+ *
+ * @component
+ * @param {LoginFormProps} props - The props for the LoginForm component
+ * @returns {JSX.Element} - The rendered LoginForm component.
+ */
 const LoginForm = () => {
     const mutation = useLoginMutation();
     const [email, setEmail] = useState("");
