@@ -10,9 +10,8 @@
     ],
     "excludeExternals": true,
     "excludePrivate": true,
-    "theme": "markdown",
+    "theme": "default",
     "tsconfig": "./tsconfig.json",
     "hideGenerator": true,
     "readme": "none",
-    "plugin": ["typedoc-plugin-markdown"]
 }

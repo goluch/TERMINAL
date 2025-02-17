@@ -1,6 +1,9 @@
 import {Link, useLocation} from "react-router-dom";
 import {Navigation} from "./Navbar.tsx";
 
+/**
+ * Props interface for NavItems component
+ */
 interface NavItemsProps {
     navigationItems: Navigation[];
 }
@@ -8,14 +11,10 @@ interface NavItemsProps {
 /**
  * NavItems Component
  *
- * The NavItems component displays the navigation links in the Navbar.
+ * A component that renders navigation items.
  *
- * @example
- * ```tsx
- * <NavItems navigationItems={navigation}/>
- * ```
- *
- * @param {NavItemsProps} props - The props of the component.
+ * @component
+ * @param {NavItemsProps} props - The props for the NavItems component
  * @returns {JSX.Element} - The rendered NavItems component.
  */
 const NavItems = (props: NavItemsProps) => {

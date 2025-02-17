@@ -5,16 +5,10 @@ import { Checkbox, Field, Label } from "@headlessui/react";
  * RememberMeButton Component
  *
  * A component that renders a "Remember me" checkbox and a "Forgot password?" link.
- * The checkbox allows users to indicate whether they want to be remembered on the device.
  *
- * @example
- * ```tsx
- * <RememberMeButton />
- * ```
- *
+ * @component
  * @returns {JSX.Element} - The rendered RememberMeButton component.
  */
-
 const RememberMeButton = () => {
   const [enabled, setEnabled] = useState(false);
 
