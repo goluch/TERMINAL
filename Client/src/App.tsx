@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
+import React from "react";
 
 const queryClient = new QueryClient();
 
