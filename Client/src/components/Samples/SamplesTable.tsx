@@ -1,9 +1,11 @@
 import { SampleDto } from "../../api/terminalSchemas";
+import { useState, useEffect } from "react";
 import {
   getCoreRowModel,
   useReactTable,
   createColumnHelper,
   flexRender,
+  SortingState,
 } from "@tanstack/react-table";
 
 export interface SamplesTableProps {
@@ -29,15 +31,32 @@ const SamplesTable = (props: SamplesTableProps) => {
     }),
   ];
 
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     columns: columns,
     data: props.samplesData,
     getCoreRowModel: getCoreRowModel(),
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
   });
 
-  const handleClick = (code: string) => {
-    props.onChangeSampleDetails?.(code);
+  const handleClick = (code: string | null | undefined) => {
+    props.onChangeSampleDetails?.(code?.toString() ?? "");
   };
+
+  useEffect(() => {
+    const sortParam = sorting[0]?.id ?? "";
+    const orderParam = sorting[0]?.desc ? 0 : 1; // 0 - desc, 1 - asc (I'm not sure if this is correct)
+    console.log("Sorting: ", sortParam, orderParam);
+    let url = `http://localhost:5006/api/v1/samples`;
+    if (sortParam) {
+      url += `&orderBy=${sortParam}&orderDirection=${orderParam}`;
+    }
+    console.log("FETCH DATA:", url);
+  }, [sorting]);
 
   return (
     <div className="flex justify-center">
@@ -47,11 +66,22 @@ const SamplesTable = (props: SamplesTableProps) => {
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th key={header.id}>
-                  <div>
+                  <div
+                    {...{
+                      className: header.column.getCanSort()
+                        ? "cursor-pointer select-none"
+                        : "",
+                      onClick: header.column.getToggleSortingHandler(),
+                    }}
+                  >
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext(),
                     )}
+                    {{
+                      asc: " 🔼",
+                      desc: " 🔽",
+                    }[header.column.getIsSorted() as string] ?? null}
                   </div>
                 </th>
               ))}
