@@ -1,21 +1,12 @@
 import { Table } from "@tanstack/react-table";
 import { SampleDto } from "../../api/terminalSchemas";
-import { clsx } from "clsx";
 import {
   ChevronLeftIcon,
   ChevronDoubleLeftIcon,
   ChevronRightIcon,
   ChevronDoubleRightIcon,
-  CheckIcon,
-  ChevronDownIcon,
 } from "@heroicons/react/16/solid";
-import {
-  Button,
-  Listbox,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
-} from "@headlessui/react";
+import { Button } from "@headlessui/react";
 export interface SamplesTableManageProps {
   table: Table<SampleDto>;
 }

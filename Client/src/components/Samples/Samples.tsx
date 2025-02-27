@@ -1,6 +1,6 @@
 import { SampleDto } from "../../api/terminalSchemas";
-import { useState } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { UseQueryResult } from "react-query";
+import { OnChangeFn } from "@tanstack/react-table";
 import SamplesTable from "./SamplesTable";
 import {
   getCoreRowModel,
@@ -11,32 +11,13 @@ import {
 } from "@tanstack/react-table";
 import SamplesTableManage from "./SamplesTableManage";
 
-const samplesData: SampleDto[] = Array.from({ length: 100 }, (_, i) => ({
-  code: `AS${i + 1}`,
-  projectName: "TEST",
-  createdAt: new Date(2021, 8, i + 1),
-}));
-
-async function fetchData(options: {
-  pageIndex: number;
-  pageSize: number;
-  sorting?: SortingState;
-}) {
-  await new Promise((r) => setTimeout(r, 500));
-  console.log("FETCH DATA", options);
-
-  return {
-    rows: samplesData.slice(
-      options.pageIndex * options.pageSize,
-      (options.pageIndex + 1) * options.pageSize,
-    ),
-    pageCount: Math.ceil(samplesData.length / options.pageSize),
-    rowCount: samplesData.length,
-  };
-}
-
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
+  dataQuery: UseQueryResult;
+  sorting: SortingState;
+  pagination: PaginationState;
+  setSorting: OnChangeFn<SortingState>;
+  setPagination: OnChangeFn<PaginationState>;
 }
 
 export interface SamplesQueryResponse {
@@ -46,20 +27,7 @@ export interface SamplesQueryResponse {
 }
 
 const Samples = (props: SamplesProps) => {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-
-  const dataQuery = useQuery<SamplesQueryResponse>({
-    queryKey: ["samples", sorting, pagination],
-    queryFn: () => fetchData({ ...pagination, sorting: sorting }),
-    placeholderData: keepPreviousData,
-  });
-
   const columnHelper = createColumnHelper<SampleDto>();
-
   const columns = [
     columnHelper.accessor("code", {
       header: "Code",
@@ -77,15 +45,15 @@ const Samples = (props: SamplesProps) => {
 
   const table = useReactTable({
     columns: columns,
-    data: dataQuery.data?.rows ?? [],
+    data: props.dataQuery?.data?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     state: {
-      sorting,
-      pagination,
+      sorting: props.sorting,
+      pagination: props.pagination,
     },
-    rowCount: dataQuery.data?.rowCount,
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
+    rowCount: props.dataQuery.data?.rowCount,
+    onSortingChange: props.setSorting,
+    onPaginationChange: props.setPagination,
     manualSorting: true,
     manualPagination: true,
   });
@@ -94,7 +62,7 @@ const Samples = (props: SamplesProps) => {
     props.onChangeSampleDetails?.(code?.toString() ?? "");
   };
 
-  if (dataQuery.isLoading)
+  if (props.dataQuery.isLoading)
     return (
       <div className="flex justify-center">
         <span className="loading loading-spinner loading-md"></span>

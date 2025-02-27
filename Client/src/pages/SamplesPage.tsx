@@ -1,43 +1,39 @@
-import { SampleDetailsDto, SampleDto } from "../api/terminalSchemas";
 import { useState } from "react";
-
-import SamplesTable from "../components/Samples/Samples";
+import { useSamples, useSampleDetails } from "../hooks/apiHooks";
+import Samples from "../components/Samples/Samples";
 import SampleDetails from "../components/Samples/SampleDetails";
-
-const samplesData: SampleDto[] = Array.from({ length: 100 }, (_, i) => ({
-  code: `AS${i + 1}`,
-  projectName: "TEST",
-  createdAt: new Date(2021, 8, i + 1), // Wrzesień 2021
-}));
+import { SortingState, PaginationState } from "@tanstack/react-table";
 
 const SamplesPage = () => {
-  const [sampleDetails, setSampleDetails] = useState<SampleDetailsDto | null>({
-    ...samplesData[0],
-    comment: "This is a test comment",
-    steps: [],
-    tags: ["newsample, high-pressure"],
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
   });
+  const [codeSampleDetails, setCodeSampleDetails] = useState<string>("AS1");
+
+  const samplesQuery = useSamples(pagination, sorting);
+  const sampleDetailsQuery = useSampleDetails(codeSampleDetails);
 
   const changeSampleDetails = (code: string) => {
-    const foundSample = samplesData.find((sample) => sample.code === code);
-    if (foundSample) {
-      setSampleDetails({
-        ...foundSample,
-        comment: "Default comment",
-        steps: [],
-        tags: [],
-      });
-    }
+    setCodeSampleDetails(code);
   };
 
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex justify-center p-5">
         <div className="flex-1 bg-white p-3 rounded-md m-1">
-          <SamplesTable onChangeSampleDetails={changeSampleDetails} />
+          <Samples
+            dataQuery={samplesQuery}
+            sorting={sorting}
+            pagination={pagination}
+            setSorting={setSorting}
+            setPagination={setPagination}
+            onChangeSampleDetails={changeSampleDetails}
+          />
         </div>
         <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
-          <SampleDetails sampleDetails={sampleDetails} />
+          <SampleDetails dataQuery={sampleDetailsQuery} />
         </div>
       </div>
     </div>

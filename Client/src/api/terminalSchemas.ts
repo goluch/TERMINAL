@@ -215,16 +215,22 @@ export type UpdateTagRequest = {
 };
 
 export type SampleDto = {
-  code?: string | null;
-  projectName?: string | null;
+  code?: string;
+  projectName?: string;
   createdAt?: Date | null;
 };
 
 export type SampleDetailsDto = {
-  code?: string | null;
-  projectName?: string | null;
+  code?: string;
+  projectName?: string;
   createdAt?: Date | null;
   comment?: string | null;
   steps?: SampleStep[] | null;
   tags?: string[] | null;
+};
+
+export type SamplesQueryResponse = {
+  rows: SampleDto[];
+  rowCount: number;
+  pageCount: number;
 };
