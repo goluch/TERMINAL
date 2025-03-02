@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Terminal.Backend.Application.Common;
 using Terminal.Backend.Infrastructure.DAL;
 
@@ -20,7 +21,12 @@ internal static class Extensions
             .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<UserDbContext>();
 
-        services.AddAuthentication(IdentityConstants.ApplicationScheme)
+        const string jwtOrCookieScheme = "JWT_OR_COOKIE";
+        services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = jwtOrCookieScheme;
+                options.DefaultChallengeScheme = jwtOrCookieScheme;
+            })
             .AddCookie(IdentityConstants.ApplicationScheme, o =>
             {
                 o.Events.OnRedirectToLogin = context =>
@@ -35,6 +41,18 @@ internal static class Extensions
                     return Task.CompletedTask;
                 };
             })
-            .AddBearerToken(IdentityConstants.BearerScheme);
+            .AddBearerToken(IdentityConstants.BearerScheme)
+            .AddPolicyScheme(jwtOrCookieScheme, jwtOrCookieScheme, options =>
+            {
+                options.ForwardDefaultSelector = context =>
+                {
+                    var authorization = context.Request.Headers[HeaderNames.Authorization].ToString();
+                    if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+                        return IdentityConstants.BearerScheme;
+            
+                    return IdentityConstants.ApplicationScheme;
+                };   
+            });
+        
     }
 }
