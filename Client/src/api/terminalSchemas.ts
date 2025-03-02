@@ -4,99 +4,111 @@
  * @version 1.0
  */
 export type CreateProjectRequest = {
-  name?: string | null;
+    name?: string | null;
+};
+
+export type UserDataResponse = {
+    email: string;
+    roles: string[];
+    id: string;
+    isEmailConfirmed: boolean;
+};
+
+export type UserData = {
+    email: string;
+    roles: string[];
 };
 
 export type CreateRecipeRequest = {
-  name?: string | null;
-  steps?: SampleStep[] | null;
+    name?: string | null;
+    steps?: SampleStep[] | null;
 };
 
 export type CreateSampleRequest = {
-  /**
-   * @format uuid
-   */
-  projectId?: string;
-  /**
-   * @format uuid
-   */
-  recipeId?: string | null;
-  steps?: SampleStep[] | null;
-  tags?: string[] | null;
-  comment?: string | null;
-  saveAsARecipe?: boolean;
-  recipeName?: string | null;
+    /**
+     * @format uuid
+     */
+    projectId?: string;
+    /**
+     * @format uuid
+     */
+    recipeId?: string | null;
+    steps?: SampleStep[] | null;
+    tags?: string[] | null;
+    comment?: string | null;
+    saveAsARecipe?: boolean;
+    recipeName?: string | null;
 };
 
 export type CreateTagRequest = {
-  name?: string | null;
+    name?: string | null;
 };
 
 export type DefineDecimalParameterRequest = {
-  name?: string | null;
-  /**
-   * @format uuid
-   */
-  parentId?: string | null;
-  unit?: string | null;
-  /**
-   * @format double
-   */
-  step?: number;
-  /**
-   * @format double
-   */
-  defaultValue?: number | null;
+    name?: string | null;
+    /**
+     * @format uuid
+     */
+    parentId?: string | null;
+    unit?: string | null;
+    /**
+     * @format double
+     */
+    step?: number;
+    /**
+     * @format double
+     */
+    defaultValue?: number | null;
 };
 
 export type DefineIntegerParameterRequest = {
-  name?: string | null;
-  /**
-   * @format uuid
-   */
-  parentId?: string | null;
-  unit?: string | null;
-  /**
-   * @format int32
-   */
-  step?: number;
-  /**
-   * @format int32
-   */
-  defaultValue?: number | null;
+    name?: string | null;
+    /**
+     * @format uuid
+     */
+    parentId?: string | null;
+    unit?: string | null;
+    /**
+     * @format int32
+     */
+    step?: number;
+    /**
+     * @format int32
+     */
+    defaultValue?: number | null;
 };
 
 export type DefineTextParameterRequest = {
-  name?: string | null;
-  /**
-   * @format uuid
-   */
-  parentId?: string | null;
-  allowedValues?: string[] | null;
-  /**
-   * @format int32
-   */
-  defaultValue?: number | null;
+    name?: string | null;
+    /**
+     * @format uuid
+     */
+    parentId?: string | null;
+    allowedValues?: string[] | null;
+    /**
+     * @format int32
+     */
+    defaultValue?: number | null;
 };
 
 export type ForgotPasswordRequest = {
-  email?: string | null;
+    email?: string | null;
 };
 
 export type GetTagsDto = {
-  /**
-   * @format int32
-   */
-  totalCount?: number;
-  pagingParameters?: PagingParameters;
-  tags?: TagDto[] | null;
+    /**
+     * @format int32
+     */
+    totalCount?: number;
+    pagingParameters?: PagingParameters;
+    tags?: TagDto[] | null;
 };
 
 export type LoginRequest = {
-  email?: string | null;
-  password?: string | null;
-  twoFactorCode?: string | null;
-  twoFactorRecoveryCode?: string | null;
+    email?: string | null;
+    password?: string | null;
+    twoFactorCode?: string | null;
+    twoFactorRecoveryCode?: string | null;
 };
 
 export type LogoutRequest = Record<string, any>;
@@ -107,130 +119,130 @@ export type LogoutRequest = Record<string, any>;
 export type OrderDirection = 0 | 1;
 
 export type PagingParameters = {
-  /**
-   * @format int32
-   */
-  pageIndex?: number;
-  /**
-   * @format int32
-   */
-  pageSize?: number;
+    /**
+     * @format int32
+     */
+    pageIndex?: number;
+    /**
+     * @format int32
+     */
+    pageSize?: number;
 };
 
 export type ParameterId = {
-  /**
-   * @format uuid
-   */
-  value?: string;
+    /**
+     * @format uuid
+     */
+    value?: string;
 };
 
 export type ParameterValue = {
-  /**
-   * @format uuid
-   */
-  parameterId?: string;
+    /**
+     * @format uuid
+     */
+    parameterId?: string;
 };
 
 export type RefreshRequest = {
-  refreshToken?: string | null;
+    refreshToken?: string | null;
 };
 
 export type RegisterRequest = {
-  email?: string | null;
-  password?: string | null;
-  roleName?: string | null;
+    email?: string | null;
+    password?: string | null;
+    roleName?: string | null;
 };
 
 export type ResendConfirmationEmailRequest = {
-  email?: string | null;
+    email?: string | null;
 };
 
 export type ResetPasswordRequest = {
-  email?: string | null;
-  newPassword?: string | null;
-  code?: string | null;
+    email?: string | null;
+    newPassword?: string | null;
+    code?: string | null;
 };
 
 export type SampleStep = {
-  /**
-   * @format uuid
-   */
-  id?: string | null;
-  values?: ParameterValue[] | null;
-  comment?: string | null;
+    /**
+     * @format uuid
+     */
+    id?: string | null;
+    values?: ParameterValue[] | null;
+    comment?: string | null;
 };
 
 export type StepParameterValueDto = {
-  parameterId?: ParameterId;
+    parameterId?: ParameterId;
 };
 
 export type TagDto = {
-  /**
-   * @format uuid
-   */
-  id?: string;
-  name?: string | null;
+    /**
+     * @format uuid
+     */
+    id?: string;
+    name?: string | null;
 };
 
 export type UpdateAccountRequest = {
-  newEmail?: string | null;
-  newPassword?: string | null;
-  oldPassword?: string | null;
+    newEmail?: string | null;
+    newPassword?: string | null;
+    oldPassword?: string | null;
 };
 
 export type UpdateProjectRequest = {
-  name?: string | null;
+    name?: string | null;
 };
 
 export type UpdateRecipeRequest = {
-  name?: string | null;
-  steps?: UpdateSampleStepDto[] | null;
+    name?: string | null;
+    steps?: UpdateSampleStepDto[] | null;
 };
 
 export type UpdateSampleRequest = {
-  /**
-   * @format uuid
-   */
-  projectId?: string;
-  /**
-   * @format uuid
-   */
-  recipeId?: string | null;
-  steps?: SampleStep[] | null;
-  tags?: string[] | null;
-  comment?: string | null;
+    /**
+     * @format uuid
+     */
+    projectId?: string;
+    /**
+     * @format uuid
+     */
+    recipeId?: string | null;
+    steps?: SampleStep[] | null;
+    tags?: string[] | null;
+    comment?: string | null;
 };
 
 export type UpdateSampleStepDto = {
-  /**
-   * @format uuid
-   */
-  id?: string;
-  parameters?: StepParameterValueDto[] | null;
-  comment?: string | null;
+    /**
+     * @format uuid
+     */
+    id?: string;
+    parameters?: StepParameterValueDto[] | null;
+    comment?: string | null;
 };
 
 export type UpdateTagRequest = {
-  name?: string | null;
+    name?: string | null;
 };
 
 export type SampleDto = {
-  code?: string;
-  projectName?: string;
-  createdAt?: Date | null;
+    code?: string;
+    projectName?: string;
+    createdAt?: Date | null;
 };
 
 export type SampleDetailsDto = {
-  code?: string;
-  projectName?: string;
-  createdAt?: Date | null;
-  comment?: string | null;
-  steps?: SampleStep[] | null;
-  tags?: string[] | null;
+    code?: string;
+    projectName?: string;
+    createdAt?: Date | null;
+    comment?: string | null;
+    steps?: SampleStep[] | null;
+    tags?: string[] | null;
 };
 
 export type SamplesQueryResponse = {
-  rows: SampleDto[];
-  rowCount: number;
-  pageCount: number;
+    rows: SampleDto[];
+    rowCount: number;
+    pageCount: number;
 };
