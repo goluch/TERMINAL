@@ -1,48 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import {
-    LoginRequest,
-    SampleDetailsDto,
-    UserDataResponse,
-    UserData,
-} from "../api/terminalSchemas";
-import axios from "axios";
+import { SampleDetailsDto } from "../api/terminalSchemas";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { SampleDto, SamplesQueryResponse } from "../api/terminalSchemas";
-
-export function useLoginMutation() {
-    const result = useMutation({
-        mutationFn: async (params: LoginRequest) => {
-            return await axios.post(
-                `http://localhost:5006/api/v1/identity/login?useCookies=true&useSessionCookies=false`,
-                params,
-                { withCredentials: true },
-            );
-        },
-    });
-
-    return result;
-}
-
-export function useUserData() {
-    const result = useQuery({
-        queryKey: ["user"],
-        staleTime: Infinity,
-        queryFn: async () => {
-            const response = await axios.get<UserDataResponse>(
-                "http://localhost:5006/api/v1/identity/account/info",
-                { withCredentials: true },
-            );
-
-            return {
-                email: response.data.email,
-                roles: response.data.roles,
-            } as UserData;
-        },
-    });
-
-    return result;
-}
 
 const samplesData: SampleDto[] = Array.from({ length: 100 }, (_, i) => ({
     code: `AS${i + 1}`,
