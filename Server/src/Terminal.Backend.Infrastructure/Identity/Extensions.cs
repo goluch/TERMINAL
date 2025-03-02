@@ -41,7 +41,11 @@ internal static class Extensions
                     return Task.CompletedTask;
                 };
             })
-            .AddBearerToken(IdentityConstants.BearerScheme)
+            .AddBearerToken(IdentityConstants.BearerScheme, (options) =>
+            {
+                options.BearerTokenExpiration = TimeSpan.FromMinutes(5);
+                options.RefreshTokenExpiration = TimeSpan.FromDays(1);
+            })
             .AddPolicyScheme(jwtOrCookieScheme, jwtOrCookieScheme, options =>
             {
                 options.ForwardDefaultSelector = context =>
