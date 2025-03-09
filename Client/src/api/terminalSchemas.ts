@@ -15,7 +15,8 @@ export type UserDataResponse = {
 };
 
 export type UserData = {
-    email: string;
+    isAuthenticated: boolean;
+    email?: string;
     roles: string[];
 };
 
