@@ -5,7 +5,8 @@ import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
 import RememberMeButton from "./RememberMeButton";
 import { useLoginMutation } from "../../hooks/apiHooks";
 import { LoginRequest } from "../../api/terminalSchemas";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {toastNotify, toastPromise} from "../../utils/toast.utils.tsx";
 
 
 /**
@@ -19,6 +20,7 @@ import { Navigate } from "react-router-dom";
  */
 const LoginForm = () => {
     const mutation = useLoginMutation();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(true);
@@ -33,10 +35,10 @@ const LoginForm = () => {
             e.preventDefault();
 
             const emailValid = validateEmail(email);
-
             setIsEmailValid(emailValid);
 
             if (!emailValid) {
+                toastNotify("Please enter a valid email address", "error");
                 return;
             }
 
@@ -47,14 +49,23 @@ const LoginForm = () => {
                 twoFactorRecoveryCode: "",
             };
 
-            await mutation.mutateAsync(loginRequest);
+            try {
+                await toastPromise(
+                    mutation.mutateAsync(loginRequest),
+                    {
+                        loading: "Logging in...",
+                        success: "Login successful",
+                        error: "Login failed",
+                    }
+                );
+                navigate("/");
+            } catch {
+                // Error is handled by toastPromise
+            }
+
         },
         [mutation, email, password],
     );
-
-    if (mutation.isSuccess) {
-        return <Navigate to="/" />;
-    }
 
     return (
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
