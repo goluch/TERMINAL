@@ -1,5 +1,4 @@
 import axios from "axios";
-import { redirect } from "react-router-dom";
 import { LoginResponse } from "../hooks/useLoginMutation";
 
 const apiClient = axios.create({
@@ -25,25 +24,24 @@ apiClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (error.response.status !== 401 || originalRequest._retry)
-            return Promise.reject(error);
+        if (error.response.status !== 401 || originalRequest._retry) return Promise.reject(error);
 
         originalRequest._retry = true;
 
         try {
             const refresh = sessionStorage.getItem("refresh");
-            const response = await apiClient.post<LoginResponse>(
-                "/identity/refresh",
-                {
-                    refreshToken: refresh,
-                },
-            );
+            if (!refresh) {
+                return Promise.reject(error);
+            }
+            const response = await apiClient.post<LoginResponse>("/identity/refresh", {
+                refreshToken: refresh,
+            });
             const { accessToken, refreshToken } = response.data;
 
             sessionStorage.setItem("token", accessToken);
             sessionStorage.setItem("refresh", refreshToken);
         } catch {
-            redirect("/login");
+            return Promise.reject(error);
         }
     },
 );

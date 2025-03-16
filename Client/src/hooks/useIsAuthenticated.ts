@@ -1,7 +1,3 @@
-import useUserData from "./useUserData";
-
-export function useIsAuthenticated(): boolean {
-    const { data } = useUserData();
-
-    return data?.isAuthenticated === undefined ? false : data?.isAuthenticated;
+export function useIsAuthenticated(): boolean | undefined {
+    return sessionStorage.getItem("token") !== null && sessionStorage.getItem("refresh") !== null;
 }

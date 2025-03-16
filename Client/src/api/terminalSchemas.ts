@@ -112,8 +112,6 @@ export type LoginRequest = {
     twoFactorRecoveryCode?: string | null;
 };
 
-export type LogoutRequest = Record<string, any>;
-
 /**
  * @format int32
  */
