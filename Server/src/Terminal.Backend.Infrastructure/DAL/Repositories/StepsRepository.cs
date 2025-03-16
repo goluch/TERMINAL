@@ -5,12 +5,17 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.DAL.Repositories;
 
-internal sealed class StepsRepository(TerminalDbContext dbContext) : IStepsRepository
+internal sealed class StepsRepository : IStepsRepository
 {
-    private readonly DbSet<Recipe> _recipes = dbContext.Recipes;
+    private readonly DbSet<Recipe> _recipes;
 
-    public async Task<IEnumerable<RecipeStep>> GetFromRecipeAsync(RecipeId id, CancellationToken cancellationToken)
+    public StepsRepository(TerminalDbContext dbContext)
+    {
+        _recipes = dbContext.Recipes;
+    }
+
+    public async Task<IEnumerable<RecipeStep>> GetFromRecipeAsync(RecipeId id, CancellationToken ct)
         => (await _recipes
             .Include(r => r.Steps)
-            .SingleOrDefaultAsync(r => r.Id == id, cancellationToken))?.Steps ?? new List<RecipeStep>();
+            .SingleOrDefaultAsync(r => r.Id == id, ct))?.Steps ?? new List<RecipeStep>();
 }

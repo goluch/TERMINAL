@@ -1,3 +1,9 @@
 namespace Terminal.Backend.Application.DTO.Projects;
 
-public record GetProjectDto(Guid Id, string Name, bool IsActive, IEnumerable<Guid> SamplesIds);
+public class GetProjectDto
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public bool IsActive { get; set; }
+    public IEnumerable<Guid> SamplesIds { get; set; }
+}

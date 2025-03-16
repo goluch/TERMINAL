@@ -19,6 +19,5 @@ internal sealed class TagConfiguration : IEntityTypeConfiguration<Tag>
                 n => new TagName(n));
 
         builder.HasIndex(t => t.Name).IsUnique();
-        builder.HasQueryFilter(t => t.IsActive);
     }
 }

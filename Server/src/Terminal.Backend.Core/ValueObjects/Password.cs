@@ -15,7 +15,4 @@ public sealed record Password
 
         Value = value;
     }
-
-    public static implicit operator string(Password password) => password.Value;
-    public static implicit operator Password(string value) => new(value);
 }

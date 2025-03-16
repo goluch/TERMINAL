@@ -4,5 +4,5 @@ namespace Terminal.Backend.Application.DTO.Samples;
 
 public sealed record UpdateSampleStepDto(
     Guid Id,
-    IEnumerable<StepParameterValueDto> Parameters,
+    IEnumerable<CreateSampleBaseParameterValueDto> Parameters,
     string Comment);
