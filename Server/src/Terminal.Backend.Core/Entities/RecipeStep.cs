@@ -3,17 +3,23 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Core.Entities;
 
-public sealed class RecipeStep : BaseStep
+public sealed class RecipeStep : Step
 {
     public Recipe Recipe { get; set; }
 
-    public RecipeStep(StepId id, Comment comment, Recipe recipe) : base(id, comment) => Recipe = recipe;
-
-    public RecipeStep(StepId id, Comment comment, ICollection<ParameterValue> values, Recipe recipe) : base(id,
-        comment, values) =>
+    public RecipeStep(StepId id, Comment comment, Recipe recipe) : base(id, comment)
+    {
         Recipe = recipe;
+    }
+
+    public RecipeStep(StepId id, Comment comment, ICollection<ParameterValue> parameters, Recipe recipe) : base(id,
+        comment, parameters)
+    {
+        Recipe = recipe;
+    }
 
 
-    // ReSharper disable once UnusedMember.Local
-    private RecipeStep(StepId id, Comment comment) : base(id, comment) { }
+    private RecipeStep(StepId id, Comment comment) : base(id, comment)
+    {
+    }
 }

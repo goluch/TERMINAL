@@ -1,4 +1,8 @@
 namespace Terminal.Backend.Core.Exceptions;
 
-public sealed class InvalidPermissionNameException(string value)
-    : TerminalException($"Invalid permission name: {value}");
+public sealed class InvalidPermissionNameException : TerminalException
+{
+    public InvalidPermissionNameException(string value) : base($"Invalid permission name: {value}")
+    {
+    }
+}
