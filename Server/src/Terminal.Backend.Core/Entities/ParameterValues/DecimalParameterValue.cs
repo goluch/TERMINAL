@@ -1,4 +1,3 @@
-using Terminal.Backend.Core.Abstractions;
 using Terminal.Backend.Core.Entities.Parameters;
 using Terminal.Backend.Core.Exceptions;
 using Terminal.Backend.Core.ValueObjects;
@@ -7,10 +6,9 @@ namespace Terminal.Backend.Core.Entities.ParameterValues;
 
 public sealed class DecimalParameterValue : ParameterValue
 {
-    public DecimalParameter DecimalParameter { get; private set; }
     public decimal Value { get; private set; }
 
-    public DecimalParameterValue(ParameterValueId id, DecimalParameter parameter, decimal value) : base(id)
+    public DecimalParameterValue(ParameterValueId id, DecimalParameter parameter, decimal value) : base(id, parameter)
     {
         if (value % parameter.Step != 0)
         {
@@ -18,25 +16,26 @@ public sealed class DecimalParameterValue : ParameterValue
         }
 
         Value = value;
-        DecimalParameter = parameter;
     }
 
-    public DecimalParameterValue(DecimalParameterValue parameterValue) : base(parameterValue)
+    private DecimalParameterValue(ParameterValueId id, decimal value) : base(id)
     {
-        Value = parameterValue.Value;
-        DecimalParameter = parameterValue.DecimalParameter;
+        Value = value;
     }
 
-    public override Parameter Parameter => DecimalParameter;
+    public override ParameterValue DeepCopy(ParameterValueId id)
+    {
+        return new DecimalParameterValue(id,
+            Parameter as DecimalParameter
+            ?? throw new ParameterValueCopyException(typeof(DecimalParameter), Parameter.GetType()),
+            Value);
+    }
 
     public override void Update(ParameterValue newParameterValue)
     {
-        if (newParameterValue is not DecimalParameterValue newDecimalParameterValue)
-        {
-            return;
-        }
+        if (newParameterValue is not DecimalParameterValue newDecimalParameterValue) return;
 
-        var decimalParameter = DecimalParameter;
+        var decimalParameter = (DecimalParameter)Parameter;
         var value = newDecimalParameterValue.Value;
         if (value % decimalParameter.Step != 0)
         {
@@ -45,8 +44,4 @@ public sealed class DecimalParameterValue : ParameterValue
 
         Value = value;
     }
-
-    public override T Accept<T>(IParameterValueVisitor<T> visitor) => visitor.Visit(this);
-
-    private DecimalParameterValue(ParameterValueId id, decimal value) : base(id) => Value = value;
 }

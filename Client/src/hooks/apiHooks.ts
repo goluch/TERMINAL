@@ -1,7 +1,25 @@
-import { SampleDetailsDto } from "../api/terminalSchemas";
+import { useMutation } from "@tanstack/react-query";
+import { LoginRequest, SampleDetailsDto } from "../api/terminalSchemas";
+import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { SampleDto, SamplesQueryResponse } from "../api/terminalSchemas";
+
+const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:5006/api/v1";
+
+export function useLoginMutation() {
+    const result = useMutation({
+        mutationFn: async (params: LoginRequest) => {
+            return await axios.post(
+                `${apiUrl}/identity/login?useCookies=true&useSessionCookies=false`,
+                params,
+                { withCredentials: true },
+            );
+        },
+    });
+
+    return result;
+}
 
 const samplesData: SampleDto[] = Array.from({ length: 100 }, (_, i) => ({
     code: `AS${i + 1}`,

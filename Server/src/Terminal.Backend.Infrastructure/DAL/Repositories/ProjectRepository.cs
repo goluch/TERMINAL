@@ -5,18 +5,22 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.DAL.Repositories;
 
-internal sealed class ProjectRepository(TerminalDbContext dbContext) : IProjectRepository
+internal sealed class ProjectRepository : IProjectRepository
 {
-    private readonly DbSet<Project> _projects = dbContext.Projects;
+    private readonly DbSet<Project> _projects;
 
-    public Task<Project?> GetAsync(ProjectId id, CancellationToken cancellationToken)
-        =>
-            _projects.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
+    public ProjectRepository(TerminalDbContext dbContext)
+    {
+        _projects = dbContext.Projects;
+    }
 
-    public async Task AddAsync(Project project, CancellationToken cancellationToken)
-        => await _projects.AddAsync(project, cancellationToken);
+    public Task<Project?> GetAsync(ProjectId id, CancellationToken ct)
+        => _projects.SingleOrDefaultAsync(p => p.Id == id, ct);
 
-    public Task UpdateAsync(Project project, CancellationToken cancellationToken)
+    public async Task AddAsync(Project project, CancellationToken ct)
+        => await _projects.AddAsync(project, ct);
+
+    public Task UpdateAsync(Project project, CancellationToken ct)
     {
         _projects.Update(project);
         return Task.CompletedTask;
@@ -28,7 +32,6 @@ internal sealed class ProjectRepository(TerminalDbContext dbContext) : IProjectR
         return Task.CompletedTask;
     }
 
-    public Task<bool> IsNameUniqueAsync(ProjectName requestName, CancellationToken cancellationToken)
-        =>
-            _projects.AllAsync(p => p.Name != requestName, cancellationToken);
+    public Task<bool> IsNameUniqueAsync(ProjectName requestName, CancellationToken cancellationToken) 
+        => _projects.AllAsync(p => !p.Name.Equals(requestName), cancellationToken);
 }
