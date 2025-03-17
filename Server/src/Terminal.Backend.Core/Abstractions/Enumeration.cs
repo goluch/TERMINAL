@@ -2,26 +2,42 @@ using System.Reflection;
 
 namespace Terminal.Backend.Core.Abstractions;
 
-public abstract class Enumeration<TEnum, TId>(TId value, string name) : IEquatable<Enumeration<TEnum, TId>>
-    where TEnum : Enumeration<TEnum, TId>
-    where TId : notnull
+public abstract class Enumeration<TEnum, TId> : IEquatable<Enumeration<TEnum, TId>>
+    where TEnum : Enumeration<TEnum, TId> where TId : notnull
 {
     private static readonly Dictionary<TId, TEnum>? Enumerations = CreateEnumerations();
 
-    public TId Value { get; protected init; } = value;
+    public TId Value { get; protected init; }
 
-    public string Name { get; protected init; } = name;
+    public string Name { get; protected init; }
 
-    public static TEnum? FromValue(TId value) => Enumerations!.TryGetValue(value, out var enumeration) ? enumeration : default;
+    protected Enumeration(TId value, string name)
+    {
+        Value = value;
+        Name = name;
+    }
 
-    public static TEnum? FromName(string name) =>
-        Enumerations!
+    public static TEnum? FromValue(TId value)
+    {
+        return Enumerations!.TryGetValue(value, out var enumeration) ? enumeration : default;
+    }
+
+    public static TEnum? FromName(string name)
+    {
+        return Enumerations!
             .Values
             .SingleOrDefault(e => string.Equals(e.Name, name, StringComparison.OrdinalIgnoreCase));
+    }
 
-    public override string ToString() => Name;
+    public override string ToString()
+    {
+        return Name;
+    }
 
-    public static IEnumerable<TEnum> GetValues() => Enumerations!.Values;
+    public static IEnumerable<TEnum> GetValues()
+    {
+        return Enumerations!.Values;
+    }
 
     public static bool IsDefined(TId id) => Enumerations?.ContainsKey(id) ?? true;
 
@@ -47,44 +63,33 @@ public abstract class Enumeration<TEnum, TId>(TId value, string name) : IEquatab
 
     public bool Equals(Enumeration<TEnum, TId>? other)
     {
-        if (ReferenceEquals(null, other))
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
         return EqualityComparer<TId>.Default.Equals(Value, other.Value) && Name == other.Name;
     }
 
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj))
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, obj))
-        {
-            return true;
-        }
-
-        if (obj.GetType() != GetType())
-        {
-            return false;
-        }
-
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
         return Equals((Enumeration<TEnum, TId>)obj);
     }
 
-    public override int GetHashCode() => HashCode.Combine(Value, Name);
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Value, Name);
+    }
 
-    public static bool operator ==(Enumeration<TEnum, TId>? left, Enumeration<TEnum, TId>? right) => Equals(left, right);
+    public static bool operator ==(Enumeration<TEnum, TId>? left, Enumeration<TEnum, TId>? right)
+    {
+        return Equals(left, right);
+    }
 
-    public static bool operator !=(Enumeration<TEnum, TId>? left, Enumeration<TEnum, TId>? right) => !Equals(left, right);
+    public static bool operator !=(Enumeration<TEnum, TId>? left, Enumeration<TEnum, TId>? right)
+    {
+        return !Equals(left, right);
+    }
 
     #endregion
 }

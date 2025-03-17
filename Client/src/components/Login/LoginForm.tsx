@@ -7,6 +7,7 @@ import { useLoginMutation } from "../../hooks/apiHooks";
 import { LoginRequest } from "../../api/terminalSchemas";
 import { useNavigate } from "react-router-dom";
 import {toastNotify, toastPromise} from "../../utils/toast.utils.tsx";
+import axios from "axios";
 
 
 /**
@@ -25,29 +26,33 @@ const LoginForm = () => {
     const [password, setPassword] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(true);
 
-    const validateEmail = (email: string) => {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
-    };
+  const validateEmail = (email: string) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
 
-    const handleSubmit = useCallback(
-        async (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      axios.get("http://localhost:5006/api/ping").then((r) => {
+        console.log(r);
+      });
 
-            const emailValid = validateEmail(email);
-            setIsEmailValid(emailValid);
 
-            if (!emailValid) {
-                toastNotify("Please enter a valid email address", "error");
-                return;
-            }
+      const emailValid = validateEmail(email);
+      setIsEmailValid(emailValid);
 
-            const loginRequest: LoginRequest = {
-                email: email,
-                password: password,
-                twoFactorCode: "",
-                twoFactorRecoveryCode: "",
-            };
+      if (!emailValid) {
+          toastNotify("Please enter a valid email address", "error");
+          return;
+      }
+
+      const loginRequest: LoginRequest = {
+        email: email,
+        password: password,
+        twoFactorCode: "",
+        twoFactorRecoveryCode: "",
+      };
 
             try {
                 await toastPromise(

@@ -1,36 +1,40 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using Terminal.Backend.Application.Common;
-using Terminal.Backend.Infrastructure.Authorization;
+using Terminal.Backend.Application.Abstractions;
+using Terminal.Backend.Core.Entities;
+using Terminal.Backend.Core.ValueObjects;
+using Terminal.Backend.Infrastructure.Administrator;
+using Terminal.Backend.Infrastructure.Authentication;
+using Terminal.Backend.Infrastructure.Authentication.OptionsSetup;
+using Terminal.Backend.Infrastructure.Authentication.Requirements;
 using Terminal.Backend.Infrastructure.DAL;
 using Terminal.Backend.Infrastructure.DAL.Behaviours;
-using Terminal.Backend.Infrastructure.Identity;
-using Terminal.Backend.Infrastructure.Identity.Mails;
+using Terminal.Backend.Infrastructure.Mails;
 using Terminal.Backend.Infrastructure.Middleware;
+using IAuthorizationService = Terminal.Backend.Infrastructure.Authentication.IAuthorizationService;
 
 namespace Terminal.Backend.Infrastructure;
 
 public static class Extensions
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddExceptionHandler<DefaultExceptionHandler>();
         services.AddControllers();
-        services.AddSingleton<RequestLogContextMiddleware>();
-        services.AddSingleton(TimeProvider.System);
+        services.AddSingleton<ExceptionMiddleware>();
         services.AddHttpContextAccessor();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Description = "Authorization header using the Bearer scheme. Use 'Bearer {token}' format.",
+                Description = "JWT Authorization header using the Bearer scheme. Use 'Bearer {token}' format.",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,
@@ -63,42 +67,32 @@ public static class Extensions
             cfg.AddOpenBehavior(typeof(UnitOfWorkBehaviour<,>));
         });
 
-        services.AddAuthorizationBuilder();
-        services.AddAntiforgery();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
+        services.AddAuthorization();
+        services.AddAuthorizationBuilder()
+            .AddPolicy(Role.Registered, policy => { policy.AddRequirements(new RoleRequirement(Role.Registered)); })
+            .AddPolicy(Role.Guest, policy => { policy.AddRequirements(new RoleRequirement(Role.Guest)); })
+            .AddPolicy(Role.Moderator, policy => { policy.AddRequirements(new RoleRequirement(Role.Moderator)); })
+            .AddPolicy(Role.Administrator,
+                policy => { policy.AddRequirements(new RoleRequirement(Role.Administrator)); });
+        services.AddScoped<IAuthorizationService, AuthorizationService>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+        services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationHandler, RoleAuthorizationHandler>();
+        services.ConfigureOptions<JwtOptionsSetup>();
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+        services.ConfigureOptions<AdministratorOptionsSetup>();
+        services.AddScoped<IJwtProvider, JwtProvider>();
+        services.AddScoped<IMailService, MailService>();
 
-        services.AddIdentity();
-        services.AddTerminalAuthorization();
-
-        services.AddHttpClient(nameof(EmailSender), (serviceProvider, httpClient) =>
-        {
-            var options = serviceProvider.GetRequiredService<IOptions<EmailSenderOptions>>().Value;
-            httpClient.BaseAddress = new Uri(options.BaseAddress);
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {options.Token}");
-        });
-        services.AddScoped<IEmailSender<ApplicationUser>, EmailSender>();
-
-        services.AddOptions<EmailSenderOptions>()
-            .BindConfiguration(nameof(EmailSender))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
-
-        services.AddOptions<CorsOptions>()
-            .BindConfiguration(nameof(CorsOptions))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
+        return services;
     }
 
-    public static void UseInfrastructure(this WebApplication app)
+    public static WebApplication UseInfrastructure(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
-            app.SeedData();
-        }
-
-        app.UseExceptionHandler();
-        app.UseMiddleware<RequestLogContextMiddleware>();
-
-        if (app.Environment.IsDevelopment())
+        app.UseMiddleware<ExceptionMiddleware>();
+        if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -107,48 +101,61 @@ public static class Extensions
                 c.EnableFilter();
                 c.EnableDeepLinking();
             });
+            app.UseCors(x => x
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
         }
-
-        var allowedOrigins = app.Configuration.GetOptions<CorsOptions>(nameof(CorsOptions)).AllowedOrigins;
-        app.UseCors(x => x
-            .AllowCredentials()
-            .WithOrigins(allowedOrigins)
-            .AllowAnyHeader()
-            .AllowAnyMethod());
 
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseAntiforgery();
-
         app.MapControllers();
-    }
 
-    private static void SeedData(this WebApplication app)
-    {
+        using var scope = app.Services.CreateScope();
+        using var dbContext = scope.ServiceProvider.GetRequiredService<TerminalDbContext>();
+
+        if (app.Environment.IsProduction())
+        {
+            dbContext.Database.Migrate();
+        }
+
+        var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+        var adminOptions = app.Configuration.GetOptions<AdministratorOptions>(AdministratorOptionsSetup.SectionName);
         try
         {
-            using var scope = app.Services.CreateScope();
-            using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-            if (userManager.Users.Count() <= 1)
+            var administratorExists = dbContext.Users.Any(u => u.Role == Role.Administrator);
+            if (!administratorExists)
             {
-                var identityDbSeeder = new IdentityDbSeeder(userManager);
-                identityDbSeeder.Seed();
-            }
+                var adminRole = dbContext.Attach(Role.Administrator).Entity;
+                var admin = User.CreateActiveUser(UserId.Create(), new Email(adminOptions.Email),
+                    passwordHasher.Hash(adminOptions.Password));
+                admin.SetRole(adminRole);
+                dbContext.Users.Add(admin);
 
-            var terminalDbContext = scope.ServiceProvider.GetRequiredService<TerminalDbContext>();
-            if (terminalDbContext.Samples.Count() > 1)
-            {
-                return;
+                dbContext.SaveChanges();
             }
-
-            var terminalDbSeeder = new TerminalDbSeeder(terminalDbContext);
-            terminalDbSeeder.Seed();
         }
         catch (Exception)
         {
-            // ignored
+            // log admin already exists, skipping...
         }
+
+        if (!app.Configuration.GetOptions<PostgresOptions>("Postgres").Seed ||
+            !app.Environment.IsDevelopment()) return app;
+
+        using var seedTransaction = dbContext.Database.BeginTransaction();
+        var seeder = new TerminalDbSeeder(dbContext);
+        try
+        {
+            seeder.Seed();
+            seedTransaction.Commit();
+        }
+        catch (Exception)
+        {
+            seedTransaction.Rollback();
+        }
+
+        return app;
     }
 
     public static T GetOptions<T>(this IConfiguration configuration, string sectionName) where T : class, new()

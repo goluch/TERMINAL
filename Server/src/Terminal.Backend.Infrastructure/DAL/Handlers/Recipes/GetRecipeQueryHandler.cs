@@ -1,25 +1,27 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Terminal.Backend.Application.DTO.Recipes;
-using Terminal.Backend.Application.Recipes.Get;
+using Terminal.Backend.Application.Queries.Recipes.Get;
 using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Recipes;
 
-internal sealed class GetRecipeQueryHandler(TerminalDbContext dbContext)
-    : IRequestHandler<GetRecipeQuery, GetRecipeDto?>
+internal sealed class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, GetRecipeDto?>
 {
-    private readonly DbSet<Recipe> _recipes = dbContext.Recipes;
+    private readonly DbSet<Recipe> _recipes;
+
+    public GetRecipeQueryHandler(TerminalDbContext dbContext)
+    {
+        _recipes = dbContext.Recipes;
+    }
 
     public async Task<GetRecipeDto?> Handle(GetRecipeQuery request, CancellationToken cancellationToken)
     {
         var name = request.Name;
-        var recipe = await _recipes
-            .TagWith("Get Recipe by name")
-            .Where(r => r.Name == name)
-            .Select(r => new GetRecipeDto(r.Id, r.Name))
-            .SingleOrDefaultAsync(cancellationToken);
+        var recipe = await _recipes.Include(r => r.Steps)
+            .SingleOrDefaultAsync(r => r.RecipeName.Equals(name),
+                cancellationToken);
 
-        return recipe;
+        return recipe?.AsDto();
     }
 }

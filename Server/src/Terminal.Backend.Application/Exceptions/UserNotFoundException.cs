@@ -1,9 +1,10 @@
-using System.Net;
 using Terminal.Backend.Core.Exceptions;
 
 namespace Terminal.Backend.Application.Exceptions;
 
-public sealed class UserNotFoundException() : TerminalException("User not found")
+internal sealed class UserNotFoundException : TerminalException
 {
-    public override HttpStatusCode? StatusCode { get; init; } = HttpStatusCode.NotFound;
+    public UserNotFoundException() : base("User not found!")
+    {
+    }
 }

@@ -1,37 +1,23 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Terminal.Backend.Application.DTO.Projects;
-using Terminal.Backend.Application.Projects.Get;
+using Terminal.Backend.Application.Queries.Projects.Get;
 using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Projects;
 
-internal sealed class GetProjectsQueryHandler(TerminalDbContext dbContext)
-    : IRequestHandler<GetProjectsQuery, GetProjectsDto>
+internal sealed class GetProjectsQueryHandler : IRequestHandler<GetProjectsQuery, GetProjectsDto>
 {
-    private readonly DbSet<Project> _projects = dbContext.Projects;
+    private readonly DbSet<Project> _projects;
 
-    public async Task<GetProjectsDto> Handle(GetProjectsQuery request, CancellationToken cancellationToken)
-    {
-        var (searchPhrase, pagingParameters, orderingParameters) = request;
+    public GetProjectsQueryHandler(TerminalDbContext dbContext) => _projects = dbContext.Projects;
 
-        var query = _projects
-            .TagWith($"Get projects ordered [{orderingParameters}] and paginated [{pagingParameters}]")
-            .AsNoTracking();
-
-        if (!string.IsNullOrWhiteSpace(searchPhrase))
-        {
-            query = query
-                .Where(p => p.Name.Value.Contains(searchPhrase));
-        }
-
-        var totalCount = await query.CountAsync(cancellationToken);
-
-        var projects = await query
-            .Paginate(pagingParameters)
-            .OrderBy(orderingParameters)
-            .ToListAsync(cancellationToken);
-
-        return GetProjectsDto.Create(projects, totalCount, pagingParameters);
-    }
+    public async Task<GetProjectsDto> Handle(GetProjectsQuery request,
+        CancellationToken ct)
+        => (await _projects
+            .AsNoTracking()
+            .Where(p => p.IsActive || p.IsActive == request.OnlyActive)
+            .OrderBy(request.OrderingParameters)
+            .Paginate(request.Parameters)
+            .ToListAsync(ct)).AsGetProjectsDto();
 }

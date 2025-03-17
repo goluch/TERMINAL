@@ -1,3 +1,7 @@
 namespace Terminal.Backend.Application.DTO.Samples;
 
-public record GetRecentSamplesDto(IEnumerable<GetSamplesDto.SampleDto> RecentSamples);
+public class GetRecentSamplesDto
+{
+    public IEnumerable<GetSamplesDto.SampleDto> RecentSamples { get; set; } =
+        Enumerable.Empty<GetSamplesDto.SampleDto>();
+}

@@ -5,31 +5,33 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.DAL.Repositories;
 
-internal sealed class SampleRepository(TerminalDbContext dbContext) : ISampleRepository
+internal sealed class SampleRepository : ISampleRepository
 {
-    private readonly DbSet<Sample> _samples = dbContext.Samples;
+    private readonly DbSet<Sample> _samples;
 
-    public async Task AddAsync(Sample sample, CancellationToken cancellationToken)
-        => await _samples.AddAsync(sample, cancellationToken);
+    public SampleRepository(TerminalDbContext dbContext)
+    {
+        _samples = dbContext.Samples;
+    }
+
+    public async Task AddAsync(Sample sample, CancellationToken ct)
+        => await _samples.AddAsync(sample, ct);
 
     public Task<Sample?> GetAsync(SampleId id, CancellationToken cancellationToken)
-        =>
-            _samples
+        => _samples
             .Include(s => s.Project)
             .Include(s => s.Recipe)
             .Include(s => s.Steps)
-            .ThenInclude(s => s.Values)
+            .ThenInclude(s => s.Parameters)
             .ThenInclude(p => p.Parameter)
             .Include(s => s.Tags)
             .SingleOrDefaultAsync(s => s.Id == id, cancellationToken);
 
-    public Task<bool> ExistsAsync(SampleId id, CancellationToken cancellationToken)
-        => _samples.AnyAsync(s => s.Id == id, cancellationToken);
-
-    public Task DeleteAsync(SampleId sample, CancellationToken cancellationToken) =>
-        _samples
-            .Where(s => s.Id == sample)
-            .ExecuteDeleteAsync(cancellationToken);
+    public Task DeleteAsync(Sample sample, CancellationToken cancellationToken)
+    {
+        _samples.Remove(sample);
+        return Task.CompletedTask;
+    }
 
     public Task UpdateAsync(Sample sample, CancellationToken cancellationToken)
     {

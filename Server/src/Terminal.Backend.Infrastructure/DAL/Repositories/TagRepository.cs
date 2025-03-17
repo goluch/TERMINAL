@@ -5,27 +5,31 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.DAL.Repositories;
 
-internal sealed class TagRepository(TerminalDbContext dbContext) : ITagRepository
+internal sealed class TagRepository : ITagRepository
 {
-    private readonly DbSet<Tag> _tags = dbContext.Tags;
+    private readonly DbSet<Tag> _tags;
 
-    public async Task AddAsync(Tag tag, CancellationToken cancellationToken)
-        => await _tags.AddAsync(tag, cancellationToken);
+    public TagRepository(TerminalDbContext dbContext)
+    {
+        _tags = dbContext.Tags;
+    }
 
-    public Task<Tag?> GetAsync(TagId id, CancellationToken cancellationToken)
-        =>
-            _tags.SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
+    public async Task AddAsync(Tag tag, CancellationToken ct)
+        => await _tags.AddAsync(tag, ct);
 
-    public Task UpdateAsync(Tag tag, CancellationToken cancellationToken)
+    public Task<Tag?> GetAsync(TagId id, CancellationToken ct)
+        => _tags.SingleOrDefaultAsync(t => t.Id == id, ct);
+
+    public Task UpdateAsync(Tag tag, CancellationToken ct)
     {
         _tags.Update(tag);
         return Task.CompletedTask;
     }
 
-    public async Task<IEnumerable<Tag>> GetManyAsync(IEnumerable<TagId> tagIds, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Tag>> GetManyAsync(IEnumerable<TagId> tagIds, CancellationToken ct) 
         => await _tags
             .Where(t => tagIds.Contains(t.Id))
-            .ToListAsync(cancellationToken);
+            .ToListAsync(ct);
 
     public Task DeleteAsync(Tag tag, CancellationToken cancellationToken)
     {
@@ -33,7 +37,6 @@ internal sealed class TagRepository(TerminalDbContext dbContext) : ITagRepositor
         return Task.CompletedTask;
     }
 
-    public Task<bool> IsNameUniqueAsync(TagName name, CancellationToken cancellationToken)
-        =>
-            _tags.AllAsync(t => t.Name != name, cancellationToken);
+    public Task<bool> IsNameUniqueAsync(TagName name, CancellationToken cancellationToken) 
+        => _tags.AllAsync(t => t.Name != name, cancellationToken);
 }
