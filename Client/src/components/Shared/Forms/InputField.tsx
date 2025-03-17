@@ -24,9 +24,12 @@ const InputField = ({ label, isValid = true, validationInfo, ...rest }: InputFie
             <Input
                 {...rest}
                 autoComplete="disabled"
-                className={clsx("w-full px-3 py-2 mt-1 border-[1px] border-black/15 rounded-md focus:ring focus:ring-blue-500", {
-                    "border-red-500": !isValid,
-                })}
+                className={clsx(
+                    "w-full px-3 py-2 mt-1 border-[1px] border-black/15 rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
+                    {
+                        "border-red-500": !isValid,
+                    },
+                )}
             />
             {!isValid && (
                 <>
