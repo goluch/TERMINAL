@@ -8,7 +8,6 @@ import SettingsPage from "./pages/SettingsPage";
 import RegisterPage from "./pages/RegisterPage";
 import SamplesPage from "./pages/SamplesPage";
 import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
-import React from "react";
 
 const queryClient = new QueryClient();
 

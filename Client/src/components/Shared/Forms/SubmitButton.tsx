@@ -1,4 +1,4 @@
-import { Button } from '@headlessui/react';
+import { Button } from "@headlessui/react";
 import LoadingIndicator from "../../Login/LoadingIndicator.tsx";
 
 /**
@@ -26,9 +26,8 @@ const SubmitButton = ({ label, isLoading }: SubmitButtonProps) => (
       disabled={isLoading}
     >
       {isLoading ? <LoadingIndicator /> : label}
-      {isLoading && 'Loading...'}
+      {isLoading && "Loading..."}
     </Button>
-
   </div>
 );
 

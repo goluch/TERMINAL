@@ -1,5 +1,5 @@
-import { Suspense } from 'react';
-import LoginForm from '../components/Login/LoginForm';
+import { Suspense } from "react";
+import LoginForm from "../components/Login/LoginForm";
 
 const LoginPage = () => {
   return (

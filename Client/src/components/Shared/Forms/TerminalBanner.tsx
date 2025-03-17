@@ -1,5 +1,4 @@
-import { CommandLineIcon } from '@heroicons/react/24/outline';
-
+import { CommandLineIcon } from "@heroicons/react/24/outline";
 
 /**
  * TerminalBanner Component
