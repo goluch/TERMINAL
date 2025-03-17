@@ -1,4 +1,4 @@
-import { SampleDto } from "../../api/terminalSchemas";
+import { SampleDto } from "@api/terminalSchemas";
 import { UseQueryResult } from "react-query";
 import { OnChangeFn } from "@tanstack/react-table";
 import SamplesTable from "./SamplesTable";
