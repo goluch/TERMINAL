@@ -108,8 +108,6 @@ export type GetTagsDto = {
 export type LoginRequest = {
     email?: string | null;
     password?: string | null;
-    twoFactorCode?: string | null;
-    twoFactorRecoveryCode?: string | null;
 };
 
 /**

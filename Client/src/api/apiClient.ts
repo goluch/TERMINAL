@@ -1,8 +1,10 @@
 import axios from "axios";
 import { LoginResponse } from "../hooks/useLoginMutation";
 
+export const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:5006/api";
+
 const apiClient = axios.create({
-    baseURL: "http://localhost:5006/api/v1",
+    baseURL: apiUrl,
     headers: {
         "Content-Type": "application/json",
     },
@@ -29,17 +31,10 @@ apiClient.interceptors.response.use(
         originalRequest._retry = true;
 
         try {
-            const refresh = sessionStorage.getItem("refresh");
-            if (!refresh) {
-                return Promise.reject(error);
-            }
-            const response = await apiClient.post<LoginResponse>("/identity/refresh", {
-                refreshToken: refresh,
-            });
-            const { accessToken, refreshToken } = response.data;
+            const response = await apiClient.post<LoginResponse>("/users/refresh");
+            const { token } = response.data;
 
-            sessionStorage.setItem("token", accessToken);
-            sessionStorage.setItem("refresh", refreshToken);
+            sessionStorage.setItem("token", token);
         } catch {
             return Promise.reject(error);
         }
