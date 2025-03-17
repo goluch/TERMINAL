@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react";
 import TerminalBanner from "../Shared/Forms/TerminalBanner.tsx";
 import InputField from "../Shared/Forms/InputField.tsx";
-import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
+import SubmitButton from "@components/Shared/Forms/SubmitButton.tsx";
 import RememberMeButton from "./RememberMeButton";
-import { useLoginMutation } from "../../hooks/apiHooks";
-import { LoginRequest } from "../../api/terminalSchemas";
+import { useLoginMutation } from "@hooks/apiHooks";
+import { LoginRequest } from "@api/terminalSchemas";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
