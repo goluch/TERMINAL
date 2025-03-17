@@ -2,7 +2,7 @@ import UserComp from "./UserComp.tsx";
 import { Button } from "@headlessui/react";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import DialogComp from "../../Shared/DialogComp.tsx";
+import DialogComp from "@components/Shared/DialogComp.tsx";
 import InvitationForm from "./InvitationForm.tsx";
 
 export interface User {

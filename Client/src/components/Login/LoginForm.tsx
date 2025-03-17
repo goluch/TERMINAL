@@ -3,8 +3,8 @@ import TerminalBanner from "../Shared/Forms/TerminalBanner.tsx";
 import InputField from "../Shared/Forms/InputField.tsx";
 import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
 import RememberMeButton from "./RememberMeButton";
-import { useLoginMutation } from "../../hooks/apiHooks";
-import { LoginRequest } from "../../api/terminalSchemas";
+import { useLoginMutation } from "@hooks/apiHooks";
+import { LoginRequest } from "@api/terminalSchemas";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
@@ -52,7 +52,7 @@ const LoginForm = () => {
 
       await mutation.mutateAsync(loginRequest);
     },
-    [mutation, email, password],
+    [mutation, email, password]
   );
 
   if (mutation.isSuccess) {
