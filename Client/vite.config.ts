@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "tailwindcss";
 import basicSsl from "@vitejs/plugin-basic-ssl";
+import viteTsConfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,6 +12,9 @@ export default defineConfig({
       name: "test",
       domains: ["localhost"],
       certDir: "../cert",
+    }),
+    viteTsConfigPaths({
+      projects: ["./tsconfig.json"],
     }),
   ],
   css: {
