@@ -31,12 +31,10 @@ const InputField = ({ label, isValid = true, validationInfo, ...rest }: InputFie
                     },
                 )}
             />
-            {!isValid && (
-                <>
-                    <p className="text-sm text-red-500">Invalid {label}</p>
-                    <p className="text-sm text-red-500">{validationInfo}</p>
-                </>
-            )}
+            <div className={clsx(isValid && "invisible")}>
+                <p className="text-sm text-red-500">Invalid {label}</p>
+                <p className="text-sm text-red-500">{validationInfo}</p>
+            </div>
         </Field>
     );
 };

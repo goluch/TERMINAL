@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import TerminalBanner from "../Shared/Forms/TerminalBanner.tsx";
 import InputField from "../Shared/Forms/InputField.tsx";
 import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
-import RememberMeButton from "./RememberMeButton";
 import { useLoginMutation } from "../../hooks/useLoginMutation.ts";
 import { LoginRequest } from "../../api/terminalSchemas";
 import { Navigate, redirect } from "react-router-dom";
@@ -69,8 +68,8 @@ const LoginForm = () => {
                         <p className="text-2xl font-normal text-center">Welcome back</p>
                         <p className="text-sm font-normal text-center text-gray-600">Sign in to your account</p>
                     </div>
-                    <form onSubmit={handleSubmit} className="w-full h-full flex flex-col gap-9">
-                        <div className="flex flex-col gap-3">
+                    <form onSubmit={handleSubmit} className="w-full h-full flex flex-col gap-3">
+                        <div className="flex flex-col">
                             <InputField
                                 name="email"
                                 type="text"
