@@ -12,7 +12,6 @@ import { Navigate, redirect } from "react-router-dom";
  * A form component for user login supporting email validation.
  *
  * @component
- * @param {LoginFormProps} props - The props for the LoginForm component
  */
 const LoginForm = () => {
     const mutation = useLoginMutation();
