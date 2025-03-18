@@ -1,5 +1,5 @@
 import { Table } from "@tanstack/react-table";
-import { SampleDto } from "../../api/terminalSchemas";
+import { SampleDto } from "@api/terminalSchemas";
 import { flexRender } from "@tanstack/react-table";
 
 export interface SamplesTableProps {

@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from "react";
-import TerminalBanner from "../Shared/Forms/TerminalBanner.tsx";
-import InputField from "../Shared/Forms/InputField.tsx";
-import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
-import { useLoginMutation } from "../../hooks/useLoginMutation.ts";
-import { LoginRequest } from "../../api/terminalSchemas";
+import TerminalBanner from "@components/Shared/Forms/TerminalBanner.tsx";
+import InputField from "@components/Shared/Forms/InputField.tsx";
+import SubmitButton from "@components/Shared/Forms/SubmitButton.tsx";
+import { useLoginMutation } from "@hooks/useLoginMutation.ts";
+import { LoginRequest } from "@api/terminalSchemas";
 import { Navigate, redirect } from "react-router-dom";
 
 /**
