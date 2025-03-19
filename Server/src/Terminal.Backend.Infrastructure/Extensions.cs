@@ -68,7 +68,14 @@ public static class Extensions
         });
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer();
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new()
+                {
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
         services.AddAuthorization();
         services.AddAuthorizationBuilder()
             .AddPolicy(Role.Registered, policy => { policy.AddRequirements(new RoleRequirement(Role.Registered)); })
@@ -77,7 +84,6 @@ public static class Extensions
             .AddPolicy(Role.Administrator,
                 policy => { policy.AddRequirements(new RoleRequirement(Role.Administrator)); });
         services.AddScoped<IAuthorizationService, AuthorizationService>();
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
         services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
         services.AddSingleton<IAuthorizationHandler, RoleAuthorizationHandler>();
         services.ConfigureOptions<JwtOptionsSetup>();
