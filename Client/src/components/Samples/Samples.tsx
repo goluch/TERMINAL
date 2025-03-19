@@ -70,10 +70,13 @@ const Samples = (props: SamplesProps) => {
     );
 
   return (
-    <div className="flex flex-col justify-center">
-      <SamplesTable table={table} handleClickSample={handleClick} />
-      <SamplesTableManage table={table} />
-    </div>
+      <div className="h-[40rem] flex flex-col">
+        <div className="flex-1 overflow-auto">
+          <SamplesTable table={table} handleClickSample={handleClick} />
+        </div>
+        <SamplesTableManage table={table} />
+      </div>
+
   );
 };
 

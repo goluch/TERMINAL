@@ -37,7 +37,7 @@ const SamplesTable = (props: SamplesTableProps) => {
           </tr>
         ))}
       </thead>
-      <tbody>
+      <tbody className="®">
         {props.table.getRowModel().rows.map((row) => (
           <tr
             key={row.id}
