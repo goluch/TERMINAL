@@ -84,6 +84,7 @@ public static class Extensions
             .AddPolicy(Role.Administrator,
                 policy => { policy.AddRequirements(new RoleRequirement(Role.Administrator)); });
         services.AddScoped<IAuthorizationService, AuthorizationService>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
         services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
         services.AddSingleton<IAuthorizationHandler, RoleAuthorizationHandler>();
         services.ConfigureOptions<JwtOptionsSetup>();
