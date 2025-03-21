@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Terminal.Backend.Infrastructure.Authentication.Requirements;
@@ -19,7 +20,8 @@ internal sealed class PermissionAuthorizationPolicyProvider : DefaultAuthorizati
             return policy;
         }
 
-        return new AuthorizationPolicyBuilder()
+        return new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+            .RequireAuthenticatedUser()
             .AddRequirements(new PermissionRequirement(policyName))
             .Build();
     }
