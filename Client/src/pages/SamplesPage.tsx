@@ -13,7 +13,9 @@ const SamplesPage = () => {
 
     const dataQuerySamples= useSamples({
         pageNumber: pagination.pageIndex,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
+        orderBy: sorting[0]?.id ?? "",
+        desc: sorting[0]?.desc ?? true
     });
 
     const [sampleDetailsId, setSampleDetailsId] = useState<string | undefined>("e60274d9-1e14-42c0-853a-cc0dfd599d2c");
@@ -28,11 +30,11 @@ const SamplesPage = () => {
         if(sampleDetailsId ===  ""){
             setSampleDetailsId(dataQuerySamples.data?.rows[0].id);
         }
-    }, [dataQuerySamples])
+    }, [sampleDetailsId, dataQuerySamples])
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <div className="flex justify-center p-5">
+            <div className="flex justify-center p-5 flex-wrap">
                 <div className="flex-1 bg-white p-3 rounded-md m-1">
                     <Samples
                         dataQuery={dataQuerySamples}

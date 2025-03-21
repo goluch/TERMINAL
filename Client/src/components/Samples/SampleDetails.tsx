@@ -33,7 +33,7 @@ const SampleDetails = (props: SampleDetailsProps) => {
       <div className="font-bold flex items-center">Tags:</div>
       <div>
           {props.dataQuery.data?.tags?.map((tag) =>
-              (<div className="badge badge-lg hover:cursor-default p-3 rounded-2xl mr-1 my-1">{tag.name}</div>)
+              (<div key={tag.id} className="badge badge-lg hover:cursor-default p-3 rounded-2xl mr-1 my-1">{tag.name}</div>)
           )}
       </div>
       <div className="font-bold">Comment:</div>
