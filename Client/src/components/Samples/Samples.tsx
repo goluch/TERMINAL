@@ -65,8 +65,8 @@ const Samples = (props: SamplesProps) => {
     manualPagination: true,
   });
 
-  const handleClick = (code: string | null | undefined) => {
-    props.onChangeSampleDetails?.(code?.toString() ?? "");
+  const handleClick = (id: string | null | undefined) => {
+    props.onChangeSampleDetails?.(id?.toString() ?? "");
   };
 
   if (props.dataQuery.isLoading)

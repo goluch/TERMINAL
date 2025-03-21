@@ -4,7 +4,7 @@ import { flexRender } from "@tanstack/react-table";
 
 export interface SamplesTableProps {
   table: Table<SampleDto>;
-  handleClickSample: (code: string | null | undefined) => void;
+  handleClickSample: (id: string | null | undefined) => void;
 }
 
 const SamplesTable = (props: SamplesTableProps) => {
@@ -41,7 +41,7 @@ const SamplesTable = (props: SamplesTableProps) => {
         {props.table.getRowModel().rows.map((row) => (
           <tr
             key={row.id}
-            onClick={() => props.handleClickSample(row.original.code)}
+            onClick={() => props.handleClickSample(row.original.id)}
             className="hover cursor-pointer"
           >
             {row.getVisibleCells().map((cell) => (

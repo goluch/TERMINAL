@@ -233,16 +233,13 @@ export type SampleDto = {
 };
 
 export type SampleDetailsDto = {
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
-    comment?: string | null;
+    id: string
+    code: string;
+    recipe?: string;
+    createdAtUtc: Date;
+    comment: string
+    projectId: string;
     steps?: SampleStep[] | null;
-    tags?: string[] | null;
+    tags?: TagDto[] | null;
 };
 
-export type SamplesQueryResponse = {
-    rows: SampleDto[];
-    rowCount: number;
-    pageCount: number;
-};

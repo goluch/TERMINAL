@@ -1,7 +1,8 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { SortingState, PaginationState } from "@tanstack/react-table";
-import {useSamples} from "@hooks/useSampleQuery.ts";
+import {useSampleDetails, useSamples} from "@hooks/useSampleQuery.ts";
 import Samples from "@components/Samples/Samples.tsx";
+import SampleDetails from "@components/Samples/SampleDetails.tsx";
 
 const SamplesPage = () => {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -9,26 +10,32 @@ const SamplesPage = () => {
         pageIndex: 0,
         pageSize: 10,
     });
-    const [codeSampleDetails, setCodeSampleDetails] = useState<string>("AS1");
-    console.log(codeSampleDetails)
 
-    const dataQuery= useSamples({
+    const dataQuerySamples= useSamples({
         pageNumber: pagination.pageIndex,
         pageSize: pagination.pageSize
     });
 
-    // const sampleDetailsQuery = useSampleDetails(codeSampleDetails);
+    const [sampleDetailsId, setSampleDetailsId] = useState<string | undefined>("e60274d9-1e14-42c0-853a-cc0dfd599d2c");
 
-    const changeSampleDetails = (code: string) => {
-        setCodeSampleDetails(code);
+    const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
+
+    const changeSampleDetails = (id: string) => {
+        setSampleDetailsId(id);
     };
+
+    useEffect(()=>{
+        if(sampleDetailsId ===  ""){
+            setSampleDetailsId(dataQuerySamples.data?.rows[0].id);
+        }
+    }, [dataQuerySamples])
 
     return (
         <div className="min-h-screen bg-gray-100">
             <div className="flex justify-center p-5">
                 <div className="flex-1 bg-white p-3 rounded-md m-1">
                     <Samples
-                        dataQuery={dataQuery}
+                        dataQuery={dataQuerySamples}
                         sorting={sorting}
                         pagination={pagination}
                         setSorting={setSorting}
@@ -37,7 +44,7 @@ const SamplesPage = () => {
                     />
                 </div>
                 <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
-                    {/*<SampleDetails dataQuery={sampleDetailsQuery} />*/}
+                    <SampleDetails dataQuery={dataQuerySampleDetails}/>
                 </div>
             </div>
         </div>
