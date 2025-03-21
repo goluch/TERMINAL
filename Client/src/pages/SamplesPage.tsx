@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { SortingState, PaginationState } from "@tanstack/react-table";
 import {useSampleDetails, useSamples} from "@hooks/useSampleQuery.ts";
 import Samples from "@components/Samples/Samples.tsx";
@@ -18,19 +18,13 @@ const SamplesPage = () => {
         desc: sorting[0]?.desc ?? true
     });
 
-    const [sampleDetailsId, setSampleDetailsId] = useState<string | undefined>("e60274d9-1e14-42c0-853a-cc0dfd599d2c");
+    const [sampleDetailsId, setSampleDetailsId] = useState<string>("e60274d9-1e14-42c0-853a-cc0dfd599d2c");
 
     const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
 
     const changeSampleDetails = (id: string) => {
         setSampleDetailsId(id);
     };
-
-    useEffect(()=>{
-        if(sampleDetailsId ===  ""){
-            setSampleDetailsId(dataQuerySamples.data?.rows[0].id);
-        }
-    }, [sampleDetailsId, dataQuerySamples])
 
     return (
         <div className="min-h-screen bg-gray-100">
