@@ -24,7 +24,7 @@ export interface SamplesProps {
 
 const Samples = (props: SamplesProps) => {
   useEffect(()=>{
-    console.log(props.dataQuery)
+
   }, [props])
   const columnHelper = createColumnHelper<SampleDto>();
   const columns = [
@@ -36,13 +36,17 @@ const Samples = (props: SamplesProps) => {
       header: "Project Name",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("createdAt", {
+    columnHelper.accessor("createdAtUtc", {
       header: "Created At",
-      cell: (info) => info.getValue()?.toLocaleDateString(),
+      cell: (info) => {
+        const date: Date = new Date(info.getValue());
+        return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+      },
     }),
     columnHelper.accessor("comment", {
       header: "Comment",
       cell: (info) => info.getValue(),
+
     }),
   ];
 

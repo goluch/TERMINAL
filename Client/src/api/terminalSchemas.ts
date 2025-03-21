@@ -228,7 +228,7 @@ export type SampleDto = {
     id: string;
     code: string;
     project: string;
-    createdAt: Date | null;
+    createdAtUtc: Date;
     comment: string
 };
 

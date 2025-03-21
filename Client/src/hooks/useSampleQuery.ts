@@ -12,14 +12,14 @@ export type SamplesRequest = {
 export type SamplesResponse = {
     rows: SampleDto[];
     pageAmount: number;
-    rowsAmount: number; // All of rows (samples)
+    rowsAmount: number; // All rows (samples)
 }
 
 async function fetchData(params: SamplesRequest): Promise<SamplesResponse> {
     const resultSamples = await apiClient.get(`/samples`, {params})
     const resultAmountOfSamples = await apiClient.get(`/samples/amount`);
 
-    console.log(resultAmountOfSamples.data)
+    console.log(resultSamples.data)
     return {
         rows: resultSamples.data.samples,
         pageAmount: Math.ceil(resultAmountOfSamples.data / params.pageSize),
