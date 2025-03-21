@@ -223,10 +223,13 @@ export type UpdateTagRequest = {
     name?: string | null;
 };
 
+
 export type SampleDto = {
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
+    id: string;
+    code: string;
+    project: string;
+    createdAt: Date | null;
+    comment: string
 };
 
 export type SampleDetailsDto = {

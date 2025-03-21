@@ -1,5 +1,4 @@
 import { SampleDto } from "@api/terminalSchemas";
-import { UseQueryResult } from "react-query";
 import { OnChangeFn } from "@tanstack/react-table";
 import SamplesTable from "./SamplesTable";
 import {
@@ -10,30 +9,30 @@ import {
   PaginationState,
 } from "@tanstack/react-table";
 import SamplesTableManage from "./SamplesTableManage";
+import {useEffect} from "react";
+import {SamplesResponse} from "@hooks/useSampleQuery.ts";
+import {UseQueryResult} from "@tanstack/react-query";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
-  dataQuery: UseQueryResult;
+  dataQuery: UseQueryResult<SamplesResponse, Error>;
   sorting: SortingState;
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
 }
 
-export interface SamplesQueryResponse {
-  rows: SampleDto[];
-  rowCount: number;
-  pageCount: number;
-}
-
 const Samples = (props: SamplesProps) => {
+  useEffect(()=>{
+    console.log(props.dataQuery)
+  }, [props])
   const columnHelper = createColumnHelper<SampleDto>();
   const columns = [
     columnHelper.accessor("code", {
       header: "Code",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("projectName", {
+    columnHelper.accessor("project", {
       header: "Project Name",
       cell: (info) => info.getValue(),
     }),
@@ -41,17 +40,21 @@ const Samples = (props: SamplesProps) => {
       header: "Created At",
       cell: (info) => info.getValue()?.toLocaleDateString(),
     }),
+    columnHelper.accessor("comment", {
+      header: "Comment",
+      cell: (info) => info.getValue(),
+    }),
   ];
 
   const table = useReactTable({
     columns: columns,
-    data: props.dataQuery?.data?.rows ?? [],
+    data: props.dataQuery.data?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     state: {
       sorting: props.sorting,
       pagination: props.pagination,
     },
-    rowCount: props.dataQuery.data?.rowCount,
+    rowCount: props.dataQuery.data?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,

@@ -1,18 +1,36 @@
-import {PaginationState, SortingState} from "@tanstack/react-table";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {SamplesQueryResponse} from "@api/terminalSchemas.ts";
+import {SampleDto} from "@api/terminalSchemas.ts";
 import apiClient from "@api/apiClient.ts";
 
-
-async function fetchData(options: { pageIndex: number; pageSize: number; sorting?: SortingState }) {
-    return apiClient.get<>()
+export type SamplesRequest = {
+    pageNumber: number;
+    pageSize: number;
+    orderBy?: string;
+    desc?: boolean;
 }
 
-export function useSamples(pagination: PaginationState, sorting?: SortingState) {
+export type SamplesResponse = {
+    rows: SampleDto[];
+    pageAmount: number;
+    rowsAmount: number; // All of rows (samples)
+}
 
-    return useQuery<SamplesQueryResponse>({
-        queryKey: ["samples", sorting, pagination],
-        queryFn: () => fetchData({ ...pagination, sorting: sorting }),
+async function fetchData(params: SamplesRequest): Promise<SamplesResponse> {
+    const resultSamples = await apiClient.get(`/samples`, {params})
+    const resultAmountOfSamples = await apiClient.get(`/samples/amount`);
+
+    console.log(resultAmountOfSamples.data)
+    return {
+        rows: resultSamples.data.samples,
+        pageAmount: Math.ceil(resultAmountOfSamples.data / params.pageSize),
+        rowsAmount: resultAmountOfSamples.data,
+    };
+}
+
+export function useSamples(params: SamplesRequest) {
+    return useQuery({
+        queryKey: ["samples", params],
+        queryFn: () => fetchData(params),
         placeholderData: keepPreviousData,
     });
 }

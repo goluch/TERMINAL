@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useSamples, useSampleDetails } from "../hooks/apiHooks";
-import Samples from "../components/Samples/Samples";
-import SampleDetails from "../components/Samples/SampleDetails";
 import { SortingState, PaginationState } from "@tanstack/react-table";
+import {useSamples} from "@hooks/useSampleQuery.ts";
+import Samples from "@components/Samples/Samples.tsx";
 
 const SamplesPage = () => {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -11,9 +10,14 @@ const SamplesPage = () => {
         pageSize: 10,
     });
     const [codeSampleDetails, setCodeSampleDetails] = useState<string>("AS1");
+    console.log(codeSampleDetails)
 
-    const samplesQuery = useSamples(pagination, sorting);
-    const sampleDetailsQuery = useSampleDetails(codeSampleDetails);
+    const dataQuery= useSamples({
+        pageNumber: pagination.pageIndex,
+        pageSize: pagination.pageSize
+    });
+
+    // const sampleDetailsQuery = useSampleDetails(codeSampleDetails);
 
     const changeSampleDetails = (code: string) => {
         setCodeSampleDetails(code);
@@ -24,7 +28,7 @@ const SamplesPage = () => {
             <div className="flex justify-center p-5">
                 <div className="flex-1 bg-white p-3 rounded-md m-1">
                     <Samples
-                        dataQuery={samplesQuery}
+                        dataQuery={dataQuery}
                         sorting={sorting}
                         pagination={pagination}
                         setSorting={setSorting}
@@ -33,7 +37,7 @@ const SamplesPage = () => {
                     />
                 </div>
                 <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
-                    <SampleDetails dataQuery={sampleDetailsQuery} />
+                    {/*<SampleDetails dataQuery={sampleDetailsQuery} />*/}
                 </div>
             </div>
         </div>
