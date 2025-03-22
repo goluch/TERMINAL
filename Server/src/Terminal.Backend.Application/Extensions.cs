@@ -1,12 +1,9 @@
-using System.Reflection;
-using Mapster;
 using Microsoft.Extensions.DependencyInjection;
-using Terminal.Backend.Application.Abstractions.Behaviors;
-using Terminal.Backend.Application.Common;
-using Terminal.Backend.Application.Common.Emails;
-using Terminal.Backend.Application.Common.Services;
-using Terminal.Backend.Application.DTO.ParameterValues;
-using Terminal.Backend.Core.Abstractions;
+using Terminal.Backend.Application.Abstractions;
+using Terminal.Backend.Application.Invitations;
+using Terminal.Backend.Application.Invitations.Factories;
+using Terminal.Backend.Application.Services;
+using Terminal.Backend.Core.Abstractions.Factories;
 
 namespace Terminal.Backend.Application;
 
@@ -14,18 +11,16 @@ public static class Extensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly);
-            cfg.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
-        });
+        services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly); });
 
-        services.AddMapster();
-        var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
-        typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
+        services.AddOptions<InvitationOptions>()
+            .BindConfiguration("Invitations")
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        
         services.AddScoped<IConvertDtoService, ConvertDtoService>();
-        services.AddScoped<IEmailConfirmationEmailSender, EmailConfirmationEmailSender>();
-        services.AddTransient<IParameterValueVisitor<GetSampleBaseParameterValueDto>, ParameterValueToDtoVisitor>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IInvitationFactory, InvitationFactory>();
 
         return services;
     }

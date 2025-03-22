@@ -1,4 +1,3 @@
-using Terminal.Backend.Core.Abstractions;
 using Terminal.Backend.Core.Entities.Parameters;
 using Terminal.Backend.Core.Exceptions;
 using Terminal.Backend.Core.ValueObjects;
@@ -7,10 +6,9 @@ namespace Terminal.Backend.Core.Entities.ParameterValues;
 
 public sealed class IntegerParameterValue : ParameterValue
 {
-    public IntegerParameter IntegerParameter { get; private set; }
     public int Value { get; private set; }
 
-    public IntegerParameterValue(ParameterValueId id, IntegerParameter parameter, int value) : base(id)
+    public IntegerParameterValue(ParameterValueId id, IntegerParameter parameter, int value) : base(id, parameter)
     {
         if (value % parameter.Step != 0)
         {
@@ -18,25 +16,26 @@ public sealed class IntegerParameterValue : ParameterValue
         }
 
         Value = value;
-        IntegerParameter = parameter;
     }
 
-    public IntegerParameterValue(IntegerParameterValue parameterValue) : base(parameterValue)
+    private IntegerParameterValue(ParameterValueId id, int value) : base(id)
     {
-        Value = parameterValue.Value;
-        IntegerParameter = parameterValue.IntegerParameter;
+        Value = value;
     }
 
-    public override Parameter Parameter => IntegerParameter;
+    public override ParameterValue DeepCopy(ParameterValueId id)
+    {
+        return new IntegerParameterValue(id,
+            Parameter as IntegerParameter
+            ?? throw new ParameterValueCopyException(typeof(IntegerParameter), Parameter.GetType()),
+            Value);
+    }
 
     public override void Update(ParameterValue newParameterValue)
     {
-        if (newParameterValue is not IntegerParameterValue newIntegerParameterValue)
-        {
-            return;
-        }
+        if (newParameterValue is not IntegerParameterValue newIntegerParameterValue) return;
 
-        var integerParameter = IntegerParameter;
+        var integerParameter = (IntegerParameter)Parameter;
         var value = newIntegerParameterValue.Value;
         if (value % integerParameter.Step != 0)
         {
@@ -45,8 +44,4 @@ public sealed class IntegerParameterValue : ParameterValue
 
         Value = value;
     }
-
-    public override T Accept<T>(IParameterValueVisitor<T> visitor) => visitor.Visit(this);
-
-    private IntegerParameterValue(ParameterValueId id, int value) : base(id) => Value = value;
 }

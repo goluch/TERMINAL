@@ -2,14 +2,13 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Core.Entities.Parameters;
 
-public abstract class NumericParameter(
-    ParameterId id,
-    ParameterName name,
-    ParameterId? parentId,
-    string unit,
-    uint order = 0,
-    bool isActive = true)
-    : Parameter(id, name, parentId, order, isActive)
+public abstract class NumericParameter : Parameter
 {
-    public string Unit { get; private set; } = unit;
+    public string Unit { get; private set; }
+
+    protected NumericParameter(ParameterId id, ParameterName name, string unit, uint order = 0, bool isActive = true)
+        : base(id, name, order, isActive)
+    {
+        Unit = unit;
+    }
 }

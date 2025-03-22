@@ -8,13 +8,16 @@ public sealed record SampleCode
     public string Value => $"{Prefix}{Number}";
     public ulong Number { get; }
 
-    public SampleCode(ulong number) => Number = number;
+    public SampleCode(ulong number)
+    {
+        Number = number;
+    }
 
     public SampleCode(string code)
     {
         var isParsable = ulong.TryParse(code.AsSpan(Prefix.Length), out var number);
         var isValid = !string.IsNullOrWhiteSpace(code) &&
-                      code.StartsWith(Prefix, StringComparison.Ordinal) &&
+                      code.StartsWith(Prefix) &&
                       isParsable;
 
         if (!isValid)

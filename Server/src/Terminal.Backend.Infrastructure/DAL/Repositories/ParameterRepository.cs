@@ -5,18 +5,23 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.DAL.Repositories;
 
-internal sealed class ParameterRepository(TerminalDbContext dbContext) : IParameterRepository
+internal sealed class ParameterRepository : IParameterRepository
 {
-    private readonly DbSet<Parameter> _parameters = dbContext.Parameters;
+    private readonly DbSet<Parameter> _parameters;
 
-    public async Task<T?> GetAsync<T>(ParameterId id, CancellationToken cancellationToken)
+    public ParameterRepository(TerminalDbContext dbContext)
+    {
+        _parameters = dbContext.Parameters;
+    }
+
+    public async Task<T?> GetAsync<T>(ParameterId id, CancellationToken ct)
         where T : Parameter
         => await _parameters
             .Include(p => p.Parent)
-            .SingleOrDefaultAsync(p => p.Id == id, cancellationToken) as T;
+            .SingleOrDefaultAsync(p => p.Id == id, ct) as T;
 
-    public async Task AddAsync(Parameter parameter, CancellationToken cancellationToken)
-        => await _parameters.AddAsync(parameter, cancellationToken);
+    public async Task AddAsync(Parameter parameter, CancellationToken ct)
+        => await _parameters.AddAsync(parameter, ct);
 
     public Task UpdateAsync(Parameter parameter)
     {
