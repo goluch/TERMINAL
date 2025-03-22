@@ -10,6 +10,7 @@ import RegisterPage from "./pages/RegisterPage";
 import SamplesPage from "./pages/SamplesPage";
 import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
 import React from "react";
+import {toastOptions} from "./utils/toast.utils.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,25 +28,7 @@ export default function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
-      <Toaster
-          toastOptions={{
-              success: {
-                  style: {
-                      borderLeft: '4px solid #10B981'
-                  },
-              },
-              error: {
-                  style: {
-                      borderLeft: '4px solid #EF4444',
-                  },
-              },
-              loading: {
-                  style: {
-                      borderLeft: '4px solid #2563EB',
-                  },
-              },
-          }}
-      />
+        <Toaster toastOptions={toastOptions} />
     </QueryClientProvider>
   );
 }
