@@ -7,7 +7,7 @@ export const queryClient = new QueryClient({
             const errorMessage = err instanceof Error
                 ? err.message
                 : "An error occurred";
-            toastNotify(errorMessage, "error");
+            toastNotify.error(errorMessage);
         }
     }),
 });

@@ -1,13 +1,12 @@
 import React, { useState, useCallback } from "react";
-import TerminalBanner from "../Shared/Forms/TerminalBanner.tsx";
-import InputField from "../Shared/Forms/InputField.tsx";
-import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
-import RememberMeButton from "./RememberMeButton";
-import { useLoginMutation } from "../../hooks/apiHooks";
-import { LoginRequest } from "../../api/terminalSchemas";
+import TerminalBanner from "@components/Shared/Forms/TerminalBanner.tsx";
+import InputField from "@components/Shared/Forms/InputField.tsx";
+import SubmitButton from "@components/Shared/Forms/SubmitButton.tsx";
+import { useLoginMutation } from "@hooks/useLoginMutation.ts";
+import { LoginRequest } from "@api/terminalSchemas";
 import { useNavigate } from "react-router-dom";
 import {toastNotify, toastPromise} from "../../utils/toast.utils.tsx";
-import axios from "axios";
+import RememberMeButton from "@components/Login/RememberMeButton.tsx";
 
 
 /**
@@ -16,7 +15,6 @@ import axios from "axios";
  * A form component for user login supporting email validation.
  *
  * @component
- * @param {LoginFormProps} props - The props for the LoginForm component
  * @returns {JSX.Element} - The rendered LoginForm component.
  */
 const LoginForm = () => {
@@ -26,33 +24,27 @@ const LoginForm = () => {
     const [password, setPassword] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(true);
 
-  const validateEmail = (email: string) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
+    const validateEmail = (email: string) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      axios.get("http://localhost:5006/api/ping").then((r) => {
-        console.log(r);
-      });
+    const handleSubmit = useCallback(
+        async (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
 
+            const emailValid = validateEmail(email);
+            setIsEmailValid(emailValid);
 
-      const emailValid = validateEmail(email);
-      setIsEmailValid(emailValid);
+            if (!emailValid) {
+                toastNotify.error("Please enter a valid email address");
+                return;
+            }
 
-      if (!emailValid) {
-          toastNotify("Please enter a valid email address", "error");
-          return;
-      }
-
-      const loginRequest: LoginRequest = {
-        email: email,
-        password: password,
-        twoFactorCode: "",
-        twoFactorRecoveryCode: "",
-      };
+            const loginRequest: LoginRequest = {
+                email: email,
+                password: password,
+            };
 
             try {
                 await toastPromise(

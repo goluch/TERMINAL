@@ -1,5 +1,4 @@
 import { Button } from '@headlessui/react';
-import React from 'react';
 import clsx from "clsx";
 
 /**
@@ -17,7 +16,6 @@ export interface SubmitButtonProps {
  *
  * @component
  * @param {SubmitButtonProps} props - The props for the SubmitButton component
- * @returns {JSX.Element} - The rendered SubmitButton component.
  */
 const SubmitButton = ({ label, isLoading }: SubmitButtonProps) => (
   <div className="w-full">

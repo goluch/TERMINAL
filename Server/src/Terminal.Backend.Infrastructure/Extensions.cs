@@ -68,7 +68,14 @@ public static class Extensions
         });
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer();
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new()
+                {
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
         services.AddAuthorization();
         services.AddAuthorizationBuilder()
             .AddPolicy(Role.Registered, policy => { policy.AddRequirements(new RoleRequirement(Role.Registered)); })

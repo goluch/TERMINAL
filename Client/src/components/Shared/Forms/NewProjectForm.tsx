@@ -1,6 +1,6 @@
 import InputField from "./InputField";
 import React, { useState } from "react";
-import { Button } from '@headlessui/react';
+import { Button } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -9,17 +9,15 @@ import { useNavigate } from "react-router-dom";
  * A form component that allows users to add a new project.
  *
  * @component
- * @returns {JSX.Element} - The rendered NewProjectForm component.
  */
 const NewProjectForm = () => {
-
     const navigate = useNavigate();
     const [projectName, setProjectName] = useState("");
     const [isProjectNameValid, setIsProjectNameValid] = useState(true);
 
     const checkIfNameIsValid = (name: string) => {
         return name.length >= 3 && name.length <= 50;
-    }
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,11 +31,10 @@ const NewProjectForm = () => {
         } else {
             console.log("New project submitted: ", projectName);
         }
-
     };
 
     const handleCancel = () => {
-        navigate('/');
+        navigate("/");
     };
 
     return (
@@ -51,22 +48,14 @@ const NewProjectForm = () => {
                         type="text"
                         label="project name"
                         value={projectName}
-                        description="project name"
                         onChange={(e) => setProjectName(e.target.value)}
                         isValid={isProjectNameValid}
                     />
                     <div className="flex space-x-2 mt-4">
-                        <Button
-                            type="submit"
-                            className="rounded-xl bg-green-500 hover:bg-green-600 text-white px-4 py-2"
-                        >
+                        <Button type="submit" className="rounded-xl bg-green-500 hover:bg-green-600 text-white px-4 py-2">
                             Add project
                         </Button>
-                        <Button
-                            type="button"
-                            className="rounded-xl bg-red-500 hover:bg-red-600 text-white px-4 py-2"
-                            onClick={handleCancel}
-                        >
+                        <Button type="button" className="rounded-xl bg-red-500 hover:bg-red-600 text-white px-4 py-2" onClick={handleCancel}>
                             Cancel
                         </Button>
                     </div>
