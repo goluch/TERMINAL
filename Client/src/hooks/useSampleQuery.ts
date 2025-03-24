@@ -1,5 +1,5 @@
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {SampleDetailsDto, SampleDto} from "@api/terminalSchemas.ts";
+import { SampleDto} from "@api/terminalSchemas.ts";
 import apiClient from "@api/apiClient.ts";
 
 export type SamplesRequest = {
@@ -48,22 +48,4 @@ export function useSamples(params: SamplesRequest) {
         queryFn: () => fetchDataSamples(params),
         placeholderData: keepPreviousData,
     });
-}
-
-async function fetchDataSampleDetails(id: string | undefined): Promise<SampleDetailsDto>{
-    if (id === undefined) return { id: "",
-        code: "",
-        createdAtUtc: new Date(),
-        comment: "",
-        projectId: ""
-    };
-    return (await apiClient.get(`/samples/${id}`)).data;
-}
-
-export function useSampleDetails(id: string | undefined){
-    return useQuery({
-        queryKey: ['sampleDetails', id],
-        queryFn: () => fetchDataSampleDetails(id),
-        placeholderData: keepPreviousData,
-    })
 }

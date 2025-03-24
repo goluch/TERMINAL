@@ -11,11 +11,10 @@ import {
 import SamplesTableManage from "./SamplesTableManage";
 import {useEffect} from "react";
 import {SamplesResponse} from "@hooks/useSampleQuery.ts";
-import {UseQueryResult} from "@tanstack/react-query";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
-  dataQuery: UseQueryResult<SamplesResponse, Error>;
+  dataQuery: SamplesResponse | undefined;
   sorting: SortingState;
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;
@@ -52,13 +51,13 @@ const Samples = (props: SamplesProps) => {
 
   const table = useReactTable({
     columns: columns,
-    data: props.dataQuery.data?.rows ?? [],
+    data: props.dataQuery.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     state: {
       sorting: props.sorting,
       pagination: props.pagination,
     },
-    rowCount: props.dataQuery.data?.rowsAmount ?? 0,
+    rowCount: props.dataQuery.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,
@@ -69,12 +68,7 @@ const Samples = (props: SamplesProps) => {
     props.onChangeSampleDetails?.(id?.toString() ?? "");
   };
 
-  if (props.dataQuery.isLoading)
-    return (
-      <div className="flex justify-center">
-        <span className="loading loading-spinner loading-md"></span>
-      </div>
-    );
+
 
   return (
       <div className="h-[40rem] flex flex-col">

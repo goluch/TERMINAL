@@ -1,8 +1,10 @@
 import {useState} from "react";
 import { SortingState, PaginationState } from "@tanstack/react-table";
-import {useSampleDetails, useSamples} from "@hooks/useSampleQuery.ts";
+import {useSamples} from "@hooks/useSampleQuery.ts";
+
 import Samples from "@components/Samples/Samples.tsx";
 import SampleDetails from "@components/Samples/SampleDetails.tsx";
+import {useSampleDetails} from "@hooks/useSampleDetailsQuery.ts";
 
 const SamplesPage = () => {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -18,7 +20,7 @@ const SamplesPage = () => {
         desc: sorting[0]?.desc ?? true
     });
 
-    const [sampleDetailsId, setSampleDetailsId] = useState<string>("e60274d9-1e14-42c0-853a-cc0dfd599d2c");
+    const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
 
     const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
 
@@ -30,17 +32,35 @@ const SamplesPage = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="flex justify-center p-5 flex-wrap">
                 <div className="flex-1 bg-white p-3 rounded-md m-1">
-                    <Samples
-                        dataQuery={dataQuerySamples}
-                        sorting={sorting}
-                        pagination={pagination}
-                        setSorting={setSorting}
-                        setPagination={setPagination}
-                        onChangeSampleDetails={changeSampleDetails}
-                    />
+                    {dataQuerySamples.isLoading ?
+                        (
+                            <div className="flex justify-center">
+                                <span className="loading loading-spinner loading-md"></span>
+                            </div>
+                        ):
+                        (   <Samples
+                                dataQuery={dataQuerySamples.data}
+                                sorting={sorting}
+                                pagination={pagination}
+                                setSorting={setSorting}
+                                setPagination={setPagination}
+                                onChangeSampleDetails={changeSampleDetails}
+                            />
+                        )
+                    }
                 </div>
                 <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
-                    <SampleDetails dataQuery={dataQuerySampleDetails}/>
+                    {dataQuerySampleDetails.isLoading ?
+                        (
+                            <div className="flex justify-center">
+                                <span className="loading loading-spinner loading-md"></span>
+                            </div>
+                        )
+                        :
+                        (
+                            sampleDetailsId ? <SampleDetails dataQuery={dataQuerySampleDetails.data}/> : ""
+                        )
+                    }
                 </div>
             </div>
         </div>
