@@ -18,6 +18,7 @@ export interface ProjectsProps {
     setSorting: OnChangeFn<SortingState>;
     pagination: PaginationState;
     setPagination: OnChangeFn<PaginationState>
+    onChangeProjectDetails: (id: string) => void;
 }
 
 const Projects = (props: ProjectsProps) => {
@@ -49,8 +50,7 @@ const Projects = (props: ProjectsProps) => {
     });
 
     const handleClick = (id: string | null | undefined) => {
-        // props.onChangeSampleDetails?.(id?.toString() ?? "");
-        console.log("Test", id)
+        props.onChangeProjectDetails?.(id?.toString() ?? "");
     };
 
     return (
