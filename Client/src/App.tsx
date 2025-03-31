@@ -9,6 +9,7 @@ import SamplesPage from "./pages/SamplesPage";
 import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
 import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
+import ProjectsPage from "@pages/ProjectsPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ export default function App() {
                 <Routes>
                     <Route element={<AuthorizedLayout />}>
                         <Route path="/samples" element={<SamplesPage />} />
+                        <Route path="/projects" element={<ProjectsPage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/settings" element={<SettingsPage />} />
                         <Route path="/add-new-project" element={<NewProjectForm />} />
