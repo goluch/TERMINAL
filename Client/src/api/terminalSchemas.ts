@@ -257,3 +257,13 @@ export type ProjectDetailsDto = {
     samplesIds: string [];
 }
 
+export type RecipeDto = {
+    id:string;
+    name:string
+}
+
+export type RecipeDetailsDto ={
+    id: string;
+    name:string;
+    steps: SampleStep[];
+}
