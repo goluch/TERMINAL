@@ -26,8 +26,8 @@ const RecipesPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <div className="flex justify-center p-5 flex-wrap">
-                <div className="flex-1 bg-white p-3 rounded-md m-1">
+            <div className="flex justify-center p-5 flex-wrap items-start">
+                <div className="flex-1 bg-white p-3 rounded-md m-1 ">
                     {dataQueryRecipes.isLoading ?
                         (
                             <div className="flex justify-center">
@@ -46,7 +46,7 @@ const RecipesPage = () => {
                         )
                     }
                 </div>
-                <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
+                <div className="flex-1 bg-white p-3 rounded-md m-1">
                     {dataQueryRecipeDetails.isLoading ?
                         (
                             <div className="flex justify-center">
