@@ -1,12 +1,16 @@
 import {flexRender, Table} from "@tanstack/react-table";
-import {ProjectDto, SampleDto} from "@api/terminalSchemas.ts";
+import clsx from "clsx";
 
-export interface TableViewProps{
-    table: Table<ProjectDto | SampleDto>
+interface TableElement {
+    id: string;
+}
+
+export interface TableViewProps<T extends TableElement>{
+    table: Table<T>
     handleClickRow: (id: string)=> void;
 }
 
-const TableView = (props: TableViewProps) => {
+const TableView = <T extends TableElement,>(props: TableViewProps<T>) => {
     return (
         <table className="table">
             <thead>
@@ -15,12 +19,8 @@ const TableView = (props: TableViewProps) => {
                     {headerGroup.headers.map((header) => (
                         <th key={header.id}>
                             <div
-                                {...{
-                                    className: header.column.getCanSort()
-                                        ? "cursor-pointer select-none"
-                                        : "",
-                                    onClick: header.column.getToggleSortingHandler(),
-                                }}
+                                onClick={header.column.getToggleSortingHandler()}
+                                className={clsx(header.column.getCanSort() && "cursor-pointer select-none")}
                             >
                                 {flexRender(
                                     header.column.columnDef.header,

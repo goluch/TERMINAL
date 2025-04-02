@@ -17,7 +17,6 @@ export type ProjectsQueryResponse = {
 async function fetchDataProject(params:ProjectsRequest): Promise<ProjectsQueryResponse> {
     const projects = await apiClient.get('/projects', {params});
     const amountOfProjects = await apiClient.get('/projects/amount');
-    console.log(projects)
     return{
         rows: projects.data.projects,
         pageAmount: Math.ceil(amountOfProjects.data / params.pageSize),
