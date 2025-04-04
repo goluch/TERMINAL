@@ -223,7 +223,6 @@ export type UpdateTagRequest = {
     name?: string | null;
 };
 
-
 export type SampleDto = {
     id: string;
     code: string;
@@ -242,4 +241,16 @@ export type SampleDetailsDto = {
     steps?: SampleStep[] | null;
     tags?: TagDto[] | null;
 };
+
+export type ProjectDto = {
+    id: string;
+    name: string;
+}
+
+export type ProjectDetailsDto = {
+    id: string;
+    name: string;
+    isActive: boolean;
+    samplesIds: string [];
+}
 

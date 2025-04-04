@@ -9,8 +9,6 @@ const SampleDetails = (props: SampleDetailsProps) => {
 
     const date = new Date (props.dataQuery?.createdAtUtc ?? "");
 
-
-
   return (
     <div className="card-body">
       <div className="card-title text-4xl">Details</div>

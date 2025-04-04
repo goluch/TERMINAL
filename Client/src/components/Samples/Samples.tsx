@@ -1,6 +1,5 @@
-import { SampleDto } from "@api/terminalSchemas";
+import {SampleDto} from "@api/terminalSchemas";
 import { OnChangeFn } from "@tanstack/react-table";
-import SamplesTable from "./SamplesTable";
 import {
   getCoreRowModel,
   useReactTable,
@@ -8,9 +7,9 @@ import {
   SortingState,
   PaginationState,
 } from "@tanstack/react-table";
-import SamplesTableManage from "./SamplesTableManage";
-import {useEffect} from "react";
 import {SamplesResponse} from "@hooks/useSampleQuery.ts";
+import TableView from "@components/Shared/Table/TableView.tsx";
+import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
@@ -21,43 +20,41 @@ export interface SamplesProps {
   setPagination: OnChangeFn<PaginationState>;
 }
 
+const columnHelper = createColumnHelper<SampleDto>();
+const columns = [
+  columnHelper.accessor("code", {
+    header: "Code",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("project", {
+    header: "Project Name",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("createdAtUtc", {
+    header: "Created At",
+    cell: (info) => {
+      const date: Date = new Date(info.getValue());
+      return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+    },
+  }),
+  columnHelper.accessor("comment", {
+    header: "Comment",
+    cell: (info) => info.getValue(),
+
+  }),
+];
+
 const Samples = (props: SamplesProps) => {
-  useEffect(()=>{
-
-  }, [props])
-  const columnHelper = createColumnHelper<SampleDto>();
-  const columns = [
-    columnHelper.accessor("code", {
-      header: "Code",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("project", {
-      header: "Project Name",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("createdAtUtc", {
-      header: "Created At",
-      cell: (info) => {
-        const date: Date = new Date(info.getValue());
-        return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
-      },
-    }),
-    columnHelper.accessor("comment", {
-      header: "Comment",
-      cell: (info) => info.getValue(),
-
-    }),
-  ];
 
   const table = useReactTable({
     columns: columns,
-    data: props.dataQuery.rows ?? [],
+    data: props.dataQuery?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     state: {
       sorting: props.sorting,
       pagination: props.pagination,
     },
-    rowCount: props.dataQuery.rowsAmount ?? 0,
+    rowCount: props.dataQuery?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,
@@ -73,9 +70,9 @@ const Samples = (props: SamplesProps) => {
   return (
       <div className="h-[40rem] flex flex-col">
         <div className="flex-1 overflow-auto">
-          <SamplesTable table={table} handleClickSample={handleClick} />
+          <TableView<SampleDto> table={table} handleClickRow={handleClick} />
         </div>
-        <SamplesTableManage table={table} />
+        <TableManagement<SampleDto> table={table} />
       </div>
 
   );
