@@ -1,5 +1,4 @@
 import { Table } from "@tanstack/react-table";
-import {ProjectDto, SampleDto} from "@api/terminalSchemas";
 import {
     ChevronLeftIcon,
     ChevronDoubleLeftIcon,
@@ -8,11 +7,11 @@ import {
 } from "@heroicons/react/16/solid";
 import { Button } from "@headlessui/react";
 
-export interface TableManagementProps {
-    table: Table<ProjectDto | SampleDto>;
+export interface TableManagementProps<T> {
+    table: Table<T>;
 }
 
-const TableManagement = (props: TableManagementProps) => {
+const TableManagement = <T,>(props: TableManagementProps<T>) => {
     return (
         <div className="m-1 flex justify-between">
             <Button

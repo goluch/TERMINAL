@@ -19,15 +19,17 @@ export interface RecipesProps {
     setPagination: OnChangeFn<PaginationState>
     onChangeRecipeDetails: (id: string) => void;
 }
-const Recipes = (props: RecipesProps) => {
-    const columnHelper = createColumnHelper<ProjectDto | SampleDto | RecipeDto>();
 
-    const columns = [
-        columnHelper.accessor("name", {
-            header: "Name",
-            cell: (info) => info.getValue(),
-        }),
-    ];
+const columnHelper = createColumnHelper<ProjectDto | SampleDto | RecipeDto>();
+
+const columns = [
+    columnHelper.accessor("name", {
+        header: "Name",
+        cell: (info) => info.getValue(),
+    }),
+];
+
+const Recipes = (props: RecipesProps) => {
 
     const table = useReactTable({
         columns: columns,

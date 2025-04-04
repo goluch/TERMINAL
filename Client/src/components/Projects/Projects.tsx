@@ -6,9 +6,8 @@ import {
     SortingState,
     useReactTable
 } from "@tanstack/react-table";
-import {ProjectDto, SampleDto} from "@api/terminalSchemas.ts";
+import {ProjectDto} from "@api/terminalSchemas.ts";
 import {ProjectsQueryResponse} from "@hooks/useProjectQuery.ts";
-import {useEffect} from "react";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 
@@ -21,18 +20,15 @@ export interface ProjectsProps {
     onChangeProjectDetails: (id: string) => void;
 }
 
-const Projects = (props: ProjectsProps) => {
-    const columnHelper = createColumnHelper<ProjectDto | SampleDto>();
-
-    const columns = [
-        columnHelper.accessor("name", {
+const columnHelper = createColumnHelper<ProjectDto>();
+const columns= [
+    columnHelper.accessor("name", {
             header: "Name",
             cell: (info) => info.getValue(),
-        }),
-    ];
-    useEffect(()=>{
-        console.log(props.dataQuery)
-    },[props.dataQuery])
+    })
+]
+
+const Projects = (props: ProjectsProps) => {
 
     const table = useReactTable({
         columns: columns,
@@ -56,9 +52,9 @@ const Projects = (props: ProjectsProps) => {
     return (
         <div className="h-[40rem] flex flex-col">
             <div className="flex-1 overflow-auto">
-                <TableView table={table} handleClickRow={handleClick} />
+                <TableView<ProjectDto> table={table} handleClickRow={handleClick} />
             </div>
-            <TableManagement table={table} />
+            <TableManagement<ProjectDto> table={table} />
         </div>
     );
 };

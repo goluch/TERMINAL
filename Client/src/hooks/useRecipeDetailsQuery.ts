@@ -4,7 +4,6 @@ import apiClient from "@api/apiClient.ts";
 
 
 async function fetchRecipeDetails(id: string|null):Promise<RecipeDetailsDto>{
-    if (id === null) return {id: "",name: "", steps: []};
     return (await apiClient.get(`/recipes/${id}/details`)).data;
 }
 
@@ -13,6 +12,7 @@ export function useRecipeDetails(id: string|null ){
     return useQuery({
         queryKey:['recipeDetails', id],
         queryFn: () => fetchRecipeDetails(id),
-        placeholderData: keepPreviousData
+        placeholderData: keepPreviousData,
+        enabled: (id !== null)
     })
 }

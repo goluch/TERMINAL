@@ -17,7 +17,6 @@ export interface Navigation {
 const navigation: Navigation[] = [
   { name: "Home", href: "/" },
   { name: "Add project", href: "/add-new-project" },
-  { name: "Samples", href: "/samples" },
   { name: "Projects", href: "/projects" },
   { name: "Recipes", href:"/recipes"}
 ];
