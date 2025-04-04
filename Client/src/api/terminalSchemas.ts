@@ -224,6 +224,7 @@ export type UpdateTagRequest = {
 };
 
 export type SampleDto = {
+    id: string;
     code?: string;
     projectName?: string;
     createdAt?: Date | null;
@@ -243,3 +244,16 @@ export type SamplesQueryResponse = {
     rowCount: number;
     pageCount: number;
 };
+
+export type ProjectDto = {
+    id: string;
+    name: string;
+}
+
+export type ProjectDetailsDto = {
+    id: string;
+    name: string;
+    isActive: boolean;
+    samplesIds: string [];
+}
+
