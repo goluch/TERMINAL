@@ -13,5 +13,5 @@
     "theme": "default",
     "tsconfig": "./tsconfig.json",
     "hideGenerator": true,
-    "readme": "none",
+    "readme": "none"
 }

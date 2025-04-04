@@ -1,9 +1,6 @@
 name: Generate TypeDoc Documentation
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -14,21 +11,23 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: '16'
       
     - name: Install dependencies
       run: npm install
+      working-directory: TERMINAL/Client
 
     - name: Generate documentation
       run: npx typedoc
+      working-directory: TERMINAL/Client
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Upload TypeDoc artifact
+      uses: actions/upload-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
+        name: typedoc
+        path: TERMINAL/Client/docs
