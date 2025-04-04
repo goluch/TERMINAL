@@ -8,7 +8,6 @@ import {
 } from "@tanstack/react-table";
 import {ProjectDto} from "@api/terminalSchemas.ts";
 import {ProjectsQueryResponse} from "@hooks/useProjectQuery.ts";
-import {useState} from "react";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 
@@ -21,15 +20,15 @@ export interface ProjectsProps {
     onChangeProjectDetails: (id: string) => void;
 }
 
+const columnHelper = createColumnHelper<ProjectDto>();
+const columns= [
+    columnHelper.accessor("name", {
+            header: "Name",
+            cell: (info) => info.getValue(),
+    })
+]
+
 const Projects = (props: ProjectsProps) => {
-    const columnHelper = createColumnHelper<ProjectDto>();
-    const [columns] = useState(()=>
-        [
-            columnHelper.accessor("name", {
-                header: "Name",
-                cell: (info) => info.getValue(),
-            }),
-        ]);
 
     const table = useReactTable({
         columns: columns,
