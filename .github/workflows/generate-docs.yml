@@ -20,14 +20,14 @@ jobs:
       
     - name: Install dependencies
       run: npm install
-      working-directory: TERMINAL/Client
+      working-directory: Client
 
     - name: Generate documentation
       run: npx typedoc
-      working-directory: TERMINAL/Client
+      working-directory: Client
 
     - name: Upload TypeDoc artifact
       uses: actions/upload-artifact@v4
       with:
         name: typedoc
-        path: TERMINAL/Client/docs
+        path: Client/docs
