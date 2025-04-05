@@ -19,6 +19,7 @@ const navigation: Navigation[] = [
   { name: "Add project", href: "/add-new-project" },
   { name: "Samples", href: "/samples" },
   { name: "Projects", href: "/projects" },
+    { name: "Users", href: "/users" },
 ];
 
 /**

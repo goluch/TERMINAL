@@ -7,6 +7,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import SettingsPage from "./pages/SettingsPage";
 import RegisterPage from "./pages/RegisterPage";
 import SamplesPage from "./pages/SamplesPage";
+import UsersPage from "@pages/UsersPage.tsx";
 import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
 import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
@@ -21,6 +22,7 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route element={<AuthorizedLayout />}>
+                        <Route path="/users" element={<UsersPage />} />
                         <Route path="/samples" element={<SamplesPage />} />
                         <Route path="/projects" element={<ProjectsPage />} />
                         <Route path="/register" element={<RegisterPage />} />
