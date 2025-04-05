@@ -1,7 +1,8 @@
 import { UseQueryResult } from "react-query";
+import { SampleDto } from "@api/terminalSchemas";
 
 export interface SampleDetailsProps {
-  dataQuery: UseQueryResult;
+    dataQuery: UseQueryResult<SampleDto>;
 }
 
 const SampleDetails = (props: SampleDetailsProps) => {

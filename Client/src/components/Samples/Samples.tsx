@@ -13,7 +13,7 @@ import SamplesTableManage from "./SamplesTableManage";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
-  dataQuery: UseQueryResult;
+  dataQuery: UseQueryResult<SamplesQueryResponse>;
   sorting: SortingState;
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;

@@ -228,6 +228,9 @@ export type SampleDto = {
     code?: string;
     projectName?: string;
     createdAt?: Date | null;
+    tags?: string[];
+    comment?: string;
+    steps?: string[];
 };
 
 export type SampleDetailsDto = {
