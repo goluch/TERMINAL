@@ -225,24 +225,21 @@ export type UpdateTagRequest = {
 
 export type SampleDto = {
     id: string;
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
+    code: string;
+    project: string;
+    createdAtUtc: Date;
+    comment: string
 };
 
 export type SampleDetailsDto = {
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
-    comment?: string | null;
+    id: string
+    code: string;
+    recipe?: string;
+    createdAtUtc: Date;
+    comment: string
+    projectId: string;
     steps?: SampleStep[] | null;
-    tags?: string[] | null;
-};
-
-export type SamplesQueryResponse = {
-    rows: SampleDto[];
-    rowCount: number;
-    pageCount: number;
+    tags?: TagDto[] | null;
 };
 
 export type ProjectDto = {
