@@ -11,10 +11,10 @@ import TerminalNavbarContent from "./TerminalNavbarContent";
  */
 const Navbar = () => {
   return (
-    <nav className="h-screen min-h-screen max-h-screen w-80 p-2">
+    <nav className="h-screen min-h-screen max-h-screen min-w-72 p-2">
       <div className="h-full hidden sm:inline-flex w-full flex-col justify-between rounded-md border border-solid bg-white border-gray-200">
         <div className="navbar-start w-full flex flex-col rounded-md bg-white">
-          <div className="flex y-4 items-center bg-white p-4 rounded-t-md">
+          <div className="flex flex-wrap y-4 items-center bg-white p-4 rounded-t-md">
             <p className="text-xl font-semibold">Terminal</p>
             <CommandLineIcon className="h-5 w-5" />
           </div>

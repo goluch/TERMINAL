@@ -9,6 +9,11 @@ function getUserRoleDisplayValue(role: string): string {
   throw new Error("Invalid role");
 }
 
+function getEmailInitials(email: string): string {
+  const [first, last] = email.split("@");
+  return `${first[0]}${last[0]}`.toUpperCase();
+}
+
 function getAvatarColor(email: string): string {
   const hash = email
     .split("")
@@ -28,12 +33,12 @@ const NavbarUserProfile = () => {
       <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 hover:cursor-pointer">
         <div
           style={{ backgroundColor: getAvatarColor(data?.email) }}
-          className="text-white w-12 h-10 rounded-lg flex justify-center items-center"
+          className="flex text-white w-10 h-10 rounded-md justify-center items-center"
         >
-          <span>GG</span>
+          <span>{getEmailInitials(data?.email)}</span>
         </div>
-        <div className="flex flex-col justify-start w-full">
-          <p className="text-sm w-full">{data?.email}</p>
+        <div className="flex flex-col justify-start">
+          <p className="text-sm">{data?.email}</p>
           <p className="text-xs text-gray-500">
             {getUserRoleDisplayValue(data?.role)}
           </p>
