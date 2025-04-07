@@ -17,7 +17,6 @@ interface MobileDropdownButtonProps {
  *
  * @component
  * @param {MobileDropdownButtonProps} props - The props for the MobileDropdownButton component
- * @returns {JSX.Element} - The rendered MobileDropdownButton component.
  */
 const NavMobileDropdown = (props: MobileDropdownButtonProps) => {
   return (
