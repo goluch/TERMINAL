@@ -165,7 +165,7 @@ export type SampleStep = {
      * @format uuid
      */
     id?: string | null;
-    values?: ParameterValue[] | null;
+    parameters?: ParameterValue[] | null;
     comment?: string | null;
 };
 
@@ -254,3 +254,26 @@ export type ProjectDetailsDto = {
     samplesIds: string [];
 }
 
+export type RecipeDto = {
+    id:string;
+    name:string
+}
+
+export type RecipeDetailsDto ={
+    id: string;
+    name:string;
+    steps: SampleStepDto[];
+}
+
+export type SampleStepDto = {
+    id: string | null;
+    parameters?: ParameterDto[] | null;
+    comment?: string | null;
+};
+
+export type ParameterDto = {
+    id: string;
+    name: string;
+    value: string;
+    unit: string;
+}

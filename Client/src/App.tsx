@@ -5,11 +5,11 @@ import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SettingsPage from "./pages/SettingsPage";
 import RegisterPage from "./pages/RegisterPage";
-import SamplesPage from "./pages/SamplesPage";
 import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
 import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
+import RecipesPage from "@pages/RecipesPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -19,8 +19,8 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route element={<AuthorizedLayout />}>
-                        <Route path="/samples" element={<SamplesPage />} />
                         <Route path="/projects" element={<ProjectsPage />} />
+                        <Route path="/recipes" element={<RecipesPage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/settings" element={<SettingsPage />} />
                         <Route path="/add-new-project" element={<NewProjectForm />} />
