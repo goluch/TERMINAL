@@ -10,19 +10,57 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import NavMobileDropdown from "./NavMobileDropdown";
 import { Link } from "react-router-dom";
 
-/**
- * Interface for navigation items
- */
-export interface Navigation {
-  name: string;
-  href: string;
-}
+type NavbarLink = { type: "link" } & NavbarItemProps;
+type NavbarLinkGroup = { type: "group"; links: NavbarLink[] };
 
-const navigation: Navigation[] = [
-  { name: "Home", href: "/" },
-  { name: "Add project", href: "/add-new-project" },
-  { name: "Projects", href: "/projects" },
-  { name: "Recipes", href: "/recipes" },
+type NavbarContent = NavbarLink | NavbarLinkGroup;
+
+const navigation: NavbarContent[] = [
+  { type: "group", text: "General" },
+  {
+    type: "link",
+    text: "Dashboard",
+    icon: <Squares2X2Icon className="w-5 h-5" />,
+    href: "/",
+  },
+  {
+    type: "link",
+    text: "Add new",
+    icon: <PlusCircleIcon className="w-5 h-5" />,
+    href: "/",
+  },
+  { type: "group", text: "Manage" },
+  {
+    type: "link",
+    text: "Samples",
+    icon: <EyeDropperIcon className="w-5 h-5" />,
+    href: "/",
+  },
+  {
+    type: "link",
+    text: "Projects",
+    icon: <ListBulletIcon className="w-5 h-5" />,
+    href: "/",
+  },
+  {
+    type: "link",
+    text: "Recipes",
+    icon: <LightBulbIcon className="w-5 h-5" />,
+    href: "/",
+  },
+  { type: "group", text: "Users" },
+  {
+    type: "link",
+    text: "Browse",
+    icon: <UserIcon className="w-5 h-5" />,
+    href: "/",
+  },
+  {
+    type: "link",
+    text: "Invite",
+    icon: <EnvelopeIcon className="w-5 h-5" />,
+    href: "/",
+  },
 ];
 
 /**
@@ -34,10 +72,7 @@ const navigation: Navigation[] = [
  */
 const Navbar = () => {
   return (
-    <Disclosure
-      as="nav"
-      className="h-screen min-h-screen max-h-screen w-80 p-2"
-    >
+    <nav className="h-screen min-h-screen max-h-screen w-80 p-2">
       <NavMobileDropdown navigationItems={navigation} />
       <div className="h-full hidden sm:inline-flex w-full flex-col justify-between rounded-md border border-solid bg-white border-gray-200">
         <div className="navbar-start w-full flex flex-col rounded-md bg-white">
@@ -46,56 +81,30 @@ const Navbar = () => {
             <CommandLineIcon className="h-5 w-5" />
           </div>
           <div className="h-px border-t border-solid border-gray-200 w-full"></div>
-          <div className="flex flex-col p-4 bg-white">
-            <p className="text-xs text-gray-500 ml-2">General</p>
-            <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
-              <Squares2X2Icon className="w-5 h-5" />
-              <p className="text-sm">Dashboard</p>
-            </div>
-            <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
-              <PlusCircleIcon className="w-5 h-5" />
-              <p className="text-sm">Add new</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-5 ml-2">Manage</p>
-            <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
-              <EyeDropperIcon className="w-5 h-5" />
-              <p className="text-sm">Samples</p>
-            </div>
-            <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
-              <ListBulletIcon className="w-5 h-5" />
-              <p className="text-sm">Projects</p>
-            </div>
-            <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
-              <LightBulbIcon className="w-5 h-5" />
-              <p className="text-sm">Recipes</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-5 ml-2">Users</p>
-            <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
-              <UserIcon className="w-5 h-5" />
-              <p className="text-sm">Browse</p>
-            </div>
-            <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
-              <EnvelopeIcon className="w-5 h-5" />
-              <p className="text-sm">Invite</p>
-            </div>
-          </div>
+          <TerminalNavbarContent />
         </div>
         <div className="navbar-end w-full">
           <div className="h-px border-t border-solid border-gray-200 w-full"></div>
-          <div className="p-2 bg-white rounded-b-md">
-            <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 hover:cursor-pointer">
-              <div className="bg-neutral text-neutral-content w-12 h-10 rounded-lg flex justify-center items-center">
-                <span>GG</span>
-              </div>
-              <div className="flex flex-col justify-start w-full">
-                <p className="text-sm w-full">Gracjan Grzech</p>
-                <p className="text-xs text-gray-500">Lab worker</p>
-              </div>
-            </div>
-          </div>
+          <NavbarUserProfile />
         </div>
       </div>
-    </Disclosure>
+    </nav>
+  );
+};
+
+const NavbarUserProfile = () => {
+  return (
+    <div className="p-2 bg-white rounded-b-md">
+      <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 hover:cursor-pointer">
+        <div className="bg-neutral text-neutral-content w-12 h-10 rounded-lg flex justify-center items-center">
+          <span>GG</span>
+        </div>
+        <div className="flex flex-col justify-start w-full">
+          <p className="text-sm w-full">Gracjan Grzech</p>
+          <p className="text-xs text-gray-500">Lab worker</p>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -113,6 +122,68 @@ const NavbarItem = ({ icon, text, href }: NavbarItemProps) => {
         <p className="text-sm">{text}</p>
       </div>
     </Link>
+  );
+};
+
+type NavbarLinkGroupProps = {
+  text: string;
+  children: React.ReactNode;
+};
+
+const NavbarLinkGroup = ({ text, children }: NavbarLinkGroupProps) => {
+  return (
+    <div>
+      <p className="text-xs text-gray-500 ml-2">{text}</p>
+      <div className="flex flex-col">{children}</div>
+    </div>
+  );
+};
+
+const TerminalNavbarContent = () => {
+  return (
+    <div className="flex flex-col p-4 gap-5 bg-white">
+      <NavbarLinkGroup text="General">
+        <NavbarItem
+          text="Dashboard"
+          href="/"
+          icon={<Squares2X2Icon className="h-5 w-5" />}
+        />
+        <NavbarItem
+          text="Add new"
+          href="/"
+          icon={<PlusCircleIcon className="h-5 w-5" />}
+        />
+      </NavbarLinkGroup>
+      <NavbarLinkGroup text="Manage">
+        <NavbarItem
+          text="Samples"
+          href="/samples"
+          icon={<EyeDropperIcon className="h-5 w-5" />}
+        />
+        <NavbarItem
+          text="Projects"
+          href="/projects"
+          icon={<ListBulletIcon className="h-5 w-5" />}
+        />
+        <NavbarItem
+          text="Recipes"
+          href="/"
+          icon={<LightBulbIcon className="h-5 w-5" />}
+        />
+      </NavbarLinkGroup>
+      <NavbarLinkGroup text="Users">
+        <NavbarItem
+          text="Browse"
+          href="/users"
+          icon={<UserIcon className="h-5 w-5" />}
+        />
+        <NavbarItem
+          text="Invite"
+          href="/settings"
+          icon={<EnvelopeIcon className="h-5 w-5" />}
+        />
+      </NavbarLinkGroup>
+    </div>
   );
 };
 

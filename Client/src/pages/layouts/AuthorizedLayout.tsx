@@ -14,7 +14,7 @@ const AuthorizedNavbarLayout = () => {
   }
 
   return (
-    <div className="min-h-screen w-screen flex bg-gray-100">
+    <div className="min-h-screen w-screen flex flex-col sm:flex-row bg-gray-100">
       <Navbar />
       <Outlet />
     </div>
