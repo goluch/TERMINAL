@@ -165,7 +165,7 @@ export type SampleStep = {
      * @format uuid
      */
     id?: string | null;
-    values?: ParameterValue[] | null;
+    parameters?: ParameterValue[] | null;
     comment?: string | null;
 };
 
@@ -225,27 +225,21 @@ export type UpdateTagRequest = {
 
 export type SampleDto = {
     id: string;
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
-    tags?: string[];
-    comment?: string;
-    steps?: string[];
+    code: string;
+    project: string;
+    createdAtUtc: Date;
+    comment: string
 };
 
 export type SampleDetailsDto = {
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
-    comment?: string | null;
+    id: string
+    code: string;
+    recipe?: string;
+    createdAtUtc: Date;
+    comment: string
+    projectId: string;
     steps?: SampleStep[] | null;
-    tags?: string[] | null;
-};
-
-export type SamplesQueryResponse = {
-    rows: SampleDto[];
-    rowCount: number;
-    pageCount: number;
+    tags?: TagDto[] | null;
 };
 
 export type ProjectDto = {
@@ -260,3 +254,26 @@ export type ProjectDetailsDto = {
     samplesIds: string [];
 }
 
+export type RecipeDto = {
+    id:string;
+    name:string
+}
+
+export type RecipeDetailsDto ={
+    id: string;
+    name:string;
+    steps: SampleStepDto[];
+}
+
+export type SampleStepDto = {
+    id: string | null;
+    parameters?: ParameterDto[] | null;
+    comment?: string | null;
+};
+
+export type ParameterDto = {
+    id: string;
+    name: string;
+    value: string;
+    unit: string;
+}
