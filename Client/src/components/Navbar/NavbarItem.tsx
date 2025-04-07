@@ -10,9 +10,11 @@ const NavbarItem = ({ icon, text, href }: NavbarItemProps) => {
   return (
     <NavLink
       to={href}
-      className={({ isActive }) => (isActive ? "bg-gray-200 rounded-md" : "")}
+      className={({ isActive }) =>
+        isActive ? "bg-gray-200/60 rounded-md" : ""
+      }
     >
-      <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200 cursor-pointer">
+      <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200/60 cursor-pointer">
         {icon}
         <p className="text-sm">{text}</p>
       </div>
