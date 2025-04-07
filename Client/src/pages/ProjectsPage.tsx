@@ -23,7 +23,7 @@ const ProjectsPage = () => {
   const dataQueryProjectDetails = useProjectDetails(projectDetailsId);
 
   return (
-    <div className="min-h-screen w-full">
+    <div>
       <div className="flex justify-center p-5 flex-wrap">
         <div className="flex-1 bg-white p-3 rounded-md m-1">
           {dataQueryProjects.isLoading ? (
