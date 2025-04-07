@@ -10,6 +10,7 @@ import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
+import SamplesPage from "@pages/SamplesPage";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,9 @@ export default function App() {
           </Route>
           <Route element={<AuthorizedLayout pageName="Settings" />}>
             <Route path="/settings" element={<SettingsPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Samples" />}>
+            <Route path="/samples" element={<SamplesPage />} />
           </Route>
 
           <Route element={<NoNavbarLayout />}>

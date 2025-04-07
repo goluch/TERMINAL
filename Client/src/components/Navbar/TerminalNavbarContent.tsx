@@ -38,7 +38,7 @@ const TerminalNavbarContent = () => {
         />
         <NavbarItem
           text="Recipes"
-          href="/"
+          href="/recipes"
           icon={<LightBulbIcon className="h-5 w-5" />}
         />
       </NavbarLinkGroup>

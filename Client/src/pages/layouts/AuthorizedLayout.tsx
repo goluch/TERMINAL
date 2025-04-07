@@ -21,7 +21,7 @@ const AuthorizedNavbarLayout = ({ pageName }: AuthorizedNavbarLayoutProps) => {
     <div className="min-h-screen w-screen flex flex-col gap-2 sm:flex-row bg-gray-200">
       <Navbar />
       <div className="p-2 ps-0 h-screen min-h-screen max-h-screen w-full">
-        <div className="bg-white rounded-md inline-block border border-gray-200 w-full h-full">
+        <div className="bg-white rounded-md inline-block border border-gray-200 w-full h-full overflow-hidden">
           <div className="h-[60px] text-xl flex font-medium items-center px-4 rounded-md">
             {pageName}
           </div>
