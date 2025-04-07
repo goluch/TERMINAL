@@ -1,6 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
+import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SettingsPage from "./pages/SettingsPage";
@@ -8,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage";
 import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
 import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
+import { toastOptions } from "./utils/toast.utils.tsx";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
 import SamplesPage from "@pages/SamplesPage";
