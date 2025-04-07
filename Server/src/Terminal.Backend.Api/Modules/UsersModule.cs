@@ -154,7 +154,7 @@ public static class UsersModule
             }).RequireAuthorization(Role.Registered)
             .WithTags(SwaggerSetup.UserTag);
         
-        app.MapPatch(ApiBaseRoute + "/me", async (
+        app.MapGet(ApiBaseRoute + "/me", async (
                 ClaimsPrincipal claims,
                 ISender sender,
                 CancellationToken ct) =>
