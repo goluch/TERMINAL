@@ -4,6 +4,7 @@ import { PaginationState, SortingState } from "@tanstack/react-table";
 import { SampleDto, SamplesQueryResponse } from "../api/terminalSchemas";
 
 const samplesData: SampleDto[] = Array.from({ length: 100 }, (_, i) => ({
+    id: `sample-${i + 1}`,
     code: `AS${i + 1}`,
     projectName: "TEST",
     createdAt: new Date(2021, 8, i + 1),
