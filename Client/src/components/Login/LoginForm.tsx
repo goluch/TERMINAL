@@ -4,7 +4,9 @@ import InputField from "@components/Shared/Forms/InputField.tsx";
 import SubmitButton from "@components/Shared/Forms/SubmitButton.tsx";
 import { useLoginMutation } from "@hooks/useLoginMutation.ts";
 import { LoginRequest } from "@api/terminalSchemas";
-import { Navigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {toastNotify, toastPromise} from "../../utils/toast.utils.tsx";
+
 
 /**
  * LoginForm Component
@@ -12,9 +14,11 @@ import { Navigate, redirect } from "react-router-dom";
  * A form component for user login supporting email validation.
  *
  * @component
+ * @returns {JSX.Element} - The rendered LoginForm component.
  */
 const LoginForm = () => {
     const mutation = useLoginMutation();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(true);
@@ -29,10 +33,10 @@ const LoginForm = () => {
             e.preventDefault();
 
             const emailValid = validateEmail(email);
-
             setIsEmailValid(emailValid);
 
             if (!emailValid) {
+                toastNotify.error("Please enter a valid email address");
                 return;
             }
 
@@ -41,18 +45,23 @@ const LoginForm = () => {
                 password: password,
             };
 
-            await mutation.mutateAsync(loginRequest);
-
-            if (mutation.isSuccess) {
-                redirect("/");
+            try {
+                await toastPromise(
+                    mutation.mutateAsync(loginRequest),
+                    {
+                        loading: "Logging in...",
+                        success: "Login successful",
+                        error: "Login failed",
+                    }
+                );
+                navigate("/");
+            } catch {
+                // Error is handled by toastPromise
             }
+
         },
         [mutation, email, password],
     );
-
-    if (mutation.isSuccess) {
-        return <Navigate to="/" />;
-    }
 
     return (
         <div className="bg-white px-4 py-5 rounded-lg border-[1px] border-black/15 max-w-3xl w-full">
