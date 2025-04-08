@@ -7,7 +7,7 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import {ProjectDto} from "@api/terminalSchemas.ts";
-import {ProjectsQueryResponse} from "@hooks/useProjectQuery.ts";
+import {ProjectsQueryResponse} from "@hooks/projects/useProjectQuery.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 

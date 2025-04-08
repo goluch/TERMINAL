@@ -7,7 +7,7 @@ import {
   SortingState,
   PaginationState,
 } from "@tanstack/react-table";
-import {SamplesResponse} from "@hooks/useSampleQuery.ts";
+import {SamplesResponse} from "@hooks/samples/useGetSamples.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 

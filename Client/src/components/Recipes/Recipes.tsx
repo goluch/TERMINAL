@@ -6,7 +6,7 @@ import {
     SortingState,
     useReactTable
 } from "@tanstack/react-table";
-import {RecipesQueryResponse} from "@hooks/useRecipeQuery.ts";
+import {RecipesQueryResponse} from "@hooks/recipes/useGetRecipes.ts";
 import {ProjectDto, RecipeDto, SampleDto} from "@api/terminalSchemas.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";

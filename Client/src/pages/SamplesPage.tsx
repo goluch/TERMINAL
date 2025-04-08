@@ -1,10 +1,10 @@
 import {useState} from "react";
 import { SortingState, PaginationState } from "@tanstack/react-table";
-import {useSamples} from "@hooks/useSampleQuery.ts";
+import {useSamples} from "@hooks/samples/useGetSamples.ts";
 
 import Samples from "@components/Samples/Samples.tsx";
 import SampleDetails from "@components/Samples/SampleDetails.tsx";
-import {useSampleDetails} from "@hooks/useSampleDetailsQuery.ts";
+import {useSampleDetails} from "@hooks/samples/useGetSampleDetails.ts";
 
 const SamplesPage = () => {
     const [sorting, setSorting] = useState<SortingState>([]);
