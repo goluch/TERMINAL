@@ -18,7 +18,8 @@ const navigation: Navigation[] = [
   { name: "Home", href: "/" },
   { name: "Add project", href: "/add-new-project" },
   { name: "Projects", href: "/projects" },
-  { name: "Recipes", href:"/recipes"}
+  { name: "Recipes", href:"/recipes"},
+  { name: "Samples", href:"/samples"}
 ];
 
 /**
