@@ -5,6 +5,7 @@ import {useSamples} from "@hooks/samples/useGetSamples.ts";
 import Samples from "@components/Samples/Samples.tsx";
 import SampleDetails from "@components/Samples/SampleDetails.tsx";
 import {useSampleDetails} from "@hooks/samples/useGetSampleDetails.ts";
+import {useDeleteSample} from "@hooks/samples/useDeleteSample.ts";
 
 const SamplesPage = () => {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -19,6 +20,15 @@ const SamplesPage = () => {
         orderBy: sorting[0]?.id ?? "",
         desc: sorting[0]?.desc ?? true
     });
+
+    const mutation = useDeleteSample(
+        {
+            pageNumber: pagination.pageIndex,
+            pageSize: pagination.pageSize,
+            orderBy: sorting[0]?.id ?? "",
+            desc: sorting[0]?.desc ?? true
+        }
+    );
 
     const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
 
@@ -57,8 +67,9 @@ const SamplesPage = () => {
                             </div>
                         )
                         :
-                        (
-                            sampleDetailsId ? <SampleDetails dataQuery={dataQuerySampleDetails.data}/> : ""
+                        (<SampleDetails dataQuery={dataQuerySampleDetails.data}
+                                        mutation={mutation}
+                            />
                         )
                     }
                 </div>

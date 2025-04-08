@@ -1,13 +1,21 @@
 import {SampleDetailsDto} from "@api/terminalSchemas.ts";
-
+import {Button} from "@headlessui/react";
+import { UseMutationResult } from '@tanstack/react-query';
+import {AxiosResponse} from "axios";
 
 export interface SampleDetailsProps {
   dataQuery: SampleDetailsDto | undefined;
+  mutation: UseMutationResult<AxiosResponse<any>, Error, string, unknown> ;
 }
 
 const SampleDetails = (props: SampleDetailsProps) => {
 
     const date = new Date (props.dataQuery?.createdAtUtc ?? "");
+    const handleDeletion = () => {
+        if (props.dataQuery?.id !== undefined) {
+            props.mutation.mutateAsync(props.dataQuery.id).then(() => {});
+        }
+    }
 
   return (
     <div className="card-body">
@@ -32,6 +40,11 @@ const SampleDetails = (props: SampleDetailsProps) => {
       <div>{props.dataQuery?.comment}</div>
       <div className="font-bold">Number of steps: </div>
       <div>{props.dataQuery?.steps?.length}</div>
+        {props.dataQuery && (
+            <Button className="btn btn-outline btn-error" onClick={handleDeletion} disabled={props.mutation.isPending}>
+                Delete
+            </Button>
+        )}
     </div>
     </div>
   );
