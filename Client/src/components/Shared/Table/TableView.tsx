@@ -1,3 +1,5 @@
+import ChevronDownIcon from "@heroicons/react/24/outline/ChevronDownIcon";
+import ChevronUpIcon from "@heroicons/react/24/outline/ChevronUpIcon";
 import { flexRender, Table } from "@tanstack/react-table";
 import clsx from "clsx";
 
@@ -12,7 +14,7 @@ export interface TableViewProps<T extends TableElement> {
 
 const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
   return (
-    <table className="table overflow-auto">
+    <table className="table">
       <thead>
         {props.table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
@@ -22,6 +24,7 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
                   onClick={header.column.getToggleSortingHandler()}
                   className={clsx(
                     header.column.getCanSort() && "cursor-pointer select-none",
+                    "flex gap-2 items-center",
                   )}
                 >
                   {flexRender(
@@ -29,9 +32,11 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
                     header.getContext(),
                   )}
                   {{
-                    asc: " 🔼",
-                    desc: " 🔽",
-                  }[header.column.getIsSorted() as string] ?? null}
+                    asc: <ChevronUpIcon className="h-3" />,
+                    desc: <ChevronDownIcon className="h-3" />,
+                  }[header.column.getIsSorted() as string] ?? (
+                    <ChevronDownIcon className="h-3 invisible" />
+                  )}
                 </div>
               </th>
             ))}
