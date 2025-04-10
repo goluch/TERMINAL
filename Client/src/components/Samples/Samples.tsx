@@ -1,4 +1,4 @@
-import {SampleDto} from "@api/terminalSchemas";
+import { SampleDto } from "@api/terminalSchemas";
 import { OnChangeFn } from "@tanstack/react-table";
 import {
   getCoreRowModel,
@@ -7,7 +7,7 @@ import {
   SortingState,
   PaginationState,
 } from "@tanstack/react-table";
-import {SamplesResponse} from "@hooks/useSampleQuery.ts";
+import { SamplesResponse } from "@hooks/useSampleQuery.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 
@@ -34,18 +34,16 @@ const columns = [
     header: "Created At",
     cell: (info) => {
       const date: Date = new Date(info.getValue());
-      return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+      return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     },
   }),
   columnHelper.accessor("comment", {
     header: "Comment",
     cell: (info) => info.getValue(),
-
   }),
 ];
 
 const Samples = (props: SamplesProps) => {
-
   const table = useReactTable({
     columns: columns,
     data: props.dataQuery?.rows ?? [],
@@ -65,16 +63,11 @@ const Samples = (props: SamplesProps) => {
     props.onChangeSampleDetails?.(id?.toString() ?? "");
   };
 
-
-
   return (
-      <div className="h-[40rem] flex flex-col">
-        <div className="flex-1 overflow-auto">
-          <TableView<SampleDto> table={table} handleClickRow={handleClick} />
-        </div>
-        <TableManagement<SampleDto> table={table} />
-      </div>
-
+    <div className="h-[40rem] flex flex-col rounded-lg justify-between border border-gray-200">
+      <TableView<SampleDto> table={table} handleClickRow={handleClick} />
+      <TableManagement<SampleDto> table={table} />
+    </div>
   );
 };
 
