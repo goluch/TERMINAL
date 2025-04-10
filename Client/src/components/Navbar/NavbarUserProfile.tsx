@@ -36,7 +36,7 @@ const NavbarUserProfile = () => {
       <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 hover:cursor-pointer w-full">
         <div
           style={{ backgroundColor: getAvatarColor(data?.email) }}
-          className="flex text-white w-10 h-10 rounded-md justify-center items-center"
+          className="flex text-white w-10 h-10 rounded-md justify-center items-center noinvert"
         >
           <span>{getEmailInitials(data?.email)}</span>
         </div>

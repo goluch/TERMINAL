@@ -1,7 +1,11 @@
-import { Navigation } from "./Navbar.tsx";
 import { Link } from "react-router-dom";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+
+interface Navigation {
+  name: string;
+  href: string;
+}
 
 /**
  * Props interface for MobileDropdownButton component
