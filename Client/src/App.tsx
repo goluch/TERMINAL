@@ -12,28 +12,37 @@ import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
 import { toastOptions } from "./utils/toast.utils.tsx";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
+import SamplesPage from "@pages/SamplesPage";
 
 const queryClient = new QueryClient();
 
 export default function App() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <BrowserRouter>
-                <Routes>
-                    <Route element={<AuthorizedLayout />}>
-                        <Route path="/projects" element={<ProjectsPage />} />
-                        <Route path="/recipes" element={<RecipesPage />} />
-                        <Route path="/register" element={<RegisterPage />} />
-                        <Route path="/settings" element={<SettingsPage />} />
-                        <Route path="/add-new-project" element={<NewProjectForm />} />
-                        <Route path="*" element={<NotFoundPage />} />
-                    </Route>
-                    <Route element={<NoNavbarLayout />}>
-                        <Route path="/login" element={<LoginPage />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-            <Toaster toastOptions={toastOptions} />
-        </QueryClientProvider>
-    );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Toaster toastOptions={toastOptions} />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AuthorizedLayout pageName="Projects" />}>
+            <Route path="/projects" element={<ProjectsPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Recipes" />}>
+            <Route path="/recipes" element={<RecipesPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Settings" />}>
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Samples" />}>
+            <Route path="/samples" element={<SamplesPage />} />
+          </Route>
+
+          <Route element={<NoNavbarLayout />}>
+            <Route path="/add-new-project" element={<NewProjectForm />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
 }
