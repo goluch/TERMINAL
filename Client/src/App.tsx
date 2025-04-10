@@ -19,31 +19,30 @@ const queryClient = new QueryClient();
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="">
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AuthorizedLayout pageName="Projects" />}>
-              <Route path="/projects" element={<ProjectsPage />} />
-            </Route>
-            <Route element={<AuthorizedLayout pageName="Recipes" />}>
-              <Route path="/recipes" element={<RecipesPage />} />
-            </Route>
-            <Route element={<AuthorizedLayout pageName="Settings" />}>
-              <Route path="/settings" element={<SettingsPage />} />
-            </Route>
-            <Route element={<AuthorizedLayout pageName="Samples" />}>
-              <Route path="/samples" element={<SamplesPage />} />
-            </Route>
+      <Toaster toastOptions={toastOptions} />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AuthorizedLayout pageName="Projects" />}>
+            <Route path="/projects" element={<ProjectsPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Recipes" />}>
+            <Route path="/recipes" element={<RecipesPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Settings" />}>
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Samples" />}>
+            <Route path="/samples" element={<SamplesPage />} />
+          </Route>
 
-            <Route element={<NoNavbarLayout />}>
-              <Route path="/add-new-project" element={<NewProjectForm />} />
-              <Route path="*" element={<NotFoundPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </div>
+          <Route element={<NoNavbarLayout />}>
+            <Route path="/add-new-project" element={<NewProjectForm />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
