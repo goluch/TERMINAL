@@ -18,7 +18,7 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
       <table className="table">
         <thead>
           {props.table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="sticky">
+            <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
