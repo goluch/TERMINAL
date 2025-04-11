@@ -8,7 +8,7 @@ const TableCard = ({ children, className, ...props }: TableCardProps) => {
     <div
       {...props}
       className={clsx(
-        "h-[40rem] flex flex-col rounded-lg justify-between border border-gray-200",
+        "h-[40rem] flex flex-col rounded-lg justify-between border border-gray-200 overflow-hidden",
         className,
       )}
     >
