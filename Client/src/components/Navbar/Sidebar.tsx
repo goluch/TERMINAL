@@ -13,7 +13,7 @@ const Sidebar = () => {
     return (
         <nav className="h-screen min-h-screen max-h-screen min-w-72 p-2 pe-0">
             <div
-                className="h-full sm:inline-flex w-full flex-col justify-between rounded-md border border-solid bg-white border-gray-200 shadow-sm">
+                className="h-full inline-flex w-full flex-col justify-between rounded-md border border-solid bg-white border-gray-200 shadow-sm">
                 <div className="navbar-start w-full flex flex-col rounded-md bg-white">
                     <div className="flex y-4 items-center bg-white p-4 rounded-t-md">
                         <p className="text-xl font-semibold">Terminal</p>
