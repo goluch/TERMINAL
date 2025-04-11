@@ -1,15 +1,15 @@
 import {CommandLineIcon} from "@heroicons/react/24/outline";
-import NavbarUserProfilePopover from "./NavbarUserProfile";
-import TerminalNavbarContent from "./TerminalNavbarContent";
+import NavbarUserProfilePopover from "./SidebarUserProfile.tsx";
+import TerminalSidebarContent from "./TerminalSidebarContent.tsx";
 
 /**
- * Navbar Component
+ * Sidebar Component
  *
  * A navigation bar component that includes navigation items, a user profile dropdown, and authentication buttons.
  *
  * @component
  */
-const Navbar = () => {
+const Sidebar = () => {
     return (
         <nav className="h-screen min-h-screen max-h-screen min-w-72 p-2 pe-0">
             <div
@@ -20,7 +20,7 @@ const Navbar = () => {
                         <CommandLineIcon className="h-5 w-5"/>
                     </div>
                     <div className="h-px border-t border-solid border-gray-200 w-full"></div>
-                    <TerminalNavbarContent/>
+                    <TerminalSidebarContent/>
                 </div>
                 <div className="navbar-end w-full">
                     <div className="h-px border-t border-solid border-gray-200 w-full"></div>
@@ -31,4 +31,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Sidebar;

@@ -1,6 +1,6 @@
 import {Navigate, Outlet} from "react-router-dom";
 import {useIsAuthenticated} from "../../hooks/useIsAuthenticated";
-import Navbar from "../../components/Navbar/Navbar";
+import Sidebar from "@components/Navbar/Sidebar.tsx";
 import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
 
 type AuthorizedNavbarLayoutProps = {
@@ -44,7 +44,7 @@ const AuthorizedNavbarLayout = ({pageName}: AuthorizedNavbarLayoutProps) => {
                         aria-label="close sidebar"
                         className="drawer-overlay"
                     ></label>
-                    <Navbar/>
+                    <Sidebar/>
                 </div>
             </div>
         </div>
