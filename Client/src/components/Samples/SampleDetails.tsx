@@ -15,13 +15,13 @@ const SampleDetails = (props: SampleDetailsProps) => {
       <div className="p-2 flex flex-col gap-3">
         <div className="font-bold">Sample Code: {props.dataQuery?.code}</div>
         <div className="flex">
-          <div className="font-bold">Created:</div>
-          <div>
+          <p className="font-medium font-md">Created:</p>
+          <p>
             {`
                 ${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}
                 ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}
             `}
-          </div>
+          </p>
         </div>
         <div className="flex">
           <div className="font-bold flex items-center">Tags:</div>

@@ -10,6 +10,7 @@ import {
 import { SamplesResponse } from "@hooks/useSampleQuery.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
+import TableCard from "@components/Shared/Table/TableCard";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
@@ -64,10 +65,10 @@ const Samples = (props: SamplesProps) => {
   };
 
   return (
-    <div className="h-[40rem] flex flex-col rounded-lg justify-between border border-gray-200">
+    <TableCard>
       <TableView<SampleDto> table={table} handleClickRow={handleClick} />
       <TableManagement<SampleDto> table={table} />
-    </div>
+    </TableCard>
   );
 };
 
