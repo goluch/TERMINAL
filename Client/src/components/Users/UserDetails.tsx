@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import {AxiosResponse} from "axios";
+import { UseMutationResult } from '@tanstack/react-query';
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 
 /**
@@ -6,34 +8,34 @@ import { UserDetailsDto } from "@api/terminalSchemas.ts";
  */
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto | undefined;
+    mutation: UseMutationResult<AxiosResponse<any>, Error, string, unknown>;
 }
 
 /**
  * UserDetails component displays and allows editing of user details such as email and role.
  *
  * @param {UserDetailsProps} props - The props for the component.
- * @param {UserDetailsDto | undefined} props.dataQuery - The user data to display and edit.
- *
  * @returns {JSX.Element} The rendered UserDetails component.
  */
 const UserDetails = (props: UserDetailsProps) => {
-    const [email, setEmail] = useState<string | undefined>(props.dataQuery?.email);
-    const [role, setRole] = useState<string | undefined>(props.dataQuery?.role);
+    const [email, setEmail] = useState(props.dataQuery?.email || "");
+    const [role, setRole] = useState(props.dataQuery?.role || "");
     const [isChanged, setIsChanged] = useState(false);
-
-    useEffect(() => {
-        const initialEmail = props.dataQuery?.email || "";
-        const initialRole = props.dataQuery?.role || "";
-        setIsChanged(email !== initialEmail || role !== initialRole);
-    }, [email, role, props.dataQuery]);
 
     const handleReset = () => {
         setEmail(props.dataQuery?.email || "");
         setRole(props.dataQuery?.role || "");
+        setIsChanged(false);
     };
 
     const handleSubmit = () => {
-        // Submit logic here
+        // to be implemented
+    };
+
+    const handleDeletion = () => {
+        if (props.dataQuery?.id) {
+            props.mutation.mutateAsync(props.dataQuery.id);
+        }
     };
 
     return (
@@ -52,7 +54,10 @@ const UserDetails = (props: UserDetailsProps) => {
                         type="email"
                         placeholder={props.dataQuery?.email}
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                            setIsChanged(true);
+                        }}
                         className="bg-gray-200 px-3 py-2 rounded mt-2 text-gray-500"
                     />
                 </div>
@@ -63,7 +68,10 @@ const UserDetails = (props: UserDetailsProps) => {
                     </label>
                     <select
                         value={role}
-                        onChange={(e) => setRole(e.target.value)}
+                        onChange={(e) => {
+                            setRole(e.target.value);
+                            setIsChanged(true);
+                        }}
                         className="bg-gray-200 px-3 py-2 rounded mt-2 text-gray-500"
                     >
                         <option value="Role">{props.dataQuery?.role}</option>
@@ -84,12 +92,18 @@ const UserDetails = (props: UserDetailsProps) => {
                     <button
                         className="btn btn-sm btn-soft rounded"
                         onClick={handleSubmit}
-                        disabled={!isChanged}
+                        disabled={!isChanged || props.mutation.isPending}
                     >
                         Submit changes
                     </button>
                     <button className="btn btn-sm btn-primary text-white rounded">Change password</button>
-                    <button className="btn btn-sm btn-error text-white rounded">Delete</button>
+                    <button
+                        className="btn btn-sm btn-error text-white rounded"
+                        onClick={handleDeletion}
+                        disabled={props.mutation.isPending}
+                    >
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>

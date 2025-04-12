@@ -7,7 +7,7 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import {UserDetailsDto} from "@api/terminalSchemas.ts";
-import {UsersQueryResponse} from "@hooks/useUserQuery.ts";
+import {UsersResponse} from "@hooks/users/useGetUsers.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 
@@ -15,7 +15,7 @@ import TableManagement from "@components/Shared/Table/TableManagment.tsx";
  * Props for the Users component.
  */
 export interface UsersProps {
-    dataQuery: UsersQueryResponse | undefined;
+    dataQuery: UsersResponse | undefined;
     sorting: SortingState;
     setSorting: OnChangeFn<SortingState>;
     pagination: PaginationState;
