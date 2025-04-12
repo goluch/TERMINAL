@@ -153,6 +153,19 @@ public static class UsersModule
                 return Results.Ok();
             }).RequireAuthorization(Role.Registered)
             .WithTags(SwaggerSetup.UserTag);
+        
+        app.MapGet(ApiBaseRoute + "/me", async (
+                ClaimsPrincipal claims,
+                ISender sender,
+                CancellationToken ct) =>
+            {
+                var id = claims.GetUserId();
+                if (id is null) return Results.BadRequest();
+
+                var user = await sender.Send(new GetUserQuery(id ?? Guid.Empty), ct);
+                return Results.Ok(user);
+            }).RequireAuthorization(Role.Registered)
+            .WithTags(SwaggerSetup.UserTag);
 
         app.MapPatch(ApiBaseRoute + "/{id:guid}/role", async (
                 Guid id,

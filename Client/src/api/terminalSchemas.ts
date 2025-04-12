@@ -4,110 +4,103 @@
  * @version 1.0
  */
 export type CreateProjectRequest = {
-    name?: string | null;
+  name?: string | null;
 };
 
 export type UserDataResponse = {
-    email: string;
-    roles: string[];
-    id: string;
-    isEmailConfirmed: boolean;
-};
-
-export type UserData = {
-    isAuthenticated: boolean;
-    email?: string;
-    roles: string[];
+  email: string;
+  role: string;
+  id: string;
 };
 
 export type CreateRecipeRequest = {
-    name?: string | null;
-    steps?: SampleStep[] | null;
+  name?: string | null;
+  steps?: SampleStep[] | null;
 };
 
 export type CreateSampleRequest = {
-    /**
-     * @format uuid
-     */
-    projectId?: string;
-    /**
-     * @format uuid
-     */
-    recipeId?: string | null;
-    steps?: SampleStep[] | null;
-    tags?: string[] | null;
-    comment?: string | null;
-    saveAsARecipe?: boolean;
-    recipeName?: string | null;
+  /**
+   * @format uuid
+   */
+  projectId?: string;
+  /**
+   * @format uuid
+   */
+  recipeId?: string | null;
+  steps?: SampleStep[] | null;
+  tags?: string[] | null;
+  comment?: string | null;
+  saveAsARecipe?: boolean;
+  recipeName?: string | null;
 };
 
 export type CreateTagRequest = {
-    name?: string | null;
+  name?: string | null;
 };
 
 export type DefineDecimalParameterRequest = {
-    name?: string | null;
-    /**
-     * @format uuid
-     */
-    parentId?: string | null;
-    unit?: string | null;
-    /**
-     * @format double
-     */
-    step?: number;
-    /**
-     * @format double
-     */
-    defaultValue?: number | null;
+  name?: string | null;
+  /**
+   * @format uuid
+   */
+  parentId?: string | null;
+  unit?: string | null;
+  /**
+   * @format double
+   */
+  step?: number;
+  /**
+   * @format double
+   */
+  defaultValue?: number | null;
 };
 
 export type DefineIntegerParameterRequest = {
-    name?: string | null;
-    /**
-     * @format uuid
-     */
-    parentId?: string | null;
-    unit?: string | null;
-    /**
-     * @format int32
-     */
-    step?: number;
-    /**
-     * @format int32
-     */
-    defaultValue?: number | null;
+  name?: string | null;
+  /**
+   * @format uuid
+   */
+  parentId?: string | null;
+  unit?: string | null;
+  /**
+   * @format int32
+   */
+  step?: number;
+  /**
+   * @format int32
+   */
+  defaultValue?: number | null;
 };
 
 export type DefineTextParameterRequest = {
-    name?: string | null;
-    /**
-     * @format uuid
-     */
-    parentId?: string | null;
-    allowedValues?: string[] | null;
-    /**
-     * @format int32
-     */
-    defaultValue?: number | null;
+  name?: string | null;
+  /**
+   * @format uuid
+   */
+  parentId?: string | null;
+  allowedValues?: string[] | null;
+  /**
+   * @format int32
+   */
+  defaultValue?: number | null;
 };
 
 export type ForgotPasswordRequest = {
-    email?: string | null;
+  email?: string | null;
 };
 
 export type GetTagsDto = {
-    /**
-     * @format int32
-     */
-    totalCount?: number;
-    pagingParameters?: PagingParameters;
-    tags?: TagDto[] | null;
+  /**
+   * @format int32
+   */
+  totalCount?: number;
+  pagingParameters?: PagingParameters;
+  tags?: TagDto[] | null;
 };
 
 export type LoginRequest = {
-    email?: string | null;
-    password?: string | null;
+  email?: string | null;
+  password?: string | null;
 };
 
 /**
@@ -116,150 +109,173 @@ export type LoginRequest = {
 export type OrderDirection = 0 | 1;
 
 export type PagingParameters = {
-    /**
-     * @format int32
-     */
-    pageIndex?: number;
-    /**
-     * @format int32
-     */
-    pageSize?: number;
+  /**
+   * @format int32
+   */
+  pageIndex?: number;
+  /**
+   * @format int32
+   */
+  pageSize?: number;
 };
 
 export type ParameterId = {
-    /**
-     * @format uuid
-     */
-    value?: string;
+  /**
+   * @format uuid
+   */
+  value?: string;
 };
 
 export type ParameterValue = {
-    /**
-     * @format uuid
-     */
-    parameterId?: string;
+  /**
+   * @format uuid
+   */
+  parameterId?: string;
 };
 
 export type RefreshRequest = {
-    refreshToken?: string | null;
+  refreshToken?: string | null;
 };
 
 export type RegisterRequest = {
-    email?: string | null;
-    password?: string | null;
-    roleName?: string | null;
+  email?: string | null;
+  password?: string | null;
+  roleName?: string | null;
 };
 
 export type ResendConfirmationEmailRequest = {
-    email?: string | null;
+  email?: string | null;
 };
 
 export type ResetPasswordRequest = {
-    email?: string | null;
-    newPassword?: string | null;
-    code?: string | null;
+  email?: string | null;
+  newPassword?: string | null;
+  code?: string | null;
 };
 
 export type SampleStep = {
-    /**
-     * @format uuid
-     */
-    id?: string | null;
-    values?: ParameterValue[] | null;
-    comment?: string | null;
+  /**
+   * @format uuid
+   */
+  id?: string | null;
+  parameters?: ParameterValue[] | null;
+  comment?: string | null;
 };
 
 export type StepParameterValueDto = {
-    parameterId?: ParameterId;
+  parameterId?: ParameterId;
 };
 
 export type TagDto = {
-    /**
-     * @format uuid
-     */
-    id?: string;
-    name?: string | null;
+  /**
+   * @format uuid
+   */
+  id?: string;
+  name?: string | null;
 };
 
 export type UpdateAccountRequest = {
-    newEmail?: string | null;
-    newPassword?: string | null;
-    oldPassword?: string | null;
+  newEmail?: string | null;
+  newPassword?: string | null;
+  oldPassword?: string | null;
 };
 
 export type UpdateProjectRequest = {
-    name?: string | null;
+  name?: string | null;
 };
 
 export type UpdateRecipeRequest = {
-    name?: string | null;
-    steps?: UpdateSampleStepDto[] | null;
+  name?: string | null;
+  steps?: UpdateSampleStepDto[] | null;
 };
 
 export type UpdateSampleRequest = {
-    /**
-     * @format uuid
-     */
-    projectId?: string;
-    /**
-     * @format uuid
-     */
-    recipeId?: string | null;
-    steps?: SampleStep[] | null;
-    tags?: string[] | null;
-    comment?: string | null;
+  /**
+   * @format uuid
+   */
+  projectId?: string;
+  /**
+   * @format uuid
+   */
+  recipeId?: string | null;
+  steps?: SampleStep[] | null;
+  tags?: string[] | null;
+  comment?: string | null;
 };
 
 export type UpdateSampleStepDto = {
-    /**
-     * @format uuid
-     */
-    id?: string;
-    parameters?: StepParameterValueDto[] | null;
-    comment?: string | null;
+  /**
+   * @format uuid
+   */
+  id?: string;
+  parameters?: StepParameterValueDto[] | null;
+  comment?: string | null;
 };
 
 export type UpdateTagRequest = {
-    name?: string | null;
+  name?: string | null;
 };
 
 export type SampleDto = {
-    id: string;
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
+  id: string;
+  code: string;
+  project: string;
+  createdAtUtc: Date;
+  comment: string;
 };
 
 export type SampleDetailsDto = {
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
-    comment?: string | null;
-    steps?: SampleStep[] | null;
-    tags?: string[] | null;
-};
-
-export type SamplesQueryResponse = {
-    rows: SampleDto[];
-    rowCount: number;
-    pageCount: number;
+  id: string;
+  code: string;
+  recipe?: string;
+  createdAtUtc: Date;
+  comment: string;
+  projectId: string;
+  steps?: SampleStep[] | null;
+  tags?: TagDto[] | null;
 };
 
 export type ProjectDto = {
-    id: string;
-    name: string;
-}
+  id: string;
+  name: string;
+};
 
 export type ProjectDetailsDto = {
-    id: string;
-    name: string;
-    isActive: boolean;
-    samplesIds: string [];
-}
+  id: string;
+  name: string;
+  isActive: boolean;
+  samplesIds: string[];
+};
 
+<<<<<<< HEAD
 export type UserDetailsDto = {
     id: string;
     email: string;
     role: string;
 }
 
+=======
+export type RecipeDto = {
+  id: string;
+  name: string;
+};
+
+export type RecipeDetailsDto = {
+  id: string;
+  name: string;
+  steps: SampleStepDto[];
+};
+
+export type SampleStepDto = {
+  id: string | null;
+  parameters?: ParameterDto[] | null;
+  comment?: string | null;
+};
+
+export type ParameterDto = {
+  id: string;
+  name: string;
+  value: string;
+  unit: string;
+};
+>>>>>>> main
