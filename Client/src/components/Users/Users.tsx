@@ -11,6 +11,9 @@ import {UsersQueryResponse} from "@hooks/useUserQuery.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 
+/**
+ * Props for the Users component.
+ */
 export interface UsersProps {
     dataQuery: UsersQueryResponse | undefined;
     sorting: SortingState;
@@ -28,6 +31,13 @@ const columns= [
     })
 ]
 
+/**
+ * Users component displays a table of user details with sorting and pagination functionality.
+ *
+ * @param {UsersProps} props - The props for the Users component.
+ *
+ * @returns {JSX.Element} The rendered Users component.
+ */
 const Users = (props: UsersProps) => {
 
     const table = useReactTable({

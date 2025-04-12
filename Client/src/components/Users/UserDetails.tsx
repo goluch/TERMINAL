@@ -1,10 +1,21 @@
 import { useState, useEffect } from "react";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 
+/**
+ * Props for the UserDetails component.
+ */
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto | undefined;
 }
 
+/**
+ * UserDetails component displays and allows editing of user details such as email and role.
+ *
+ * @param {UserDetailsProps} props - The props for the component.
+ * @param {UserDetailsDto | undefined} props.dataQuery - The user data to display and edit.
+ *
+ * @returns {JSX.Element} The rendered UserDetails component.
+ */
 const UserDetails = (props: UserDetailsProps) => {
     const [email, setEmail] = useState<string | undefined>(props.dataQuery?.email);
     const [role, setRole] = useState<string | undefined>(props.dataQuery?.role);

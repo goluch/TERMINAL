@@ -247,14 +247,6 @@ export type ProjectDetailsDto = {
   samplesIds: string[];
 };
 
-<<<<<<< HEAD
-export type UserDetailsDto = {
-    id: string;
-    email: string;
-    role: string;
-}
-
-=======
 export type RecipeDto = {
   id: string;
   name: string;
@@ -278,4 +270,9 @@ export type ParameterDto = {
   value: string;
   unit: string;
 };
->>>>>>> main
+
+export type UserDetailsDto = {
+  id: string;
+  email: string;
+  role: string;
+}
