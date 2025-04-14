@@ -18,7 +18,7 @@ const TableManagement = <T, >(props: TableManagementProps<T>) => {
             <div className="flex gap-1">
                 <div className="h-6 border rounded flex justify-center items-center overflow-hidden">
                     <select
-                        className="text-xs"
+                        className="text-xs bg-white"
                         value={props.table.getState().pagination.pageSize}
                         onChange={(e) => {
                             props.table.setPageSize(Number(e.target.value));
