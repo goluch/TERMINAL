@@ -30,6 +30,14 @@ const UsersPage = () => {
 
     const dataQueryUserDetails = useUserDetails(userDetailsId);
 
+    const changeUserDetails = (userId: string) => {
+        setUserDetailsId(userId);
+    }
+
+    const handleUserDeleted = () => {
+        setUserDetailsId(null);
+    };
+
     return (
         <div className="min-h-screen bg-gray-100">
             <div className="flex justify-center p-5 flex-wrap">
@@ -45,20 +53,19 @@ const UsersPage = () => {
                             setSorting={setSorting}
                             pagination={pagination}
                             setPagination={setPagination}
-                            onChangeUserDetails={setUserDetailsId}
+                            onChangeUserDetails={changeUserDetails}
                         />
                     )}
                 </div>
                 <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
-                    {dataQueryUsers.isLoading ? (
-                        <div className="flex justify-center">
-                            <span className="loading loading-spinner loading-md"></span>
-                        </div>
-                    ) : (
+                    {userDetailsId && dataQueryUserDetails.data ? (
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}
                             mutation={mutation}
+                            onUserDeleted={handleUserDeleted}
                         />
+                    ) : (
+                        <div className="text-center text-gray-500">Select a user to view details</div>
                     )}
                 </div>
             </div>

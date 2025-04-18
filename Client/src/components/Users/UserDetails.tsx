@@ -2,13 +2,15 @@ import { useState } from "react";
 import {AxiosResponse} from "axios";
 import { UseMutationResult } from '@tanstack/react-query';
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
-
+import { Button } from '@headlessui/react'
+import { Input } from '@headlessui/react'
 /**
  * Props for the UserDetails component.
  */
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto | undefined;
     mutation: UseMutationResult<AxiosResponse<any>, Error, string, unknown>;
+    onUserDeleted: () => void;
 }
 
 /**
@@ -35,6 +37,7 @@ const UserDetails = (props: UserDetailsProps) => {
     const handleDeletion = () => {
         if (props.dataQuery?.id) {
             props.mutation.mutateAsync(props.dataQuery.id);
+            props.onUserDeleted();
         }
     };
 
@@ -49,7 +52,7 @@ const UserDetails = (props: UserDetailsProps) => {
                     <label htmlFor="email" className="mt-1">
                         Email*
                     </label>
-                    <input
+                    <Input
                         id="email"
                         type="email"
                         placeholder={props.dataQuery?.email}
@@ -82,28 +85,28 @@ const UserDetails = (props: UserDetailsProps) => {
                 </div>
                 <div></div>
                 <div className="mt-6 flex gap-2">
-                    <button
+                    <Button
                         className="btn btn-sm btn-soft rounded"
                         onClick={handleReset}
                         disabled={!isChanged}
                     >
                         Reset
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         className="btn btn-sm btn-soft rounded"
                         onClick={handleSubmit}
                         disabled={!isChanged || props.mutation.isPending}
                     >
                         Submit changes
-                    </button>
-                    <button className="btn btn-sm btn-primary text-white rounded">Change password</button>
-                    <button
+                    </Button>
+                    <Button className="btn btn-sm btn-primary text-white rounded">Change password</Button>
+                    <Button
                         className="btn btn-sm btn-error text-white rounded"
                         onClick={handleDeletion}
                         disabled={props.mutation.isPending}
                     >
                         Delete
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

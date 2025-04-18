@@ -15,12 +15,12 @@ import TableManagement from "@components/Shared/Table/TableManagment.tsx";
  * Props for the Users component.
  */
 export interface UsersProps {
+    onChangeUserDetails?: (userId: string) => void;
     dataQuery: UsersResponse | undefined;
     sorting: SortingState;
-    setSorting: OnChangeFn<SortingState>;
     pagination: PaginationState;
+    setSorting: OnChangeFn<SortingState>;
     setPagination: OnChangeFn<PaginationState>
-    onChangeUserDetails: (id: string) => void;
 }
 
 const columnHelper = createColumnHelper<UserDetailsDto>();
