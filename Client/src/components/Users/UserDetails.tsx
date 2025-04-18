@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
+import { Input } from "@headlessui/react";
+import { Button } from '@headlessui/react'
 
 /**
  * Props for the UserDetails component.
@@ -47,7 +49,7 @@ const UserDetails = (props: UserDetailsProps) => {
                     <label htmlFor="email" className="mt-1">
                         Email*
                     </label>
-                    <input
+                    <Input
                         id="email"
                         type="email"
                         placeholder={props.dataQuery?.email}
@@ -74,22 +76,22 @@ const UserDetails = (props: UserDetailsProps) => {
                 </div>
                 <div></div>
                 <div className="mt-6 flex gap-2">
-                    <button
+                    <Button
                         className="btn btn-sm btn-soft rounded"
                         onClick={handleReset}
                         disabled={!isChanged}
                     >
                         Reset
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         className="btn btn-sm btn-soft rounded"
                         onClick={handleSubmit}
                         disabled={!isChanged}
                     >
                         Submit changes
-                    </button>
-                    <button className="btn btn-sm btn-primary text-white rounded">Change password</button>
-                    <button className="btn btn-sm btn-error text-white rounded">Delete</button>
+                    </Button>
+                    <Button className="btn btn-sm btn-primary text-white rounded">Change password</Button>
+                    <Button className="btn btn-sm btn-error text-white rounded">Delete</Button>
                 </div>
             </div>
         </div>
