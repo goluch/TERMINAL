@@ -7,6 +7,7 @@ import {useUserDetails} from "@hooks/users/useGetUserDetails.ts";
 import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
 
 const UsersPage = () => {
+    const [userDetailsId, setUserDetailsId] = useState<string | null>(null);
     const [sorting, setSorting] = useState<SortingState>([]);
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -19,24 +20,22 @@ const UsersPage = () => {
         desc: sorting[0]?.desc ?? true,
     });
 
-    const mutation = useDeleteUser({
-        pageNumber: pagination.pageIndex,
-        pageSize: pagination.pageSize,
-        orderBy: sorting[0]?.id ?? "",
-        desc: sorting[0]?.desc ?? true,
-    });
+    const mutation = useDeleteUser(
+        {
+            pageNumber: pagination.pageIndex,
+            pageSize: pagination.pageSize,
+            orderBy: sorting[0]?.id ?? "",
+            desc: sorting[0]?.desc ?? true,
+        },
+        setUserDetailsId
+    );
 
-    const [userDetailsId, setUserDetailsId] = useState<string | null>(null);
 
     const dataQueryUserDetails = useUserDetails(userDetailsId);
 
     const changeUserDetails = (userId: string) => {
         setUserDetailsId(userId);
     }
-
-    const handleUserDeleted = () => {
-        setUserDetailsId(null);
-    };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -62,7 +61,6 @@ const UsersPage = () => {
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}
                             mutation={mutation}
-                            onUserDeleted={handleUserDeleted}
                         />
                     ) : (
                         <div className="text-center text-gray-500">Select a user to view details</div>

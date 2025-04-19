@@ -4,13 +4,14 @@ import { UseMutationResult } from '@tanstack/react-query';
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button } from '@headlessui/react'
 import { Input } from '@headlessui/react'
+import { toastPromise } from "../../utils/toast.utils.tsx";
+
 /**
  * Props for the UserDetails component.
  */
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto | undefined;
     mutation: UseMutationResult<AxiosResponse<any>, Error, string, unknown>;
-    onUserDeleted: () => void;
 }
 
 /**
@@ -34,10 +35,20 @@ const UserDetails = (props: UserDetailsProps) => {
         // to be implemented
     };
 
-    const handleDeletion = () => {
-        if (props.dataQuery?.id) {
-            props.mutation.mutateAsync(props.dataQuery.id);
-            props.onUserDeleted();
+    const handleDeletion = async () => {
+        if (props.dataQuery?.id != undefined) {
+            try {
+                await toastPromise(
+                    props.mutation.mutateAsync(props.dataQuery.id),
+                    {
+                        success: "User deleted successfully",
+                        error: "Failed to delete user",
+                        loading: "Deleting user...",
+                    }
+                );
+            } catch {
+                // Error is already handled by the toastPromise
+            }
         }
     };
 

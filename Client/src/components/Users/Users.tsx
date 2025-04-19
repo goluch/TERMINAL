@@ -28,7 +28,11 @@ const columns= [
     columnHelper.accessor("email", {
         header: "Email",
         cell: (info) => info.getValue(),
-    })
+    }),
+    columnHelper.accessor("role", {
+        header: "Role",
+        cell: (info) => info.getValue(),
+    }),
 ]
 
 /**
