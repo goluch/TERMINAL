@@ -270,3 +270,9 @@ export type ParameterDto = {
   value: string;
   unit: string;
 };
+
+export type UserDetailsDto = {
+  id: string;
+  email: string;
+  role: string;
+}
