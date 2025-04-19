@@ -10,6 +10,7 @@ import {UserDetailsDto} from "@api/terminalSchemas.ts";
 import {UsersResponse} from "@hooks/users/useGetUsers.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
+import TableCard from "@components/Shared/Table/TableCard.tsx";
 
 /**
  * Props for the Users component.
@@ -64,12 +65,10 @@ const Users = (props: UsersProps) => {
     };
 
     return (
-        <div className="h-[40rem] flex flex-col">
-            <div className="flex-1 overflow-auto">
-                <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
-            </div>
+        <TableCard>
+            <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
             <TableManagement<UserDetailsDto> table={table} />
-        </div>
+        </TableCard>
     );
 };
 

@@ -1,9 +1,9 @@
 import Users from "@components/Users/Users.tsx";
-import {useState} from "react";
-import {PaginationState, SortingState} from "@tanstack/react-table";
-import {useUsers} from "@hooks/users/useGetUsers.ts";
+import { useState } from "react";
+import { PaginationState, SortingState } from "@tanstack/react-table";
+import { useUsers } from "@hooks/users/useGetUsers.ts";
 import UserDetails from "@components/Users/UserDetails.tsx";
-import {useUserDetails} from "@hooks/users/useGetUserDetails.ts";
+import { useUserDetails } from "@hooks/users/useGetUserDetails.ts";
 import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
 
 const UsersPage = () => {
@@ -30,12 +30,11 @@ const UsersPage = () => {
         setUserDetailsId
     );
 
-
     const dataQueryUserDetails = useUserDetails(userDetailsId);
 
     const changeUserDetails = (userId: string) => {
         setUserDetailsId(userId);
-    }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -57,7 +56,11 @@ const UsersPage = () => {
                     )}
                 </div>
                 <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
-                    {userDetailsId && dataQueryUserDetails.data ? (
+                    {dataQueryUserDetails.isLoading ? (
+                        <div className="flex justify-center">
+                            <span className="loading loading-spinner loading-md"></span>
+                        </div>
+                    ) : userDetailsId && dataQueryUserDetails.data ? (
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}
                             mutation={mutation}
