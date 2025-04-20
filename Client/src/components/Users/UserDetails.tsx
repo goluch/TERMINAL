@@ -12,8 +12,8 @@ export interface UserDetailsProps {
 }
 
 const UserDetails = (props: UserDetailsProps) => {
-    const [email, setEmail] = useState(props.dataQuery?.email || "");
-    const [role, setRole] = useState(props.dataQuery?.role || "");
+    const [email, setEmail] = useState(props.dataQuery?.email);
+    const [role, setRole] = useState(props.dataQuery?.role);
     const [isChanged, setIsChanged] = useState(false);
 
     useEffect(() => {
