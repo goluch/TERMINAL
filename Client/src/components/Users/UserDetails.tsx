@@ -3,6 +3,8 @@ import { AxiosResponse } from "axios";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button, Input, Select } from "@headlessui/react";
 import { toastPromise } from "../../utils/toast.utils.tsx";
+import { useUpdateUserRole } from "@hooks/users/useUpdateUserRole.ts";
+import { useUpdateUserEmail } from "@hooks/users/useUpdateUserEmail.ts";
 import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/solid";
 
 export interface UserDetailsProps {
@@ -16,6 +18,9 @@ const UserDetails = (props: UserDetailsProps) => {
     const [role, setRole] = useState(props.dataQuery?.role || "");
     const [isChanged, setIsChanged] = useState(false);
 
+    const updateRoleMutation = useUpdateUserRole();
+    const updateEmailMutation = useUpdateUserEmail();
+
     useEffect(() => {
         setEmail(props.dataQuery?.email || "");
         setRole(props.dataQuery?.role || "");
@@ -28,8 +33,37 @@ const UserDetails = (props: UserDetailsProps) => {
         setIsChanged(false);
     };
 
-    const handleSubmit = () => {
-        // Submit logic here
+    const handleSubmit = async () => {
+        if (props.dataQuery?.id === undefined) {
+            return;
+        }
+
+        try {
+            if (email !== props.dataQuery.email) {
+                await toastPromise(
+                    updateEmailMutation.mutateAsync({ id: props.dataQuery.id, email }),
+                    {
+                        success: "Email updated successfully",
+                        error: "Failed to update email",
+                        loading: "Updating email...",
+                    }
+                );
+            }
+
+            if (role !== props.dataQuery.role) {
+                await toastPromise(
+                    updateRoleMutation.mutateAsync({ id: props.dataQuery.id, role }),
+                    {
+                        success: "Role updated successfully",
+                        error: "Failed to update role",
+                        loading: "Updating role...",
+                    }
+                );
+            }
+            setIsChanged(false);
+        } catch {
+            // Error is already handled by the toastPromise
+        }
     };
 
     const handleDeletion = async () => {
@@ -99,7 +133,7 @@ const UserDetails = (props: UserDetailsProps) => {
                 <Button
                     className="btn btn-sm btn-soft rounded"
                     onClick={handleSubmit}
-                    disabled={!isChanged}
+                    disabled={!isChanged || updateRoleMutation.isPending }
                 >
                     Submit changes
                 </Button>
