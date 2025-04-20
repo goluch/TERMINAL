@@ -127,7 +127,7 @@ const AddRecipe = () => {
                 <PlusIcon className="h-5 aspect-square" />
               </button>
             </TabList>
-            <TabPanels className="h-full overflow-hidden rounded-md">
+            <TabPanels className="h-full overflow-hidden rounded-md p-2">
               {recipe.steps.map((step, index) => (
                 <TabPanel
                   key={index}
