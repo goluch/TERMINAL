@@ -1,6 +1,11 @@
 import Step from "@components/Recipes/Step";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowPathIcon,
+  PlusIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import useGetParameters, {
   AllParameters,
   DecimalParameter,
@@ -38,7 +43,26 @@ const AddRecipe = () => {
   const addStep = () => {
     setRecipe({
       ...recipe,
-      steps: [...recipe.steps, { id: "", comment: "", parameters: [] }],
+      steps: [
+        ...recipe.steps,
+        {
+          id: "",
+          comment: "",
+          parameters: [
+            {
+              type: "integer",
+              value: 1,
+              defaultValue: 20,
+              unit: "mm",
+              step: 1,
+              name: "H20",
+              id: "",
+              order: 0,
+              parentId: "",
+            },
+          ],
+        },
+      ],
     });
   };
 
@@ -51,14 +75,24 @@ const AddRecipe = () => {
 
   return (
     <div className="p-2 flex gap-2 h-full">
-      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-80 overflow-auto">
-        <div className="p-4 border-b border-gray-200 rounded-t-md">
-          <p>Parameters</p>
+      <div className="flex flex-col gap-2 w-80">
+        <div className="flex flex-col border border-gray-200 rounded-md bg-white overflow-auto h-full">
+          <div className="p-4 border-b border-gray-200 rounded-t-md">
+            <p>Parameters</p>
+          </div>
+          <div className="flex flex-col gap-2 py-2">
+            {parameters.parameters.map((parameter) => (
+              <ParameterSelect key={parameter.id} parameter={parameter} />
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-2 py-2">
-          {parameters.parameters.map((parameter) => (
-            <ParameterSelect key={parameter.id} parameter={parameter} />
-          ))}
+        <div className="flex border gap-2 border-gray-200 rounded-md bg-white overflow-auto p-2 justify-center">
+          <button className="p-2 border border-gray-200 rounded hover:bg-gray-100 hover:border-red-300 transition-colors duration-100">
+            <ArrowPathIcon className="h-5 w-5" />
+          </button>
+          <button className="p-2 border border-gray-200 rounded hover:bg-gray-50 hover:border-green-300 transition-colors duration-100 group">
+            <CheckIcon className="h-5 w-5" />
+          </button>
         </div>
       </div>
       <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
@@ -93,16 +127,27 @@ const AddRecipe = () => {
                 <PlusIcon className="h-5 aspect-square" />
               </button>
             </TabList>
-            <TabPanels className="h-full overflow-hidden px-2 rounded-md">
+            <TabPanels className="h-full overflow-hidden rounded-md">
               {recipe.steps.map((step, index) => (
                 <TabPanel
                   key={index}
-                  className="rounded-md bg-white border border-gray-200 h-screen w-full"
+                  className="rounded-md bg-white border border-gray-200 h-screen w-full p-2 grid grid-cols-10 gap-2"
                 >
-                  <div className="h-full bg-white rounded-md"></div>
-                  {step.parameters.map((parameter) => (
-                    <ParameterBox key={parameter.id} parameter={parameter} />
-                  ))}
+                  <div className="flex flex-col gap-1 w-full col-span-6">
+                    {step.parameters.map((parameter) => (
+                      <ParameterBox key={parameter.id} parameter={parameter} />
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-1 w-full col-span-4">
+                    <div className="rounded-md border border-gray-200">
+                      <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+                        <p className="p-2 text-sm">Comment</p>
+                      </div>
+                      <div className="p-2">
+                        <textarea className="h-auto w-full" rows={20} />
+                      </div>
+                    </div>
+                  </div>
                 </TabPanel>
               ))}
             </TabPanels>
@@ -134,19 +179,16 @@ const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
 
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
   return (
-    <div className="px-2">
-      <div className="rounded-md border border-gray-200">
-        <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
-          <p className="p-2 text-sm">{parameter.name}</p>
-        </div>
-        <div className="p-2">
-          <div className="flex items-center justify-start rounded-md border border-gray-200">
-            <p className="text-xs border-e border-gray-200 p-2 bg-gray-100 text-gray-700">
-              default
-            </p>
-            <input className=" rounded-md w-full text-sm ms-2" />
-          </div>
-          <input />
+    <div className="rounded-md border border-gray-200">
+      <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+        <p className="p-2 text-sm">{parameter.name}</p>
+      </div>
+      <div className="p-2">
+        <div className="flex items-center justify-start rounded-md border border-gray-200">
+          <p className="text-xs border-e border-gray-200 p-2 bg-gray-100 text-gray-700">
+            default
+          </p>
+          <input className=" rounded-md w-full text-sm ms-2" />
         </div>
       </div>
     </div>
