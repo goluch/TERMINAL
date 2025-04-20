@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { AxiosResponse } from "axios";
-import { UseMutationResult } from "@tanstack/react-query";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button, Input, Select } from "@headlessui/react";
 import { toastPromise } from "../../utils/toast.utils.tsx";
@@ -8,7 +7,8 @@ import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/
 
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto | undefined;
-    mutation: UseMutationResult<AxiosResponse<any>, Error, string, unknown>;
+    mutateAsync: (id: string) => Promise<AxiosResponse<any>>;
+    isPending: boolean;
 }
 
 const UserDetails = (props: UserDetailsProps) => {
@@ -33,19 +33,21 @@ const UserDetails = (props: UserDetailsProps) => {
     };
 
     const handleDeletion = async () => {
-        if (props.dataQuery?.id != undefined) {
-            try {
-                await toastPromise(
-                    props.mutation.mutateAsync(props.dataQuery.id),
-                    {
-                        success: "User deleted successfully",
-                        error: "Failed to delete user",
-                        loading: "Deleting user...",
-                    }
-                );
-            } catch {
-                // Error is already handled by the toastPromise
-            }
+        if (props.dataQuery?.id === undefined) {
+            return;
+        }
+
+        try {
+            await toastPromise(
+                props.mutateAsync(props.dataQuery.id),
+                {
+                    success: "User deleted successfully",
+                    error: "Failed to delete user",
+                    loading: "Deleting user...",
+                }
+            );
+        } catch {
+            // Error is already handled by the toastPromise
         }
     };
 
@@ -108,7 +110,7 @@ const UserDetails = (props: UserDetailsProps) => {
                 <Button
                     className="btn btn-sm btn-error text-white rounded gap-1"
                     onClick={handleDeletion}
-                    disabled={props.mutation.isPending}
+                    disabled={props.isPending}
                 >
                     <TrashIcon className="w-4 h-4" />
                     Delete

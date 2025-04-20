@@ -56,14 +56,11 @@ const UsersPage = () => {
                     )}
                 </div>
                 <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
-                    {dataQueryUserDetails.isLoading ? (
-                        <div className="flex justify-center">
-                            <span className="loading loading-spinner loading-md"></span>
-                        </div>
-                    ) : userDetailsId && dataQueryUserDetails.data ? (
+                    {userDetailsId && dataQueryUserDetails.data ? (
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}
-                            mutation={mutation}
+                            mutateAsync={mutation.mutateAsync}
+                            isPending={mutation.isPending}
                         />
                     ) : (
                         <div className="text-center text-gray-500">Select a user to view details</div>
