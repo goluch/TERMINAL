@@ -1,5 +1,204 @@
+import Step from "@components/Recipes/Step";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import useGetParameters, {
+  AllParameters,
+  DecimalParameter,
+  TextParameter,
+} from "@hooks/useGetParameters";
+import { IntegerParameter } from "@hooks/useGetParameters";
+import { useState } from "react";
+
+type Step = {
+  id: string;
+  comment: string;
+  parameters: AllParameters[];
+};
+
+type Recipe = {
+  id: string;
+  name: string;
+  steps: Step[];
+};
+
 const AddRecipe = () => {
-  return <p>Add a recipe</p>;
+  const { data: parameters, isLoading, isError } = useGetParameters();
+  const [recipe, setRecipe] = useState<Recipe>({
+    id: "",
+    name: "",
+    steps: [
+      { id: "", comment: "", parameters: [] },
+      { id: "", comment: "", parameters: [] },
+    ],
+  });
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+  if (parameters === undefined) return <div>No parameters found</div>;
+
+  const addStep = () => {
+    setRecipe({
+      ...recipe,
+      steps: [...recipe.steps, { id: "", comment: "", parameters: [] }],
+    });
+  };
+
+  const removeStep = (index: number) => {
+    setRecipe({
+      ...recipe,
+      steps: recipe.steps.filter((_, i) => i !== index),
+    });
+  };
+
+  return (
+    <div className="p-2 flex gap-2 h-full">
+      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-80 overflow-auto">
+        <div className="p-4 border-b border-gray-200 rounded-t-md">
+          <p>Parameters</p>
+        </div>
+        <div className="flex flex-col gap-2 py-2">
+          {parameters.parameters.map((parameter) => (
+            <ParameterSelect key={parameter.id} parameter={parameter} />
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-auto">
+        <div className="p-4 border-b border-gray-200 rounded-t-md">
+          <p>Recipe</p>
+        </div>
+        <div className="bg-gray-100 h-full">
+          <TabGroup>
+            <TabList className="flex gap-1 w-full p-2">
+              {recipe.steps
+                .map((_, index) => (
+                  <Tab
+                    key={index}
+                    className="w-full p-2 rounded border border-gray-200 bg-white relative group data-[selected]:bg-gray-50 focus:outline-none"
+                  >
+                    <p className="text-sm">Step {index + 1}</p>
+                    <button
+                      onClick={() => removeStep(index)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:block rounded p-px hidden hover:bg-gray-100"
+                    >
+                      <XMarkIcon className="h-5 w-5" />
+                    </button>
+                  </Tab>
+                ))
+                .concat(
+                  <button
+                    onClick={addStep}
+                    className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100"
+                  >
+                    <PlusIcon className="h-5 w-5" />
+                  </button>,
+                )}
+            </TabList>
+            <TabPanels>
+              {recipe.steps.map((step, index) => (
+                <TabPanel key={index}>
+                  {step.parameters.map((parameter) => (
+                    <ParameterBox key={parameter.id} parameter={parameter} />
+                  ))}
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </TabGroup>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+type ParameterBoxProps = {
+  parameter: IntegerParameter | DecimalParameter | TextParameter;
+};
+
+const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
+  return (
+    <div className="px-2">
+      <div className="border border-gray-200 rounded flex items-center justify-between">
+        <div className="p-2">
+          <p className="text-xs">{parameter.name}</p>
+        </div>
+        <div className="bg-gray-100 border-s border-gray-200 p-1">
+          <DragHandle />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ParameterBox = ({ parameter }: ParameterBoxProps) => {
+  return (
+    <div className="px-2">
+      <div className="rounded-md border border-gray-200">
+        <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+          <p className="p-2 text-sm">{parameter.name}</p>
+        </div>
+        <div className="p-2">
+          <div className="flex items-center justify-start rounded-md border border-gray-200">
+            <p className="text-xs border-e border-gray-200 p-2 bg-gray-100 text-gray-700">
+              default
+            </p>
+            <input className=" rounded-md w-full text-sm ms-2" />
+          </div>
+          <input />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DragHandle = () => {
+  return (
+    <svg
+      fill="#333333"
+      width="30px"
+      height="30px"
+      viewBox="0 0 36 36"
+      version="1.1"
+      preserveAspectRatio="xMidYMid meet"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>drag-handle-line</title>
+      <circle
+        cx="15"
+        cy="12"
+        r="1.5"
+        className="clr-i-outline clr-i-outline-path-1"
+      ></circle>
+      <circle
+        cx="15"
+        cy="24"
+        r="1.5"
+        className="clr-i-outline clr-i-outline-path-2"
+      ></circle>
+      <circle
+        cx="21"
+        cy="12"
+        r="1.5"
+        className="clr-i-outline clr-i-outline-path-3"
+      ></circle>
+      <circle
+        cx="21"
+        cy="24"
+        r="1.5"
+        className="clr-i-outline clr-i-outline-path-4"
+      ></circle>
+      <circle
+        cx="21"
+        cy="18"
+        r="1.5"
+        className="clr-i-outline clr-i-outline-path-5"
+      ></circle>
+      <circle
+        cx="15"
+        cy="18"
+        r="1.5"
+        className="clr-i-outline clr-i-outline-path-6"
+      ></circle>
+      <rect x="0" y="0" width="36" height="36" fillOpacity="0" />
+    </svg>
+  );
 };
 
 export default AddRecipe;
