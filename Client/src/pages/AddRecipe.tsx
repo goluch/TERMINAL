@@ -61,40 +61,45 @@ const AddRecipe = () => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-auto">
+      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
         <div className="p-4 border-b border-gray-200 rounded-t-md">
           <p>Recipe</p>
         </div>
         <div className="bg-gray-100 h-full">
-          <TabGroup>
-            <TabList className="flex gap-1 w-full p-2">
-              {recipe.steps
-                .map((_, index) => (
+          <TabGroup className="flex flex-col overflow-y-hidden overflow-x-auto">
+            <TabList className="flex gap-1 w-full p-2 overflow-x-auto">
+              <div className="overflow-x-auto flex gap-1 w-full">
+                {recipe.steps.map((_, index) => (
                   <Tab
                     key={index}
                     className="w-full p-2 rounded border border-gray-200 bg-white relative group data-[selected]:bg-gray-50 focus:outline-none"
                   >
-                    <p className="text-sm">Step {index + 1}</p>
+                    <p className="text-sm whitespace-nowrap">
+                      Step {index + 1}
+                    </p>
                     <button
                       onClick={() => removeStep(index)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:block rounded p-px hidden hover:bg-gray-100"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:block rounded p-px hidden hover:bg-gray-100 bg-white"
                     >
                       <XMarkIcon className="h-5 w-5" />
                     </button>
                   </Tab>
-                ))
-                .concat(
-                  <button
-                    onClick={addStep}
-                    className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100"
-                  >
-                    <PlusIcon className="h-5 w-5" />
-                  </button>,
-                )}
+                ))}
+              </div>
+              <button
+                onClick={addStep}
+                className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100 z-50"
+              >
+                <PlusIcon className="h-5 aspect-square" />
+              </button>
             </TabList>
-            <TabPanels>
+            <TabPanels className="h-full overflow-hidden px-2 rounded-md">
               {recipe.steps.map((step, index) => (
-                <TabPanel key={index}>
+                <TabPanel
+                  key={index}
+                  className="rounded-md bg-white border border-gray-200 h-screen w-full"
+                >
+                  <div className="h-full bg-white rounded-md"></div>
                   {step.parameters.map((parameter) => (
                     <ParameterBox key={parameter.id} parameter={parameter} />
                   ))}
