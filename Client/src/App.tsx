@@ -14,6 +14,7 @@ import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
 import SamplesPage from "@pages/SamplesPage";
 import UsersPage from "@pages/UsersPage.tsx";
+import AddRecipe from "@pages/AddRecipe.tsx";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,9 @@ export default function App() {
       <Toaster toastOptions={toastOptions} />
       <BrowserRouter>
         <Routes>
+          <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
+            <Route path="/new-recipe" element={<AddRecipe />} />
+          </Route>
           <Route element={<AuthorizedLayout pageName="Projects" />}>
             <Route path="/projects" element={<ProjectsPage />} />
           </Route>
@@ -35,9 +39,9 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Samples" />}>
             <Route path="/samples" element={<SamplesPage />} />
           </Route>
-            <Route element={<AuthorizedLayout pageName="Users" />}>
-                <Route path="/users" element={<UsersPage />} />
-            </Route>
+          <Route element={<AuthorizedLayout pageName="Users" />}>
+            <Route path="/users" element={<UsersPage />} />
+          </Route>
           <Route element={<NoNavbarLayout />}>
             <Route path="/add-new-project" element={<NewProjectForm />} />
             <Route path="*" element={<NotFoundPage />} />
