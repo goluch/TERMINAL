@@ -22,11 +22,13 @@ import {
   DragOverlay,
   DragOverEvent,
   closestCenter,
+  DraggableAttributes,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS, useUniqueId } from "@dnd-kit/utilities";
 import { v4 as uuidv4, validate } from "uuid";
 import clsx from "clsx";
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 type Step = {
   id: string;
@@ -298,13 +300,13 @@ const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
 
   return (
     !isDragging && (
-      <div className="px-2" {...listeners} {...attributes} ref={setNodeRef}>
+      <div className="px-2" ref={setNodeRef}>
         <div className="border border-gray-200 rounded flex items-center bg-white justify-between">
           <div className="p-2">
             <p className="text-xs">{parameter.name}</p>
           </div>
           <div className="bg-gray-100 border-s border-gray-200 p-1">
-            <DragHandle />
+            <DragHandle listeners={listeners} attributes={attributes} />
           </div>
         </div>
       </div>
@@ -326,8 +328,6 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
 
   return (
     <div
-      {...listeners}
-      {...attributes}
       ref={setNodeRef}
       className={clsx(
         "rounded-md border border-gray-200 bg-white",
@@ -338,7 +338,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
         transition,
       }}
     >
-      <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+      <div className="border-b border-gray-200 rounded-t-md bg-gray-100 flex justify-between">
         <p className="p-2 text-sm">{parameter.name}</p>
       </div>
       <div className="p-2">
@@ -346,16 +346,26 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
           <p className="text-xs border-e border-gray-200 p-2 bg-gray-100 text-gray-700">
             default
           </p>
-          <input className=" rounded-md w-full text-sm ms-2" />
+          <input className="rounded-md w-full text-sm ms-2" />
+          <DragHandle attributes={attributes} listeners={listeners} />
         </div>
       </div>
     </div>
   );
 };
 
-const DragHandle = () => {
+type DragHandleProps = {
+  className?: string;
+  attributes: DraggableAttributes;
+  listeners: SyntheticListenerMap | undefined;
+};
+
+const DragHandle = ({ className, attributes, listeners }: DragHandleProps) => {
   return (
     <svg
+      className={clsx("cursor-grab hover:bg-gray-200 rounded", className)}
+      {...attributes}
+      {...listeners}
       fill="#333333"
       width="30px"
       height="30px"
