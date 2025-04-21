@@ -9,7 +9,7 @@ type ParameterValue<T> = {
 };
 
 type Parameter = {
-  type: ParameterType;
+  $type: ParameterType;
   step: number;
   id: string;
   name: string;
@@ -18,23 +18,23 @@ type Parameter = {
 };
 
 type NumericParameter = Parameter & {
-  type: "decimal" | "integer";
+  $type: "decimal" | "integer";
   unit: string;
 };
 
 type IntegerParameter = NumericParameter &
   ParameterValue<number> & {
-    type: "integer";
+    $type: "integer";
   };
 
 type DecimalParameter = NumericParameter &
   ParameterValue<number> & {
-    type: "decimal";
+    $type: "decimal";
   };
 
 type TextParameter = Parameter &
   ParameterValue<string> & {
-    type: "text";
+    $type: "text";
     allowedValues: string[];
   };
 
