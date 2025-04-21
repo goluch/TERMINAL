@@ -12,7 +12,21 @@ import useGetParameters, {
   TextParameter,
 } from "@hooks/useGetParameters";
 import { IntegerParameter } from "@hooks/useGetParameters";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
+import {
+  useDroppable,
+  useDraggable,
+  DndContext,
+  DragStartEvent,
+  DragEndEvent,
+  DragOverlay,
+  DragOverEvent,
+  closestCenter,
+} from "@dnd-kit/core";
+import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
+import { CSS, useUniqueId } from "@dnd-kit/utilities";
+import { v4 as uuidv4, validate } from "uuid";
+import clsx from "clsx";
 
 type Step = {
   id: string;
@@ -28,6 +42,14 @@ type Recipe = {
 
 const AddRecipe = () => {
   const { data: parameters, isLoading, isError } = useGetParameters();
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [index, setIndex] = useState<number | undefined>(undefined);
+
+  const handleDragStart = (event: DragStartEvent) => {
+    const target = event.active.id;
+    setActiveId(target.toString());
+  };
+
   const [recipe, setRecipe] = useState<Recipe>({
     id: "",
     name: "",
@@ -36,6 +58,56 @@ const AddRecipe = () => {
       { id: "", comment: "", parameters: [] },
     ],
   });
+
+  const handleDragOver = (event: DragOverEvent) => {
+    if (index === undefined) return;
+    if (event.over === null) return;
+
+    const active_indx = recipe.steps[index].parameters.findIndex(
+      (x) => x.id === activeId,
+    );
+    const over_indx = recipe.steps[index].parameters.findIndex(
+      (x) => x.id === event.over?.id,
+    );
+
+    if (active_indx !== -1 && over_indx !== -1) {
+      if (active_indx === over_indx) return;
+      const steps = [...recipe.steps];
+      steps[index].parameters = arrayMove(
+        steps[index].parameters,
+        active_indx,
+        over_indx,
+      );
+      setRecipe({ ...recipe, steps });
+    }
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    if (
+      activeId === null ||
+      index === undefined ||
+      event.over?.id !== "droppable"
+    )
+      return;
+    if (validate(activeId)) setActiveId(null);
+
+    recipe.steps[index].parameters = [
+      ...recipe.steps[index].parameters,
+      {
+        type: "integer",
+        value: 1,
+        defaultValue: 20,
+        unit: "mm",
+        step: 1,
+        name: activeId,
+        id: uuidv4(),
+        order: 0,
+        parentId: "",
+      },
+    ];
+    setActiveId(null);
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
   if (parameters === undefined) return <div>No parameters found</div>;
@@ -74,86 +146,142 @@ const AddRecipe = () => {
   };
 
   return (
-    <div className="p-2 flex gap-2 h-full">
-      <div className="flex flex-col gap-2 w-80">
-        <div className="flex flex-col border border-gray-200 rounded-md bg-white overflow-auto h-full">
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+    >
+      {!validate(activeId) && (
+        <DragOverlay>
+          {activeId && (
+            <ParameterSelect
+              parameter={{
+                id: "dupa",
+                name: activeId,
+                unit: "dupa",
+                step: 1,
+                type: "integer",
+                value: 0,
+                defaultValue: 0,
+                order: 0,
+                parentId: "",
+              }}
+            />
+          )}
+        </DragOverlay>
+      )}
+      <div className="p-2 flex gap-2 h-full">
+        <div className="flex flex-col gap-2 w-80">
+          <div className="flex flex-col border border-gray-200 rounded-md bg-white overflow-auto h-full">
+            <div className="p-4 border-b border-gray-200 rounded-t-md">
+              <p>Parameters</p>
+            </div>
+            <div className="flex flex-col gap-2 py-2">
+              {parameters.parameters.map((parameter) => (
+                <ParameterSelect key={parameter.id} parameter={parameter} />
+              ))}
+            </div>
+          </div>
+          <div className="flex border gap-2 border-gray-200 rounded-md bg-white overflow-auto p-2 justify-center">
+            <button className="p-2 border border-gray-200 rounded hover:bg-gray-100 hover:border-red-300 transition-colors duration-100">
+              <ArrowPathIcon className="h-5 w-5" />
+            </button>
+            <button className="p-2 border border-gray-200 rounded hover:bg-gray-50 hover:border-green-300 transition-colors duration-100 group">
+              <CheckIcon className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
           <div className="p-4 border-b border-gray-200 rounded-t-md">
-            <p>Parameters</p>
+            <p>Recipe</p>
           </div>
-          <div className="flex flex-col gap-2 py-2">
-            {parameters.parameters.map((parameter) => (
-              <ParameterSelect key={parameter.id} parameter={parameter} />
-            ))}
-          </div>
-        </div>
-        <div className="flex border gap-2 border-gray-200 rounded-md bg-white overflow-auto p-2 justify-center">
-          <button className="p-2 border border-gray-200 rounded hover:bg-gray-100 hover:border-red-300 transition-colors duration-100">
-            <ArrowPathIcon className="h-5 w-5" />
-          </button>
-          <button className="p-2 border border-gray-200 rounded hover:bg-gray-50 hover:border-green-300 transition-colors duration-100 group">
-            <CheckIcon className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
-        <div className="p-4 border-b border-gray-200 rounded-t-md">
-          <p>Recipe</p>
-        </div>
-        <div className="bg-gray-100 h-full">
-          <TabGroup className="flex flex-col overflow-y-hidden overflow-x-auto">
-            <TabList className="flex gap-1 w-full p-2 overflow-x-auto">
-              <div className="overflow-x-auto flex gap-1 w-full">
-                {recipe.steps.map((_, index) => (
-                  <Tab
-                    key={index}
-                    className="w-full p-2 rounded border border-gray-200 bg-white relative group data-[selected]:bg-gray-50 focus:outline-none"
-                  >
-                    <p className="text-sm whitespace-nowrap">
-                      Step {index + 1}
-                    </p>
-                    <button
-                      onClick={() => removeStep(index)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:block rounded p-px hidden hover:bg-gray-100 bg-white"
+          <div className="bg-gray-100 h-full">
+            <TabGroup
+              className="flex flex-col overflow-y-hidden overflow-x-auto"
+              selectedIndex={index}
+              onChange={setIndex}
+            >
+              <TabList className="flex gap-1 w-full p-2 overflow-x-auto">
+                <div className="overflow-x-auto flex gap-1 w-full">
+                  {recipe.steps.map((_, index) => (
+                    <Tab
+                      key={index}
+                      className="w-full p-2 rounded border border-gray-200 bg-white relative group data-[selected]:bg-gray-50 focus:outline-none"
                     >
-                      <XMarkIcon className="h-5 w-5" />
-                    </button>
-                  </Tab>
-                ))}
-              </div>
-              <button
-                onClick={addStep}
-                className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100 z-50"
-              >
-                <PlusIcon className="h-5 aspect-square" />
-              </button>
-            </TabList>
-            <TabPanels className="h-full overflow-hidden rounded-md p-2">
-              {recipe.steps.map((step, index) => (
-                <TabPanel
-                  key={index}
-                  className="rounded-md bg-white border border-gray-200 h-screen w-full p-2 grid grid-cols-10 gap-2"
+                      <p className="text-sm whitespace-nowrap">
+                        Step {index + 1}
+                      </p>
+                      <button
+                        onClick={() => removeStep(index)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:block rounded p-px hidden hover:bg-gray-100 bg-white"
+                      >
+                        <XMarkIcon className="h-5 w-5" />
+                      </button>
+                    </Tab>
+                  ))}
+                </div>
+                <button
+                  onClick={addStep}
+                  className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100 z-50"
                 >
-                  <div className="flex flex-col gap-1 w-full col-span-6">
-                    {step.parameters.map((parameter) => (
-                      <ParameterBox key={parameter.id} parameter={parameter} />
-                    ))}
-                  </div>
-                  <div className="flex flex-col gap-1 w-full col-span-4">
-                    <div className="rounded-md border border-gray-200">
-                      <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
-                        <p className="p-2 text-sm">Comment</p>
-                      </div>
-                      <div className="p-2">
-                        <textarea className="h-auto w-full" rows={20} />
+                  <PlusIcon className="h-5 aspect-square" />
+                </button>
+              </TabList>
+              <TabPanels className="h-full overflow-hidden rounded-md p-2">
+                {recipe.steps.map((step, index) => (
+                  <TabPanel
+                    key={index}
+                    className="rounded-md bg-white border border-gray-200 h-screen w-full p-2 grid grid-cols-10 gap-2"
+                  >
+                    <div className="flex flex-col gap-1 w-full col-span-6">
+                      <SortableContext items={step.parameters}>
+                        <ParameterDroppable>
+                          {step.parameters.map((parameter) => (
+                            <ParameterBox
+                              key={parameter.id}
+                              parameter={parameter}
+                            />
+                          ))}
+                        </ParameterDroppable>
+                      </SortableContext>
+                    </div>
+                    <div className="flex flex-col gap-1 w-full col-span-4">
+                      <div className="rounded-md border border-gray-200">
+                        <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+                          <p className="p-2 text-sm">Comment</p>
+                        </div>
+                        <div className="p-2">
+                          <textarea className="h-auto w-full" rows={20} />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </TabGroup>
+                  </TabPanel>
+                ))}
+              </TabPanels>
+            </TabGroup>
+          </div>
         </div>
       </div>
+    </DndContext>
+  );
+};
+
+const ParameterDroppable = ({ children }: { children: ReactNode }) => {
+  const { isOver, setNodeRef } = useDroppable({
+    id: "droppable",
+  });
+  const style = {
+    color: isOver ? "green" : undefined,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="h-full w-full flex flex-col gap-1 col-span-6"
+    >
+      {children}
     </div>
   );
 };
@@ -163,23 +291,53 @@ type ParameterBoxProps = {
 };
 
 const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: parameter.name,
+    });
+
   return (
-    <div className="px-2">
-      <div className="border border-gray-200 rounded flex items-center justify-between">
-        <div className="p-2">
-          <p className="text-xs">{parameter.name}</p>
-        </div>
-        <div className="bg-gray-100 border-s border-gray-200 p-1">
-          <DragHandle />
+    !isDragging && (
+      <div className="px-2" {...listeners} {...attributes} ref={setNodeRef}>
+        <div className="border border-gray-200 rounded flex items-center bg-white justify-between">
+          <div className="p-2">
+            <p className="text-xs">{parameter.name}</p>
+          </div>
+          <div className="bg-gray-100 border-s border-gray-200 p-1">
+            <DragHandle />
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
+  const {
+    listeners,
+    attributes,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: parameter.id,
+  });
+
   return (
-    <div className="rounded-md border border-gray-200">
+    <div
+      {...listeners}
+      {...attributes}
+      ref={setNodeRef}
+      className={clsx(
+        "rounded-md border border-gray-200 bg-white",
+        isDragging && "z-50",
+      )}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
+    >
       <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
         <p className="p-2 text-sm">{parameter.name}</p>
       </div>
