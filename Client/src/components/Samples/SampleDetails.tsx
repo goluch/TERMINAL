@@ -14,22 +14,20 @@ export interface SampleDetailsProps {
 const SampleDetails = (props: SampleDetailsProps) => {
 
     const date = new Date(props.dataQuery?.createdAtUtc ?? "");
+
     const handleDeletion = async () => {
-        if (props.dataQuery?.id !== undefined) {
-            props.mutation.mutateAsync(props.dataQuery.id).then(() => {
-            });
-            try {
-                await toastPromise(
-                    props.mutation.mutateAsync(props.dataQuery.id),
-                    {
-                        loading: "Deleting sample...",
-                        success: "Deletion successful",
-                        error: "Deletion failed",
-                    }
-                );
-            } catch {
-                // Error is handled by toastPromise
-            }
+        if (props.dataQuery?.id === undefined) return null;
+        try {
+            await toastPromise(
+                props.mutation.mutateAsync(props.dataQuery.id),
+                {
+                    loading: "Deleting sample...",
+                    success: "Deletion successful",
+                    error: "Deletion failed",
+                }
+            );
+        } catch {
+            // Error is handled by toastPromise
         }
     }
 
@@ -80,12 +78,14 @@ const SampleDetails = (props: SampleDetailsProps) => {
                     <div className="font-medium pr-2">Number of steps:</div>
                     <div>{props.dataQuery?.steps?.length}</div>
                 </div>
-              {props.dataQuery && (
-                  <Button className="btn btn-outline btn-error" onClick={handleDeletion}
-                          disabled={props.mutation.isPending}>
-                    Delete
-                  </Button>
-              )}
+                <div className="mt-6 flex gap-2">
+                    {props.dataQuery && (
+                        <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
+                                disabled={props.mutation.isPending}>
+                            Delete
+                        </Button>
+                    )}
+                </div>
             </div>
         </div>
     );
