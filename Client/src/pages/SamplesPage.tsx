@@ -30,7 +30,7 @@ const SamplesPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <div className="flex flex-wrap justify-center p-1 gap-1">
+            <div className="flex flex-wrap sm:flex-nowrap justify-center p-1 gap-1">
                 <div className="basis-3/5 rounded-lg bg-white">
                     {dataQuerySamples.isLoading ? (
                         <div className="flex justify-center">
@@ -47,7 +47,7 @@ const SamplesPage = () => {
                         />
                     )}
                 </div>
-                <div className="basis-2/5 rounded-md self-start">
+                <div className="basis-2/5 rounded-md ">
                     {dataQuerySampleDetails.isLoading ? (
                         <div className="flex justify-center">
                             <span className="loading loading-spinner loading-md"></span>
