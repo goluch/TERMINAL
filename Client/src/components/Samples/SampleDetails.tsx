@@ -1,14 +1,14 @@
 import {SampleDetailsDto} from "@api/terminalSchemas.ts";
 import {Button} from "@headlessui/react";
-import {UseMutationResult} from '@tanstack/react-query';
-import {AxiosResponse} from "axios";
 import {toastPromise} from "../../utils/toast.utils.tsx";
 import {ClockIcon, TagIcon, ChatBubbleBottomCenterTextIcon, NumberedListIcon} from "@heroicons/react/16/solid";
 import {EyeDropperIcon} from "@heroicons/react/20/solid";
+import {AxiosResponse} from "axios";
 
 export interface SampleDetailsProps {
     dataQuery: SampleDetailsDto | undefined;
-    mutation: UseMutationResult<AxiosResponse<any>, Error, string, unknown>;
+    mutateAsync: (id: string) => Promise<AxiosResponse<any>>;
+    isPending: boolean;
 }
 
 const SampleDetails = (props: SampleDetailsProps) => {
@@ -19,7 +19,7 @@ const SampleDetails = (props: SampleDetailsProps) => {
         if (props.dataQuery?.id === undefined) return null;
         try {
             await toastPromise(
-                props.mutation.mutateAsync(props.dataQuery.id),
+                props.mutateAsync(props.dataQuery.id),
                 {
                     loading: "Deleting sample...",
                     success: "Deletion successful",
@@ -81,7 +81,7 @@ const SampleDetails = (props: SampleDetailsProps) => {
                 <div className="mt-6 flex gap-2">
                     {props.dataQuery && (
                         <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
-                                disabled={props.mutation.isPending}>
+                                disabled={props.isPending}>
                             Delete
                         </Button>
                     )}

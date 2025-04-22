@@ -63,7 +63,10 @@ const SamplesPage = () => {
                             <span className="loading loading-spinner loading-md"></span>
                         </div>
                     ) : sampleDetailsId ? (
-                        <SampleDetails dataQuery={dataQuerySampleDetails.data} mutation={mutation}/>
+                        <SampleDetails dataQuery={dataQuerySampleDetails.data}
+                                       mutateAsync={mutation.mutateAsync}
+                                       isPending={mutation.isPending}
+                        />
                     ) : (
                         ""
                     )}
