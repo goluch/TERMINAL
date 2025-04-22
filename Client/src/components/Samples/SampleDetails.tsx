@@ -7,7 +7,7 @@ import {AxiosResponse} from "axios";
 
 export interface SampleDetailsProps {
     dataQuery: SampleDetailsDto | undefined;
-    mutateAsync: (id: string) => Promise<AxiosResponse<any>>;
+    mutateAsync: (id: string) => Promise<AxiosResponse>;
     isPending: boolean;
 }
 
@@ -36,15 +36,15 @@ const SampleDetails = (props: SampleDetailsProps) => {
             <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] p-2 flex">
                 Details
             </div>
-            <div className="bg-white p-4 space-y-3">
+            <div className="p-4 space-y-3 font-light text-sm text-gray-600">
 
-                <div className="flex items-center font-light text-sm text-gray-600">
+                <div className="flex items-center ">
                     <EyeDropperIcon className="w-6 h-6 pr-2"/>
                     <p className="font-medium flex items-center pr-1">
                         Sample Code: {props.dataQuery?.code}
                     </p>
                 </div>
-                <div className="flex items-center font-light text-sm text-gray-600">
+                <div className="flex items-center">
                     <ClockIcon className="w-6 h-6 pr-2"/>
                     <p className="font-medium flex items-center pr-1">Created:</p>
                     <p>
@@ -54,7 +54,7 @@ const SampleDetails = (props: SampleDetailsProps) => {
             `}
                     </p>
                 </div>
-                <div className="flex items-center font-light text-sm text-gray-600">
+                <div className="flex items-center ">
                     <TagIcon className="w-6 h-6 pr-2"/>
                     <div className="font-medium flex items-center pr-1">Tags:</div>
                     <div className="flex gap-1">
