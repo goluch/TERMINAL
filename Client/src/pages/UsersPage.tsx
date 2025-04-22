@@ -4,7 +4,6 @@ import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useUsers } from "@hooks/users/useGetUsers.ts";
 import UserDetails from "@components/Users/UserDetails.tsx";
 import { useUserDetails } from "@hooks/users/useGetUserDetails.ts";
-import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
 
 const UsersPage = () => {
     const [userDetailsId, setUserDetailsId] = useState<string | null>(null);
@@ -19,16 +18,6 @@ const UsersPage = () => {
         pageSize: pagination.pageSize,
         desc: sorting[0]?.desc ?? true,
     });
-
-    const mutation = useDeleteUser(
-        {
-            pageNumber: pagination.pageIndex,
-            pageSize: pagination.pageSize,
-            orderBy: sorting[0]?.id ?? "",
-            desc: sorting[0]?.desc ?? true,
-        },
-        setUserDetailsId
-    );
 
     const dataQueryUserDetails = useUserDetails(userDetailsId);
 
@@ -59,8 +48,12 @@ const UsersPage = () => {
                     {userDetailsId && dataQueryUserDetails.data ? (
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}
-                            mutateAsync={mutation.mutateAsync}
-                            isPending={mutation.isPending}
+                            params={{
+                                pageNumber: pagination.pageIndex,
+                                pageSize: pagination.pageSize,
+                                desc: sorting[0]?.desc ?? true,
+                            }}
+                            setUserDetailsId={setUserDetailsId}
                         />
                     ) : (
                         <div className="text-center text-gray-500">Select a user to view details</div>
