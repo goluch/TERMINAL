@@ -23,9 +23,9 @@ const RecipesPage = () => {
     const dataQueryRecipeDetails = useRecipeDetails(recipeProjectId);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <div className="flex justify-center p-1 gap-1">
-                <div className="flex-1 basis-3/5 bg-white rounded-md">
+        <div className="max-h-full flex bg-gray-100">
+            <div className="flex max-h-full w-full justify-center p-1 gap-1">
+                <div className="flex-1 basis-2/5">
                     {dataQueryRecipes.isLoading ? (
                         <div className="flex justify-center">
                             <span className="loading loading-spinner loading-md"></span>
@@ -41,16 +41,19 @@ const RecipesPage = () => {
                         />
                     )}
                 </div>
-                <div className="flex-1 basis-2/5 bg-white p-3 rounded-md m-1">
+                <div className="flex-1 basis-3/5">
                     {dataQueryRecipeDetails.isLoading ? (
                         <div className="flex justify-center">
                             <span className="loading loading-spinner loading-md"></span>
                         </div>
-                    ) : (
+                    ) : recipeProjectId ? (
                         <RecipeDetails dataQuery={dataQueryRecipeDetails.data}/>
+                    ) : (
+                        ""
                     )}
                 </div>
             </div>
+
         </div>
     );
 };

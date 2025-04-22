@@ -1,4 +1,9 @@
 import {ProjectDetailsDto} from "@api/terminalSchemas.ts";
+import {
+    NumberedListIcon,
+    IdentificationIcon,
+    QuestionMarkCircleIcon
+} from "@heroicons/react/16/solid";
 
 
 export interface ProjectDetailsProps {
@@ -8,18 +13,29 @@ export interface ProjectDetailsProps {
 const ProjectDetails = (props: ProjectDetailsProps) => {
 
     return (
-        <div className="card-body">
-            <div className="card-title text-4xl">Details</div>
-            <div className="divider"></div>
-            <div className="grid grid-cols-[35%_65%] gap-y-3">
-                <div className="font-bold">Name:</div>
-                <div>{props.dataQuery?.name}</div>
-                <div className="font-bold">Is Active:</div>
-                <div>{(props.dataQuery?.isActive) ? ("Yes") : ("No")}</div>
-                <div className="font-bold">Amount of samples:</div>
-                <div>{props.dataQuery?.samplesIds.length}</div>
+        <div className="border border-gray-200 rounded-lg bg-white">
+            <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] p-2 flex">
+                Details
+            </div>
+            <div className="bg-white p-4 space-y-3">
+                <div className="flex items-center font-light text-sm text-gray-600">
+                    <IdentificationIcon className="w-6 h-6 pr-2"/>
+                    <div className="font-medium pr-1">Name:</div>
+                    <div>{props.dataQuery?.name}</div>
+                </div>
+                <div className="flex items-center font-light text-sm text-gray-600">
+                    <QuestionMarkCircleIcon className="w-6 h-6 pr-2"/>
+                    <div className="font-medium pr-1">Is active:</div>
+                    <div>{props.dataQuery?.isActive ? "Yes" : "No"}</div>
+                </div>
+                <div className="flex items-center font-light text-sm text-gray-600">
+                    <NumberedListIcon className="w-6 h-6 pr-2"/>
+                    <div className="font-medium pr-1">Amount of samples::</div>
+                    <div>{props.dataQuery?.samplesIds.length}</div>
+                </div>
             </div>
         </div>
+
     );
 };
 
