@@ -26,7 +26,7 @@ const AuthorizedNavbarLayout = ({pageName}: AuthorizedNavbarLayoutProps) => {
                     {/* Menu - only mobile  */}
                     <MobileNavbar/>
                     {/* Page content */}
-                    <div className="p-2 ps-0 h-screen min-h-screen max-h-screen w-full">
+                    <div className="p-2 ps-0 md:h-screen w-full">
                         <div
                             className="bg-white rounded-md inline-block border border-gray-200 shadow-sm w-full h-full overflow-hidden">
                             <div className="h-[60px] text-xl flex font-medium items-center px-4 rounded-md">
