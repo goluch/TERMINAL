@@ -13,6 +13,7 @@ import { toastOptions } from "./utils/toast.utils.tsx";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
 import SamplesPage from "@pages/SamplesPage";
+import UsersPage from "@pages/UsersPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,9 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Samples" />}>
             <Route path="/samples" element={<SamplesPage />} />
           </Route>
-
+            <Route element={<AuthorizedLayout pageName="Users" />}>
+                <Route path="/users" element={<UsersPage />} />
+            </Route>
           <Route element={<NoNavbarLayout />}>
             <Route path="/add-new-project" element={<NewProjectForm />} />
             <Route path="*" element={<NotFoundPage />} />
