@@ -38,8 +38,8 @@ const UsersPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <div className="flex justify-center p-5 flex-wrap">
-                <div className="flex-1 bg-white p-3 rounded-md m-1">
+            <div className="flex justify-center flex-wrap">
+                <div className="flex-1 bg-white rounded-md m-1">
                     {dataQueryUsers.isLoading ? (
                         <div className="flex justify-center">
                             <span className="loading loading-spinner loading-md"></span>
@@ -55,7 +55,7 @@ const UsersPage = () => {
                         />
                     )}
                 </div>
-                <div className="flex-1 bg-white p-3 rounded-md m-1 self-start">
+                <div className="flex-1 bg-white rounded-md m-1 self-start">
                     {userDetailsId && dataQueryUserDetails.data ? (
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}

@@ -86,8 +86,8 @@ const UserDetails = (props: UserDetailsProps) => {
     };
 
     return (
-        <div className="border border-gray-200 rounded-lg bg-white p-2">
-            <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] p-2 flex">
+        <div className="border border-gray-200 rounded-lg bg-white">
+            <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] flex items-center px-2">
                 User Details
             </div>
             <div className="flex items-center font-light text-sm text-gray-600">
