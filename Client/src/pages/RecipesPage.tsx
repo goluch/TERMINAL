@@ -24,7 +24,7 @@ const RecipesPage = () => {
 
     return (
         <div className="max-h-full flex bg-gray-100">
-            <div className="flex max-h-full w-full justify-center p-1 gap-1">
+            <div className="flex flex-wrap sm:flex-nowrap  max-h-full w-full justify-center p-1 gap-1">
                 <div className="flex-1 basis-2/5">
                     {dataQueryRecipes.isLoading ? (
                         <div className="flex justify-center">

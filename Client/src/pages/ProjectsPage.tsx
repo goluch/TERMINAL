@@ -25,7 +25,7 @@ const ProjectsPage = () => {
     return (
         <div>
             <div className="min-h-screen bg-gray-100">
-                <div className="flex justify-center p-1 gap-1">
+                <div className="flex flex-wrap sm:flex-nowrap  justify-center p-1 gap-1">
                     <div className="flex-1 basis-3/5 bg-white rounded-md">
                         {dataQueryProjects.isLoading ? (
                             <div className="flex justify-center">
