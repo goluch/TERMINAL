@@ -1,26 +1,17 @@
 import { useState, useEffect } from "react";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button, Input, Select } from "@headlessui/react";
-import { toastPromise } from "../../utils/toast.utils.tsx";
 import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/solid";
-import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
 
 export interface UserDetailsProps {
-    dataQuery: UserDetailsDto | undefined;
-    params: {
-        pageNumber: number;
-        pageSize: number;
-        desc?: boolean;
-    };
-    setUserDetailsId: (id: string | null) => void;
+    dataQuery: UserDetailsDto;
+    onDeleted: (id: string) => void;
 }
 
 const UserDetails = (props: UserDetailsProps) => {
     const [email, setEmail] = useState(props.dataQuery?.email);
     const [role, setRole] = useState(props.dataQuery?.role);
     const [isChanged, setIsChanged] = useState(false);
-
-    const mutation = useDeleteUser(props.params, props.setUserDetailsId);
 
     useEffect(() => {
         setEmail(props.dataQuery?.email || "");
@@ -38,24 +29,12 @@ const UserDetails = (props: UserDetailsProps) => {
         // Submit logic here
     };
 
-    const handleDeletion = async () => {
-        if (props.dataQuery?.id === undefined) {
-            return;
+    const handleDeletion = () => {
+        if (props.dataQuery?.id) {
+            props.onDeleted(props.dataQuery.id);
         }
+    }
 
-        try {
-            await toastPromise(
-                mutation.mutateAsync(props.dataQuery.id).then(() => Promise.resolve("success")),
-                {
-                    success: "User deleted successfully",
-                    error: "Failed to delete user",
-                    loading: "Deleting user...",
-                }
-            );
-        } catch {
-            // Error is already handled by the toastPromise
-        }
-    };
 
     return (
         <div className="border border-gray-200 rounded-lg bg-white p-2">
@@ -116,7 +95,7 @@ const UserDetails = (props: UserDetailsProps) => {
                 <Button
                     className="btn btn-sm btn-error text-white rounded gap-1"
                     onClick={handleDeletion}
-                    disabled={mutation.isPending}
+                    disabled={!props.dataQuery?.id}
                 >
                     <TrashIcon className="w-4 h-4" />
                     Delete
