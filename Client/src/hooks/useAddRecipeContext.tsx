@@ -53,6 +53,9 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
       ...prevRecipe,
       steps: [...prevRecipe.steps, { id: "", comment: "", parameters: [] }],
     }));
+    if (currentStep === null) {
+      setCurrentStep(0);
+    }
   };
 
   const removeStep = (index: number) => {
@@ -141,7 +144,11 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const copyStepAsNext = (index: number) => {
-    if (index === null || currentStep === null) return;
+    if (index === null || currentStep === null) {
+      console.log("index: ", index);
+      console.log("current: ", currentStep);
+      return;
+    }
 
     const newStep = { ...recipe.steps[currentStep] };
     newStep.parameters = newStep.parameters.map((param) => ({
