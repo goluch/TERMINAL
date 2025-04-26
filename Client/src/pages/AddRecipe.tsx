@@ -48,8 +48,7 @@ const AddRecipeWithContexts = () => {
 
 const AddRecipe = () => {
   const { data: parameters, isLoading, isError } = useGetParameters();
-  const { addStep, removeStep, currentStep, setCurrentStep, recipe } =
-    useAddRecipeContext();
+  const { currentStep, setCurrentStep, recipe } = useAddRecipeContext();
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
@@ -71,11 +70,7 @@ const AddRecipe = () => {
             selectedIndex={currentStep ?? undefined}
             onChange={setCurrentStep}
           >
-            <StepTabList
-              steps={recipe.steps}
-              onTabRemove={removeStep}
-              onTabAdd={addStep}
-            />
+            <StepTabList />
             <TabPanels className="h-full overflow-hidden rounded-md p-2">
               {recipe.steps.map((step, index) => (
                 <TabPanel
@@ -149,22 +144,17 @@ const ParameterSelectList = ({ parameters }: ParameterSelectListProps) => {
   );
 };
 
-type StepTabListProps = {
-  steps: Step[];
-  onTabRemove: (index: number) => void;
-  onTabAdd: () => void;
-};
-
-const StepTabList = ({ onTabRemove, onTabAdd, steps }: StepTabListProps) => {
+const StepTabList = () => {
+  const { addStep, recipe } = useAddRecipeContext();
   return (
     <TabList className="flex gap-1 w-full p-2 overflow-x-auto">
       <div className="overflow-x-auto flex gap-1 w-full">
-        {steps.map((_, index) => (
-          <StepTab key={index} index={index} onRemove={onTabRemove} />
+        {recipe.steps.map((_, index) => (
+          <StepTab key={index} index={index} />
         ))}
       </div>
       <button
-        onClick={onTabAdd}
+        onClick={() => addStep()}
         className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100 z-50"
       >
         <PlusIcon className="h-5 aspect-square" />
@@ -175,10 +165,9 @@ const StepTabList = ({ onTabRemove, onTabAdd, steps }: StepTabListProps) => {
 
 type StepTabProps = {
   index: number;
-  onRemove: (index: number) => void;
 };
 
-const StepTab = ({ index, onRemove }: StepTabProps) => {
+const StepTab = ({ index }: StepTabProps) => {
   const { copyStepAsNext, removeStep } = useAddRecipeContext();
   return (
     <Tab
