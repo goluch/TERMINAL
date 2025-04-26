@@ -2,7 +2,9 @@
 
 import { Recipe } from "@api/models/Recipe";
 import { Step } from "@api/models/Step";
+import { arrayMove } from "@dnd-kit/sortable";
 import { createContext, ReactNode, useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 type AddRecipeContextValue = {
   recipe: Recipe;
@@ -14,6 +16,16 @@ type AddRecipeContextValue = {
   updateRecipe: (updatedRecipe: Recipe) => void;
   getCurrentStep: () => Step | null;
   findParameterIndex: (id: string | null) => number;
+  removeParameter: (stepIndex: number | null, parameterId: string) => void;
+  moveParameterUp: (
+    stepIndex: number | null,
+    parameterId: string | null,
+  ) => void;
+  moveParameterDown: (
+    stepIndex: number | null,
+    parameterId: string | null,
+  ) => void;
+  copyStepAsNext: (index: number) => void;
 };
 
 const AddRecipeContext = createContext<AddRecipeContextValue | null>(null);
@@ -69,6 +81,82 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     return recipe.steps[currentStep].parameters.findIndex((x) => x.id === id);
   };
 
+  const removeParameter = (stepIndex: number | null, parameterId: string) => {
+    if (stepIndex === null) return;
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      steps: prevRecipe.steps.map((step, i) =>
+        i === stepIndex
+          ? {
+              ...step,
+              parameters: step.parameters.filter(
+                (param) => param.id !== parameterId,
+              ),
+            }
+          : step,
+      ),
+    }));
+  };
+
+  const moveParameterUp = (
+    stepIndex: number | null,
+    parameterId: string | null,
+  ) => {
+    if (stepIndex === null || currentStep === null) return;
+
+    const parameterIndex = findParameterIndex(parameterId);
+    if (parameterIndex === -1 || parameterIndex === 0) return;
+
+    const newStep = { ...recipe.steps[currentStep] };
+    newStep.parameters = arrayMove(
+      newStep.parameters,
+      parameterIndex,
+      parameterIndex - 1,
+    );
+
+    updateStep(currentStep, newStep);
+  };
+
+  const moveParameterDown = (
+    stepIndex: number | null,
+    parameterId: string | null,
+  ) => {
+    if (stepIndex === null || currentStep === null) return;
+    const newStep = { ...recipe.steps[currentStep] };
+
+    const parameterIndex = findParameterIndex(parameterId);
+    if (
+      parameterIndex === -1 ||
+      parameterIndex === newStep.parameters.length - 1
+    )
+      return;
+
+    newStep.parameters = arrayMove(
+      newStep.parameters,
+      parameterIndex,
+      parameterIndex + 1,
+    );
+
+    updateStep(currentStep, newStep);
+  };
+
+  const copyStepAsNext = (index: number) => {
+    if (index === null || currentStep === null) return;
+
+    const newStep = { ...recipe.steps[currentStep] };
+    newStep.parameters = newStep.parameters.map((param) => ({
+      ...param,
+      id: uuidv4(),
+    }));
+
+    const newRecipe = {
+      ...recipe,
+      steps: recipe.steps.toSpliced(index + 1, 0, newStep),
+    };
+
+    updateRecipe(newRecipe);
+  };
+
   const getCurrentStep = () => {
     if (currentStep === null) return null;
 
@@ -87,6 +175,10 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
         updateRecipe,
         findParameterIndex,
         getCurrentStep,
+        removeParameter,
+        moveParameterUp,
+        moveParameterDown,
+        copyStepAsNext,
       }}
     >
       {children}

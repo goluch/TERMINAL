@@ -5,6 +5,7 @@ import {
   ArrowPathIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  DocumentDuplicateIcon,
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -16,7 +17,11 @@ import useGetParameters, {
 import { IntegerParameter } from "@hooks/useGetParameters";
 import { ReactNode } from "react";
 import { useDroppable, useDraggable, DraggableAttributes } from "@dnd-kit/core";
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+  useSortable,
+} from "@dnd-kit/sortable";
 import clsx from "clsx";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { RecipeDragProvider } from "@hooks/useRecipeDragContext";
@@ -78,7 +83,10 @@ const AddRecipe = () => {
                   className="rounded-md bg-white border border-gray-200 h-screen shadow-sm w-full p-2 grid grid-cols-10 gap-2"
                 >
                   <div className="flex flex-col gap-1 w-full col-span-6 overflow-y-auto">
-                    <SortableContext items={step.parameters}>
+                    <SortableContext
+                      items={step.parameters}
+                      strategy={horizontalListSortingStrategy}
+                    >
                       <ParameterDroppable>
                         {step.parameters.map((parameter) => (
                           <ParameterBox
@@ -171,18 +179,29 @@ type StepTabProps = {
 };
 
 const StepTab = ({ index, onRemove }: StepTabProps) => {
+  const { copyStepAsNext, removeStep } = useAddRecipeContext();
   return (
     <Tab
       key={index}
       className="w-full p-2 rounded border border-gray-200 bg-white relative group data-[selected]:bg-gray-50 focus:outline-none"
     >
       <p className="text-sm whitespace-nowrap">Step {index + 1}</p>
-      <button
-        onClick={() => onRemove(index)}
-        className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:block rounded p-px hidden hover:bg-gray-100 bg-white"
-      >
-        <XMarkIcon className="h-5 w-5" />
-      </button>
+      <div className="absolute right-2 top-1/2 -translate-y-1/2">
+        <div className="flex items-center justify-center">
+          <button
+            onClick={() => copyStepAsNext(index)}
+            className="group-hover:block rounded p-px hidden hover:bg-gray-100 bg-white"
+          >
+            <DocumentDuplicateIcon className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => removeStep(index)}
+            className="group-hover:block rounded p-px hidden hover:bg-gray-100 bg-white"
+          >
+            <XMarkIcon className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
     </Tab>
   );
 };
@@ -233,6 +252,8 @@ export const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
 };
 
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
+  const { removeParameter, moveParameterUp, moveParameterDown, currentStep } =
+    useAddRecipeContext();
   const {
     listeners,
     attributes,
@@ -262,13 +283,13 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
       <div className="border-b border-gray-200 rounded-t-md bg-gray-100 flex justify-between">
         <p className="p-2 text-sm">{parameter.name}</p>
         <div className="flex gap-2 px-2 items-center justify-center">
-          <button>
+          <button onClick={() => moveParameterUp(currentStep, parameter.id)}>
             <ChevronUpIcon className="h-4 w-4" />
           </button>
-          <button>
+          <button onClick={() => moveParameterDown(currentStep, parameter.id)}>
             <ChevronDownIcon className="h-4 w-4" />
           </button>
-          <button>
+          <button onClick={() => removeParameter(currentStep, parameter.id)}>
             <XMarkIcon className="h-4 w-4" />
           </button>
         </div>

@@ -7,6 +7,9 @@ import {
   DragEndEvent,
   DragOverEvent,
   DragStartEvent,
+  useSensors,
+  useSensor,
+  PointerSensor,
 } from "@dnd-kit/core";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4, validate } from "uuid";
@@ -44,6 +47,7 @@ const RecipeDragProvider = ({
   const { currentStep, findParameterIndex, getCurrentStep, updateStep } =
     useAddRecipeContext();
 
+  const sensors = useSensors(useSensor(PointerSensor));
   const handleDragStart = (event: DragStartEvent) => {
     const target = event.active.id;
     setActiveId(target.toString());
@@ -104,6 +108,7 @@ const RecipeDragProvider = ({
 
   return (
     <DndContext
+      sensors={sensors}
       collisionDetection={closestCenter}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
