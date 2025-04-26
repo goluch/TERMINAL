@@ -1,4 +1,4 @@
-import Step from "@components/Recipes/Step";
+import { Step } from "@api/models/Step";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import {
@@ -14,225 +14,98 @@ import useGetParameters, {
   TextParameter,
 } from "@hooks/useGetParameters";
 import { IntegerParameter } from "@hooks/useGetParameters";
-import { useState, ReactNode } from "react";
-import {
-  useDroppable,
-  useDraggable,
-  DndContext,
-  DragStartEvent,
-  DragEndEvent,
-  DragOverlay,
-  DragOverEvent,
-  closestCenter,
-  DraggableAttributes,
-} from "@dnd-kit/core";
-import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
-import { CSS, useUniqueId } from "@dnd-kit/utilities";
-import { v4 as uuidv4, validate } from "uuid";
+import { ReactNode } from "react";
+import { useDroppable, useDraggable, DraggableAttributes } from "@dnd-kit/core";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import clsx from "clsx";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { Rect } from "@dnd-kit/core/dist/utilities";
+import { RecipeDragProvider } from "@hooks/useRecipeDragContext";
+import {
+  AddRecipeProvider,
+  useAddRecipeContext,
+} from "@hooks/useAddRecipeContext";
 
-type Step = {
-  id: string;
-  comment: string;
-  parameters: AllParameters[];
-};
-
-type Recipe = {
-  id: string;
-  name: string;
-  steps: Step[];
-};
-
-const AddRecipe = () => {
+const AddRecipeWithContexts = () => {
   const { data: parameters, isLoading, isError } = useGetParameters();
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const [activeItem, setActiveItem] = useState<AllParameters | null>(null);
-  const [index, setIndex] = useState<number | undefined>(undefined);
-
-  const handleDragStart = (event: DragStartEvent) => {
-    const target = event.active.id;
-    setActiveId(target.toString());
-    setActiveItem(
-      parameters?.parameters.find((x) => x.name === target.toString()) ?? null,
-    );
-  };
-
-  const [recipe, setRecipe] = useState<Recipe>({
-    id: "",
-    name: "",
-    steps: [
-      { id: "", comment: "", parameters: [] },
-      { id: "", comment: "", parameters: [] },
-    ],
-  });
-
-  const handleDragOver = (event: DragOverEvent) => {
-    if (index === undefined) return;
-    if (event.over === null) return;
-
-    const active_indx = recipe.steps[index].parameters.findIndex(
-      (x) => x.id === activeId,
-    );
-    const over_indx = recipe.steps[index].parameters.findIndex(
-      (x) => x.id === event.over?.id,
-    );
-
-    if (active_indx !== -1 && over_indx !== -1) {
-      if (active_indx === over_indx) return;
-      const steps = [...recipe.steps];
-      steps[index].parameters = arrayMove(
-        steps[index].parameters,
-        active_indx,
-        over_indx,
-      );
-      setRecipe({ ...recipe, steps });
-    }
-  };
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    if (
-      activeId === null ||
-      index === undefined ||
-      event.over?.id !== "droppable"
-    )
-      return;
-    if (validate(activeId) || !activeItem) {
-      setActiveId(null);
-      setActiveItem(null);
-      return;
-    }
-
-    const item = parameters?.parameters.find((x) => x.name === activeId);
-    if (!item) {
-      setActiveId(null);
-      setActiveItem(null);
-      return;
-    }
-
-    console.log(JSON.stringify(item));
-    const steps = [...recipe.steps];
-
-    steps[index].parameters = [
-      ...steps[index].parameters,
-      {
-        ...item,
-        id: uuidv4(),
-      },
-    ];
-    setRecipe({ ...recipe, steps });
-    setActiveId(null);
-    setActiveItem(null);
-  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
   if (parameters === undefined) return <div>No parameters found</div>;
 
-  const addStep = () => {
-    setRecipe({
-      ...recipe,
-      steps: [
-        ...recipe.steps,
-        {
-          id: "",
-          comment: "",
-          parameters: [],
-        },
-      ],
-    });
-  };
+  return (
+    <AddRecipeProvider>
+      <RecipeDragProvider parameters={parameters.parameters}>
+        <AddRecipe />
+      </RecipeDragProvider>
+    </AddRecipeProvider>
+  );
+};
 
-  const removeStep = (index: number) => {
-    setRecipe({
-      ...recipe,
-      steps: recipe.steps.filter((_, i) => i !== index),
-    });
-  };
+const AddRecipe = () => {
+  const { data: parameters, isLoading, isError } = useGetParameters();
+  const { addStep, removeStep, currentStep, setCurrentStep, recipe } =
+    useAddRecipeContext();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+  if (parameters === undefined) return <div>No parameters found</div>;
 
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragOver}
-    >
-      {!validate(activeId) && (
-        <DragOverlay>
-          {activeId && (
-            <ParameterSelect
-              parameter={{
-                id: "dupa",
-                name: activeId,
-                unit: "dupa",
-                step: 1,
-                $type: "integer",
-                value: 0,
-                defaultValue: 0,
-                order: 0,
-                parentId: "",
-              }}
-            />
-          )}
-        </DragOverlay>
-      )}
-      <div className="p-2 flex gap-2 h-full">
-        <div className="flex flex-col gap-2 w-80">
-          <ParameterSelectList parameters={parameters.parameters} />
-          <AddRecipeActions />
+    <div className="p-2 flex gap-2 h-full">
+      <div className="flex flex-col gap-2 w-80">
+        <ParameterSelectList parameters={parameters.parameters} />
+        <AddRecipeActions />
+      </div>
+      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
+        <div className="p-4 border-b border-gray-200 rounded-t-md">
+          <p>Recipe</p>
         </div>
-        <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
-          <div className="p-4 border-b border-gray-200 rounded-t-md">
-            <p>Recipe</p>
-          </div>
-          <div className="bg-gray-100 h-full">
-            <TabGroup
-              className="flex flex-col overflow-y-hidden overflow-x-auto"
-              selectedIndex={index}
-              onChange={setIndex}
-            >
-              <StepTabList
-                steps={recipe.steps}
-                onTabRemove={removeStep}
-                onTabAdd={addStep}
-              />
-              <TabPanels className="h-full overflow-hidden rounded-md p-2">
-                {recipe.steps.map((step, index) => (
-                  <TabPanel
-                    key={index}
-                    className="rounded-md bg-white border border-gray-200 h-screen shadow-sm w-full p-2 grid grid-cols-10 gap-2"
-                  >
-                    <div className="flex flex-col gap-1 w-full col-span-6 overflow-y-auto">
-                      <SortableContext items={step.parameters}>
-                        <ParameterDroppable>
-                          {step.parameters.map((parameter) => (
-                            <ParameterBox
-                              key={parameter.id}
-                              parameter={parameter}
-                            />
-                          ))}
-                        </ParameterDroppable>
-                      </SortableContext>
-                    </div>
-                    <div className="flex flex-col gap-1 w-full col-span-4">
-                      <div className="rounded-md border border-gray-200 shadow-sm">
-                        <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
-                          <p className="p-2 text-sm">Comment</p>
-                        </div>
-                        <div className="p-2">
-                          <textarea className="h-auto w-full" rows={20} />
-                        </div>
+        <div className="bg-gray-100 h-full">
+          <TabGroup
+            className="flex flex-col overflow-y-hidden overflow-x-auto"
+            selectedIndex={currentStep ?? undefined}
+            onChange={setCurrentStep}
+          >
+            <StepTabList
+              steps={recipe.steps}
+              onTabRemove={removeStep}
+              onTabAdd={addStep}
+            />
+            <TabPanels className="h-full overflow-hidden rounded-md p-2">
+              {recipe.steps.map((step, index) => (
+                <TabPanel
+                  key={index}
+                  className="rounded-md bg-white border border-gray-200 h-screen shadow-sm w-full p-2 grid grid-cols-10 gap-2"
+                >
+                  <div className="flex flex-col gap-1 w-full col-span-6 overflow-y-auto">
+                    <SortableContext items={step.parameters}>
+                      <ParameterDroppable>
+                        {step.parameters.map((parameter) => (
+                          <ParameterBox
+                            key={parameter.id}
+                            parameter={parameter}
+                          />
+                        ))}
+                      </ParameterDroppable>
+                    </SortableContext>
+                  </div>
+                  <div className="flex flex-col gap-1 w-full col-span-4">
+                    <div className="rounded-md border border-gray-200 shadow-sm">
+                      <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+                        <p className="p-2 text-sm">Comment</p>
+                      </div>
+                      <div className="p-2">
+                        <textarea className="h-auto w-full" rows={20} />
                       </div>
                     </div>
-                  </TabPanel>
-                ))}
-              </TabPanels>
-            </TabGroup>
-          </div>
+                  </div>
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </TabGroup>
         </div>
       </div>
-    </DndContext>
+    </div>
   );
 };
 
@@ -337,12 +210,11 @@ type ParameterBoxProps = {
   parameter: IntegerParameter | DecimalParameter | TextParameter;
 };
 
-const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: parameter.name,
-      data: parameter,
-    });
+export const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: parameter.name,
+    data: parameter,
+  });
 
   return (
     !isDragging && (
@@ -486,4 +358,4 @@ const DragHandle = ({ className, attributes, listeners }: DragHandleProps) => {
   );
 };
 
-export default AddRecipe;
+export default AddRecipeWithContexts;
