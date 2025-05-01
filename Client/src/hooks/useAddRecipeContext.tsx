@@ -5,6 +5,7 @@ import { Step } from "@api/models/Step";
 import { arrayMove } from "@dnd-kit/sortable";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import useStickyState from "./useSessionStore";
 
 type AddRecipeContextValue = {
   recipe: Recipe;
@@ -145,8 +146,6 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
 
   const copyStepAsNext = (index: number) => {
     if (index === null || currentStep === null) {
-      console.log("index: ", index);
-      console.log("current: ", currentStep);
       return;
     }
 
