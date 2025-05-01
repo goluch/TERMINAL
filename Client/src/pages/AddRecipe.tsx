@@ -29,6 +29,7 @@ import {
   AddRecipeProvider,
   useAddRecipeContext,
 } from "@hooks/useAddRecipeContext";
+import DragHandle from "@components/Shared/DragHandle";
 
 const AddRecipeWithContexts = () => {
   const { data: parameters, isLoading, isError } = useGetParameters();
