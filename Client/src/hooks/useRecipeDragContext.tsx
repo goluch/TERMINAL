@@ -10,6 +10,7 @@ import {
   useSensors,
   useSensor,
   PointerSensor,
+  MeasuringStrategy,
 } from "@dnd-kit/core";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4, validate } from "uuid";
@@ -35,6 +36,11 @@ function useRecipeDragContext(): RecipeDragContextValue {
   }
   return context;
 }
+const measuringConfig = {
+  droppable: {
+    strategy: MeasuringStrategy.Always,
+  },
+};
 
 const RecipeDragProvider = ({
   children,
@@ -108,6 +114,7 @@ const RecipeDragProvider = ({
 
   return (
     <DndContext
+      measuring={measuringConfig}
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragStart={handleDragStart}
@@ -136,6 +143,7 @@ const RecipeDragProvider = ({
       {children}
     </DndContext>
   );
+  p;
 };
 
 export { useRecipeDragContext, RecipeDragProvider };

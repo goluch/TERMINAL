@@ -18,6 +18,7 @@ import { IntegerParameter } from "@hooks/useGetParameters";
 import { ReactNode } from "react";
 import { useDroppable, useDraggable, DraggableAttributes } from "@dnd-kit/core";
 import {
+  defaultAnimateLayoutChanges,
   horizontalListSortingStrategy,
   SortableContext,
   useSortable,
@@ -79,19 +80,19 @@ const AddRecipe = () => {
                   className="rounded-md bg-white border border-gray-200 h-screen shadow-sm w-full p-2 grid grid-cols-10 gap-2"
                 >
                   <div className="flex flex-col gap-1 w-full col-span-6 overflow-y-auto">
-                    <SortableContext
-                      items={step.parameters}
-                      strategy={horizontalListSortingStrategy}
-                    >
-                      <ParameterDroppable>
+                    <ParameterDroppable>
+                      <SortableContext
+                        items={step.parameters.map((p) => p.id)}
+                        strategy={horizontalListSortingStrategy}
+                      >
                         {step.parameters.map((parameter) => (
                           <ParameterBox
                             key={parameter.id}
                             parameter={parameter}
                           />
                         ))}
-                      </ParameterDroppable>
-                    </SortableContext>
+                      </SortableContext>
+                    </ParameterDroppable>
                   </div>
                   <div className="flex flex-col gap-1 w-full col-span-4">
                     <div className="rounded-md border border-gray-200 shadow-sm">
@@ -209,7 +210,7 @@ const ParameterDroppable = ({ children }: { children: ReactNode }) => {
     <div
       ref={setNodeRef}
       style={style}
-      className="h-full w-full flex flex-col gap-1 col-span-6"
+      className="h-screen w-full flex flex-col gap-1 col-span-6"
     >
       {children}
     </div>
@@ -242,6 +243,16 @@ export const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
   );
 };
 
+function animateLayoutChanges(args) {
+  const { isSorting, wasSorting } = args;
+
+  if (isSorting || wasSorting) {
+    return defaultAnimateLayoutChanges(args);
+  }
+
+  return true;
+}
+
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
   const { removeParameter, moveParameterUp, moveParameterDown, currentStep } =
     useAddRecipeContext();
@@ -253,6 +264,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
     transition,
     isDragging,
   } = useSortable({
+    animateLayoutChanges,
     id: parameter.id,
     data: parameter,
   });
