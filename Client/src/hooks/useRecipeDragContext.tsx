@@ -65,8 +65,41 @@ const RecipeDragProvider = ({
     const activeIndex = findParameterIndex(activeId);
     const overIndex = findParameterIndex(event.over?.id.toString());
 
-    if (activeIndex === -1 || overIndex === -1 || activeIndex === overIndex)
+    if (activeIndex === -1 || overIndex === -1 || activeIndex === overIndex) {
+      if (activeIndex === -1 && overIndex !== -1) {
+        const isBelowOverItem =
+          event.over &&
+          event.active.rect.current.translated &&
+          event.active.rect.current.translated.top >
+            event.over.rect.top + event.over.rect.height;
+
+        const modifier = isBelowOverItem ? 1 : 0;
+
+        const step = getCurrentStep();
+        if (step === null) return;
+
+        const newIndex =
+          overIndex >= 0
+            ? overIndex + modifier
+            : (step.parameters.length ?? 0) + 1;
+
+        const item = parameters.find((x) => x.name === activeId);
+        const id = uuidv4();
+        setActiveId(id);
+        const newParameters = [
+          ...step.parameters.slice(0, newIndex),
+          { ...item!, id: id },
+          ...step.parameters.slice(newIndex, step.parameters.length),
+        ];
+
+        const newStep = {
+          ...step,
+          parameters: newParameters,
+        };
+        updateStep(currentStep, newStep);
+      }
       return;
+    }
 
     const step = getCurrentStep();
     if (step === null) return;
@@ -143,7 +176,6 @@ const RecipeDragProvider = ({
       {children}
     </DndContext>
   );
-  p;
 };
 
 export { useRecipeDragContext, RecipeDragProvider };
