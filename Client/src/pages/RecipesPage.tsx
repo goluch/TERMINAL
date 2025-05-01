@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {PaginationState, SortingState} from "@tanstack/react-table";
-import {useRecipes} from "@hooks/useRecipeQuery.ts";
+import {useRecipes} from "@hooks/recipes/useGetRecipes.ts";
 import Recipes from "@components/Recipes/Recipes.tsx";
-import {useRecipeDetails} from "@hooks/useRecipeDetailsQuery.ts";
+import {useRecipeDetails} from "@hooks/recipes/useGetRecipeDetails.ts";
 import RecipeDetails from "@components/Recipes/RecipeDetails.tsx";
 
 const RecipesPage = () => {

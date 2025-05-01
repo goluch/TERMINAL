@@ -1,10 +1,11 @@
 import {useState} from "react";
 import {SortingState, PaginationState} from "@tanstack/react-table";
-import {useSamples} from "@hooks/useSampleQuery.ts";
-
 import Samples from "@components/Samples/Samples.tsx";
 import SampleDetails from "@components/Samples/SampleDetails.tsx";
-import {useSampleDetails} from "@hooks/useSampleDetailsQuery.ts";
+import {useSamples} from "@hooks/samples/useGetSamples.ts";
+import {useSampleDetails} from "@hooks/samples/useGetSampleDetails.ts";
+import {useDeleteSample} from "@hooks/samples/useDeleteSample.ts";
+
 
 const SamplesPage = () => {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -19,6 +20,15 @@ const SamplesPage = () => {
         orderBy: sorting[0]?.id ?? "",
         desc: sorting[0]?.desc ?? true,
     });
+
+    const mutation = useDeleteSample(
+        {
+            pageNumber: pagination.pageIndex,
+            pageSize: pagination.pageSize,
+            orderBy: sorting[0]?.id ?? "",
+            desc: sorting[0]?.desc ?? true
+        }
+    );
 
     const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
 
@@ -47,13 +57,16 @@ const SamplesPage = () => {
                         />
                     )}
                 </div>
-                <div className="basis-2/5 rounded-md ">
+                <div className="basis-2/5 rounded-md self-start">
                     {dataQuerySampleDetails.isLoading ? (
                         <div className="flex justify-center">
                             <span className="loading loading-spinner loading-md"></span>
                         </div>
                     ) : sampleDetailsId ? (
-                        <SampleDetails dataQuery={dataQuerySampleDetails.data}/>
+                        <SampleDetails dataQuery={dataQuerySampleDetails.data}
+                                       mutateAsync={mutation.mutateAsync}
+                                       isPending={mutation.isPending}
+                        />
                     ) : (
                         ""
                     )}

@@ -1,26 +1,26 @@
 import Projects from "@components/Projects/Projects.tsx";
-import {useState} from "react";
-import {PaginationState, SortingState} from "@tanstack/react-table";
-import {useProjects} from "@hooks/useProjectQuery.ts";
+import { useState } from "react";
+import { PaginationState, SortingState } from "@tanstack/react-table";
+import { useProjects } from "@hooks/projects/useGetProjects.ts";
 import ProjectDetails from "@components/Projects/ProjectDetails.tsx";
-import {useProjectDetails} from "@hooks/useProjectDetailsQuery.ts";
+import {useProjectDetails} from "@hooks/projects/useGetProjectDetails.ts";
 
 const ProjectsPage = () => {
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [pagination, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
-    });
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
-    const dataQueryProjects = useProjects({
-        pageNumber: pagination.pageIndex,
-        pageSize: pagination.pageSize,
-        desc: sorting[0]?.desc ?? true,
-    });
+  const dataQueryProjects = useProjects({
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+    desc: sorting[0]?.desc ?? true,
+  });
 
-    const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
+  const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
 
-    const dataQueryProjectDetails = useProjectDetails(projectDetailsId);
+  const dataQueryProjectDetails = useProjectDetails(projectDetailsId);
 
     return (
         <div>
