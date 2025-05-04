@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { AxiosResponse } from "axios";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button, Input, Select } from "@headlessui/react";
 import { toastPromise } from "../../utils/toast.utils.tsx";
@@ -8,14 +7,13 @@ import { useUpdateUserEmail } from "@hooks/users/useUpdateUserEmail.ts";
 import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/solid";
 
 export interface UserDetailsProps {
-    dataQuery: UserDetailsDto | undefined;
-    mutateAsync: (id: string) => Promise<AxiosResponse<any>>;
-    isPending: boolean;
+    dataQuery: UserDetailsDto;
+    onDeleted: (id: string) => void;
 }
 
 const UserDetails = (props: UserDetailsProps) => {
-    const [email, setEmail] = useState(props.dataQuery?.email || "");
-    const [role, setRole] = useState(props.dataQuery?.role || "");
+    const [email, setEmail] = useState(props.dataQuery?.email);
+    const [role, setRole] = useState(props.dataQuery?.role);
     const [isChanged, setIsChanged] = useState(false);
 
     const updateRoleMutation = useUpdateUserRole();
@@ -66,24 +64,12 @@ const UserDetails = (props: UserDetailsProps) => {
         }
     };
 
-    const handleDeletion = async () => {
-        if (props.dataQuery?.id === undefined) {
-            return;
+    const handleDeletion = () => {
+        if (props.dataQuery?.id) {
+            props.onDeleted(props.dataQuery.id);
         }
+    }
 
-        try {
-            await toastPromise(
-                props.mutateAsync(props.dataQuery.id),
-                {
-                    success: "User deleted successfully",
-                    error: "Failed to delete user",
-                    loading: "Deleting user...",
-                }
-            );
-        } catch {
-            // Error is already handled by the toastPromise
-        }
-    };
 
     return (
         <div className="border border-gray-200 rounded-lg bg-white">
@@ -144,7 +130,7 @@ const UserDetails = (props: UserDetailsProps) => {
                 <Button
                     className="btn btn-sm btn-error text-white rounded gap-1"
                     onClick={handleDeletion}
-                    disabled={props.isPending}
+                    disabled={!props.dataQuery?.id}
                 >
                     <TrashIcon className="w-4 h-4" />
                     Delete

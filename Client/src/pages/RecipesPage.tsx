@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {PaginationState, SortingState} from "@tanstack/react-table";
-import {useRecipes} from "@hooks/useRecipeQuery.ts";
+import {useRecipes} from "@hooks/recipes/useGetRecipes.ts";
 import Recipes from "@components/Recipes/Recipes.tsx";
-import {useRecipeDetails} from "@hooks/useRecipeDetailsQuery.ts";
+import {useRecipeDetails} from "@hooks/recipes/useGetRecipeDetails.ts";
 import RecipeDetails from "@components/Recipes/RecipeDetails.tsx";
 
 const RecipesPage = () => {
@@ -24,7 +24,7 @@ const RecipesPage = () => {
 
     return (
         <div className="max-h-full flex bg-gray-100">
-            <div className="flex max-h-full w-full justify-center p-1 gap-1">
+            <div className="flex flex-wrap sm:flex-nowrap  max-h-full w-full justify-center p-1 gap-1">
                 <div className="flex-1 basis-2/5">
                     {dataQueryRecipes.isLoading ? (
                         <div className="flex justify-center">

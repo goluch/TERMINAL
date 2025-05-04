@@ -4,7 +4,8 @@ import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useUsers } from "@hooks/users/useGetUsers.ts";
 import UserDetails from "@components/Users/UserDetails.tsx";
 import { useUserDetails } from "@hooks/users/useGetUserDetails.ts";
-import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
+import {useDeleteUser} from "@hooks/users/useDeleteUser.ts";
+import {toastPromise} from "../utils/toast.utils.tsx";
 
 const UsersPage = () => {
     const [userDetailsId, setUserDetailsId] = useState<string | null>(null);
@@ -20,17 +21,28 @@ const UsersPage = () => {
         desc: sorting[0]?.desc ?? true,
     });
 
-    const mutation = useDeleteUser(
-        {
-            pageNumber: pagination.pageIndex,
-            pageSize: pagination.pageSize,
-            orderBy: sorting[0]?.id ?? "",
-            desc: sorting[0]?.desc ?? true,
-        },
-        setUserDetailsId
-    );
-
     const dataQueryUserDetails = useUserDetails(userDetailsId);
+
+    const mutation = useDeleteUser({
+        pageNumber: pagination.pageIndex,
+        pageSize: pagination.pageSize,
+        desc: sorting[0]?.desc ?? true,
+    })
+
+    const handleDeletion = async (id: string) => {
+        try {
+            await toastPromise(
+                mutation.mutateAsync(id),
+                {
+                    success: "User deleted successfully",
+                    error: "Failed to delete user",
+                    loading: "Deleting user...",
+                }
+            );
+        } catch {
+            // Error is already handled by the toastPromise
+        }
+    };
 
     const changeUserDetails = (userId: string) => {
         setUserDetailsId(userId);
@@ -38,8 +50,8 @@ const UsersPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <div className="flex justify-center flex-wrap">
-                <div className="flex-1 bg-white rounded-md m-1">
+            <div className="flex flex-wrap sm:flex-nowrap  justify-center p-5">
+                <div className="flex-1 bg-white p-3 rounded-md m-1">
                     {dataQueryUsers.isLoading ? (
                         <div className="flex justify-center">
                             <span className="loading loading-spinner loading-md"></span>
@@ -59,8 +71,7 @@ const UsersPage = () => {
                     {userDetailsId && dataQueryUserDetails.data ? (
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}
-                            mutateAsync={mutation.mutateAsync}
-                            isPending={mutation.isPending}
+                            onDeleted={handleDeletion}
                         />
                     ) : (
                         <div className="text-center text-gray-500">Select a user to view details</div>
