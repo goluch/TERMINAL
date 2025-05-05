@@ -2,7 +2,7 @@
 
 import { Recipe } from "@api/models/Recipe";
 import { Step } from "@api/models/Step";
-import { arrayMove } from "@dnd-kit/sortable";
+import { arrayMove, arraySwap } from "@dnd-kit/sortable";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useStickyState from "./useSessionStore";
@@ -112,7 +112,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     if (parameterIndex === -1 || parameterIndex === 0) return;
 
     const newStep = { ...recipe.steps[currentStep] };
-    newStep.parameters = arrayMove(
+    newStep.parameters = arraySwap(
       newStep.parameters,
       parameterIndex,
       parameterIndex - 1,
@@ -135,7 +135,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     )
       return;
 
-    newStep.parameters = arrayMove(
+    newStep.parameters = arraySwap(
       newStep.parameters,
       parameterIndex,
       parameterIndex + 1,

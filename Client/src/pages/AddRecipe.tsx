@@ -20,6 +20,7 @@ import { useDroppable, useDraggable, DraggableAttributes } from "@dnd-kit/core";
 import {
   defaultAnimateLayoutChanges,
   horizontalListSortingStrategy,
+  rectSortingStrategy,
   SortableContext,
   useSortable,
 } from "@dnd-kit/sortable";
@@ -248,9 +249,9 @@ export const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
 };
 
 function animateLayoutChanges(args) {
-  const { isSorting, wasSorting } = args;
+  const { isSorting, wasDragging } = args;
 
-  if (isSorting || wasSorting) {
+  if (isSorting || wasDragging) {
     return defaultAnimateLayoutChanges(args);
   }
 
@@ -275,6 +276,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
 
   return (
     <div
+      id={parameter.id}
       ref={setNodeRef}
       style={{
         transform: transform
