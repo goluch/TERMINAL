@@ -1,4 +1,4 @@
-name: .NET
+name: CI for server
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 
 env:
   DOTNET_VERSION: 7.0.x
-  ROOT_PROJECT_FILE: Server/src/Terminal.Backend.Api/Terminal.Backend.Api.csproj
 
 defaults:
   run:
@@ -21,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Restore dependencies
