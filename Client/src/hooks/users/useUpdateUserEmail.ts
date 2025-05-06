@@ -1,19 +1,45 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
+import { UsersRequest, UsersResponse } from "@hooks/users/useGetUsers.ts";
 
-async function updateUserEmail(id: string, email: string) {
+interface UpdateUserEmailDto {
+    id: string;
+    email: string;
+}
+
+interface UserDetails {
+    id: string;
+    email: string;
+    role: string;
+}
+
+async function updateUserEmail({id, email} : UpdateUserEmailDto) {
     return await apiClient.patch(`users/${id}/email`, { email });
 }
 
-export function useUpdateUserEmail() {
+export function useUpdateUserEmail(params: UsersRequest) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({id, email}: {id: string, email: string}) => updateUserEmail(id, email),
-        onSuccess: (_data, { id }) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            queryClient.invalidateQueries(['userDetails', id]);
+        mutationFn: (data: UpdateUserEmailDto) => updateUserEmail(data),
+        onSuccess: (_data, { id, email }) => {
+            queryClient.setQueryData<UserDetails>(['userDetails', id], (oldData) => {
+                if (!oldData) return undefined;
+                return {
+                    ...oldData,
+                    email: email,
+                };
+            });
+
+            queryClient.setQueryData<UsersResponse>(['users', params], (oldData) => {
+                if (!oldData) return undefined;
+                return {
+                    ...oldData,
+                    rows: oldData.rows.map((user) =>
+                        user.id === id ? { ...user, email } : user
+                    ),
+                };
+            });
         }
     })
 }

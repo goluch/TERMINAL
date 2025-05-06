@@ -1,19 +1,45 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
+import { UsersRequest, UsersResponse } from "@hooks/users/useGetUsers.ts";
 
-async function updateUserRole(id: string, role: string) {
+interface UpdateUserRoleDto {
+    id: string;
+    role: string;
+}
+
+interface UserDetails {
+    id: string;
+    email: string;
+    role: string;
+}
+
+async function updateUserRole({id, role} : UpdateUserRoleDto) {
     return await apiClient.patch(`users/${id}/role`, { role });
 }
 
-export function useUpdateUserRole() {
+export function useUpdateUserRole(params: UsersRequest) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({id, role}: {id: string, role: string}) => updateUserRole(id, role),
-        onSuccess: (_data, { id }) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            queryClient.invalidateQueries(['userDetails', id]);
+        mutationFn: (data: UpdateUserRoleDto) => updateUserRole(data),
+        onSuccess: (_data, { id, role }) => {
+            queryClient.setQueryData<UserDetails>(['userDetails', id], (oldData) => {
+                if (!oldData) return undefined;
+                return {
+                    ...oldData,
+                    role: role,
+                };
+            });
+
+            queryClient.setQueryData<UsersResponse>(['users', params], (oldData) => {
+                if (!oldData) return undefined;
+                return {
+                    ...oldData,
+                    rows: oldData.rows.map((user) =>
+                        user.id === id ? { ...user, role } : user
+                    ),
+                };
+            });
         }
     })
 }
