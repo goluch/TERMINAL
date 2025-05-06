@@ -8,9 +8,10 @@ public sealed class OptionsProvider
 
     public T Get<T>(string sectionName) where T : class, new() => _configuration.GetSection(sectionName).Get<T>()!;
 
-    private static IConfigurationRoot GetConfigurationRoot()
+    public static IConfigurationRoot GetConfigurationRoot()
         => new ConfigurationBuilder()
-            .AddJsonFile("appsettings.test.json", true)
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.Test.json")
             .AddEnvironmentVariables()
             .Build();
 }
