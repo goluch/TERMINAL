@@ -10,6 +10,7 @@ public sealed class OptionsProvider
 
     private static IConfigurationRoot GetConfigurationRoot()
         => new ConfigurationBuilder()
+            .SetBasePath(System.AppContext.BaseDirectory)
             .AddJsonFile("appsettings.test.json", true)
             .AddEnvironmentVariables()
             .Build();
