@@ -26,9 +26,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test --if-present
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build client
+        run: npm run build --if-present
+
+      - name: Test client
+        run: npm test --if-present
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Format code
+        run: npm run format
 
   make-docs:
     if: ${{ github.event_name == 'pull_request' }}
@@ -41,7 +53,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Generate documentation
         run: npx typedoc
