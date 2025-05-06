@@ -19,13 +19,6 @@ defaults:
 
 jobs:
   build-validation:
-    permissions:
-      contents: read
-      packages: read
-
-      pull-requests: read
-      checks: write
-
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,13 +41,6 @@ jobs:
 
       - name: Test client
         run: npm test --if-present
-
-      - name: Annotate Code Linting Results
-        uses: ataylorme/eslint-annotate-action@1.0.4
-        if: always()
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "eslint_report.json"
 
   make-docs:
     if: ${{ github.event_name == 'pull_request' }}
