@@ -14,7 +14,7 @@ defaults:
     working-directory: Server
 
 jobs:
-  build:
+  build-validation:
     runs-on: ubuntu-latest
 
     steps:
