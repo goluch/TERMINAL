@@ -58,7 +58,7 @@ const LoginForm = () => {
     [mutation, email, password],
   );
 
-  return
+  return (
     <div className="bg-white px-4 py-5 rounded-lg border-[1px] border-black/15 max-w-3xl w-full">
       <div className="flex gap-5 h-full">
         <div className="w-full flex-col gap-3 hidden sm:flex">
