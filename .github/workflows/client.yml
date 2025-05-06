@@ -19,6 +19,13 @@ defaults:
 
 jobs:
   build-validation:
+    permissions:
+      contents: read
+      packages: read
+
+      pull-requests: read
+      checks: write
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

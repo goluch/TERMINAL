@@ -6,9 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint --output-file eslint_report.json --format json .",
-    "preview": "vite preview",
-    "format": "prettier --ignore-path .gitignore \"./**/*.+(ts|js|tsx|jsx)\" --write"
+    "lint": "eslint --output-file eslint_report.json --format json src",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
