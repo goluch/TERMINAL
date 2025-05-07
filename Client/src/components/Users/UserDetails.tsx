@@ -4,11 +4,30 @@ import { Button, Input, Select } from "@headlessui/react";
 import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/solid";
 import ChangePasswordDialog from "@components/Users/ChangePasswordDialog.tsx";
 
+/**
+ * UserDetailsProps Interface
+ *
+ * Defines the properties for the UserDetails component.
+ *
+ * @interface
+ * @property {UserDetailsDto} dataQuery - The user details data.
+ * @property {function} onDeleted - Function to handle user deletion.
+ * @property {function} onSubmit - Function to handle form submission.
+ */
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto;
     onDeleted: (id: string) => void;
     onSubmit: (id: string, email: string, role: string) => void;
 }
+
+/**
+ * UserDetails Component
+ *
+ * A component for displaying and editing user details.
+ *
+ * @component
+ * @param {UserDetailsProps} props - The properties for the component.
+ */
 
 const UserDetails = (props: UserDetailsProps) => {
     const [email, setEmail] = useState(props.dataQuery?.email);
