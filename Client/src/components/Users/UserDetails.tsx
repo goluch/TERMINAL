@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button, Input, Select } from "@headlessui/react";
 import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/solid";
+import ChangePasswordDialog from "@components/Users/ChangePasswordDialog.tsx";
 
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto;
@@ -13,6 +14,7 @@ const UserDetails = (props: UserDetailsProps) => {
     const [email, setEmail] = useState(props.dataQuery?.email);
     const [role, setRole] = useState(props.dataQuery?.role);
     const [isChanged, setIsChanged] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
         setEmail(props.dataQuery?.email || "");
@@ -37,6 +39,14 @@ const UserDetails = (props: UserDetailsProps) => {
         if (props.dataQuery?.id) {
             props.onDeleted(props.dataQuery.id);
         }
+    }
+
+    const handleDialogOpen = () => {
+        setIsDialogOpen(true);
+    }
+
+    const handleDialogClose = () => {
+        setIsDialogOpen(false);
     }
 
 
@@ -92,10 +102,18 @@ const UserDetails = (props: UserDetailsProps) => {
                 >
                     Submit changes
                 </Button>
-                <Button className="btn btn-sm btn-primary text-white rounded gap-1">
+                <Button
+                    className="btn btn-sm btn-primary text-white rounded gap-1"
+                    onClick={handleDialogOpen}
+                >
                     <KeyIcon className="w-4 h-4" />
                     Change password
                 </Button>
+                <ChangePasswordDialog
+                    userId={props.dataQuery?.id}
+                    isOpen={isDialogOpen}
+                    onClose={handleDialogClose}
+                />
                 <Button
                     className="btn btn-sm btn-error text-white rounded gap-1"
                     onClick={handleDeletion}

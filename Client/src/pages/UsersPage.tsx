@@ -1,5 +1,4 @@
 import Users from "@components/Users/Users.tsx";
-import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useUsers } from "@hooks/users/useGetUsers.ts";
 import UserDetails from "@components/Users/UserDetails.tsx";
@@ -8,6 +7,7 @@ import {useDeleteUser} from "@hooks/users/useDeleteUser.ts";
 import {toastPromise} from "../utils/toast.utils.tsx";
 import {useUpdateUserEmail} from "@hooks/users/useUpdateUserEmail.ts";
 import {useUpdateUserRole} from "@hooks/users/useUpdateUserRole.ts";
+import {useState} from "react";
 
 const UsersPage = () => {
     const [userDetailsId, setUserDetailsId] = useState<string | null>(null);
@@ -58,7 +58,7 @@ const UsersPage = () => {
         }
     };
 
-    const handleOnSubmit = async (id: string, email: string, role: string) => {
+    const handleSubmit = async (id: string, email: string, role: string) => {
         try {
             if (dataQueryUserDetails.data?.email !== email) {
                 await toastPromise(
@@ -114,7 +114,7 @@ const UsersPage = () => {
                         <UserDetails
                             dataQuery={dataQueryUserDetails.data}
                             onDeleted={handleDeletion}
-                            onSubmit={handleOnSubmit}
+                            onSubmit={handleSubmit}
                         />
                     ) : (
                         <div className="text-center text-gray-500">Select a user to view details</div>
