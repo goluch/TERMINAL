@@ -20,14 +20,14 @@ services:
     container_name: terminal.server
     build: "./Server/src"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://*:5006
-      - Jwt__Issuer=terminal
-      - Jwt__Audience=terminal-clients
-      - Jwt__SecretKey=[super-secret-key-for-development-purposes-only]
-      - Postgres__ConnectionString=Host=database;Database=terminal;Username=root;Password=root;Include Error Detail=true
-      - Administrator__Email=admin@terminal.com
-      - Administrator__Password=password
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      - Jwt__Issuer=${Jwt__Issuer}
+      - Jwt__Audience=${Jwt__Audience}
+      - Jwt__SecretKey=${Jwt__SecretKey}
+      - Postgres__ConnectionString=${Postgres__ConnectionString}
+      - Administrator__Email=${Administrator__Email}
+      - Administrator__Password=${Administrator__Password}
     depends_on: ["database"]
 
   database:
@@ -36,7 +36,7 @@ services:
     volumes:
       - ~/terminalData:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=terminal
-      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
     pull_policy: missing
