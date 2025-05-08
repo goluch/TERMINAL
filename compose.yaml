@@ -1,0 +1,37 @@
+name: terminal
+services:
+  client:
+    container_name: terminal.client
+    build: "./Client"
+    ports:
+      - "5173:5173"
+    depends_on: ["server"]
+
+  server:
+    container_name: terminal.server
+    build: "./Server/src"
+    ports:
+      - "5006:5006"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5006
+      - Jwt__Issuer=terminal
+      - Jwt__Audience=terminal-clients
+      - Jwt__SecretKey=[super-secret-key-for-development-purposes-only]
+      - Postgres__ConnectionString=Host=host.docker.internal;Database=terminal;Username=root;Password=root;Include Error Detail=true
+      - Administrator__Email=admin@terminal.com
+      - Administrator__Password=password
+    depends_on: ["database"]
+
+  database:
+    container_name: terminal.postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/terminalData:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=terminal
+      - POSTGRES_USER=root
+    pull_policy: missing
