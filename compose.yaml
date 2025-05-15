@@ -20,7 +20,7 @@ services:
     container_name: terminal.server
     build: "./Server/src"
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=${ASPNETCORE_URLS}
       - Jwt__Issuer=${Jwt__Issuer}
       - Jwt__Audience=${Jwt__Audience}
