@@ -1,6 +1,8 @@
-# How to run app via docker compose
+# How to run
 
-## Generate self-signed certificates
+## Production
+
+### Generate self-signed certificates
 
 ```
 openssl req -x509 -out ./Config/cert/localhost.crt -keyout ./Config/cert/localhost.key \
@@ -9,20 +11,24 @@ openssl req -x509 -out ./Config/cert/localhost.crt -keyout ./Config/cert/localho
    printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
 
-## Run compose
+### Run compose
 
 ```
 docker compose --env-file .env.sample.local up
 ```
 
-## Apply db migrations and seed
-
-```
-./Server/update-database.sh TerminalDbContext
-```
-
-## To rebuild containers after making changes run
+### To rebuild containers after making changes run
 
 ```
 docker compose --env-file .env.sample.local build --no-cache
+```
+
+## Development
+
+Development environment supports automatic container sync upon changing application code
+
+### Run compose
+
+```
+docker compose -f compose.dev.yaml --env-file .env.sample.local watch
 ```
