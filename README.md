@@ -1,5 +1,7 @@
 # How to run
 
+For both environments, swagger is available under the /swagger path
+
 ## Production
 
 ### Generate self-signed certificates
@@ -17,11 +19,8 @@ openssl req -x509 -out ./Config/cert/localhost.crt -keyout ./Config/cert/localho
 docker compose --env-file .env.sample.local up
 ```
 
-### To rebuild containers after making changes run
-
-```
-docker compose --env-file .env.sample.local build --no-cache
-```
+- Frontend Url: https://localhost
+- Backend Url: https://localhost/api
 
 ## Development
 
@@ -32,3 +31,6 @@ Development environment supports automatic container sync upon changing applicat
 ```
 docker compose -f compose.dev.yaml --env-file .env.sample.local watch
 ```
+
+- Frontend Url: https://localhost:5173
+- Backend Url: http://localhost:5006
