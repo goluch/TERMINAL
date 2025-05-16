@@ -123,6 +123,11 @@ public static class Extensions
 
         if (app.Environment.IsProduction())
         {
+            dbContext.Database.EnsureCreated();
+        }
+
+        if (app.Environment.IsDevelopment())
+        {
             dbContext.Database.Migrate();
         }
 
