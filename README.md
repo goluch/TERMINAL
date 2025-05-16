@@ -29,7 +29,7 @@ Development environment supports automatic container sync upon changing applicat
 ### Run compose
 
 ```
-docker compose -f compose.dev.yaml --env-file .env.sample.local watch
+docker compose -f compose.dev.yaml --env-file .env.sample.local up --watch
 ```
 
 - Frontend Url: https://localhost:5173
