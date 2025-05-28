@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 
 /**
@@ -30,12 +30,8 @@ async function changeUserPassword({id, newPassword} : ChangeUserPasswordDto) {
  * A custom hook that provides a mutation function to change a user's password.
  */
 export function useChangeUserPassword() {
-    const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: (data: ChangeUserPasswordDto) => changeUserPassword(data),
-        onSuccess: (_data, { id }) => {
-            queryClient.invalidateQueries({ queryKey: ['userDetails', id] });
-            },
     });
 }
