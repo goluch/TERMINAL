@@ -1,6 +1,4 @@
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/20/solid";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import useLogout from "@hooks/users/useLogout";
 import useUserData from "@hooks/useUserData";
 
