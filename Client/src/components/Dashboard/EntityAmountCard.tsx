@@ -19,7 +19,7 @@ const EntityAmountCard = ({
 
     const countUp = new CountUp(counterRef.current, amount);
     countUp.start();
-  }, []);
+  }, [amount]);
 
   return (
     <div className="border border-gray-200 rounded-lg bg-white shadow-sm">
