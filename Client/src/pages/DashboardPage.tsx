@@ -6,7 +6,7 @@ import {
 const DashboardPage = () => {
   return (
     <div className="p-3 h-full w-full">
-      <div className="grid grid-cols-4 gap-3">
+      <div className="md:grid md:grid-cols-4 flex flex-col gap-3">
         <EntityAmountCard title="Total projects" amount={100}>
           <EntityAmountCardButton title="Browse All" />
           <EntityAmountCardButton title="Add New" />
