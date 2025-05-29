@@ -16,8 +16,17 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper<SampleDto>();
+
+const recipeColumns = [
+  columnHelper.accessor("code", {
+    header: "Code",
+    cell: (info) => info.getValue(),
+  }),
+];
+
 const columns = [
   columnHelper.accessor("code", {
     header: "Code",
@@ -47,6 +56,17 @@ const DashboardPage = () => {
   const { data: userAmount } = useGetUserAmount();
   const { data: recentSamples } = useGetRecentSamples(14);
 
+  const navigate = useNavigate();
+
+  const recipeTable = useReactTable({
+    columns: recipeColumns,
+    data: recentSamples?.data.recentSamples ?? [],
+    getCoreRowModel: getCoreRowModel(),
+    rowCount: recentSamples?.data.recentSamples.length,
+    manualSorting: true,
+    manualPagination: true,
+  });
+
   const table = useReactTable({
     columns: columns,
     data: recentSamples?.data.recentSamples ?? [],
@@ -64,7 +84,10 @@ const DashboardPage = () => {
           title="Total projects"
           amount={projectAmount?.data ?? 0}
         >
-          <EntityAmountCardButton title="Browse All" />
+          <EntityAmountCardButton
+            title="Browse All"
+            onClick={() => navigate("/projects")}
+          />
           <EntityAmountCardButton title="Add New" />
         </EntityAmountCard>
 
@@ -72,7 +95,10 @@ const DashboardPage = () => {
           title="Total samples"
           amount={sampleAmount?.data ?? 0}
         >
-          <EntityAmountCardButton title="Browse All" />
+          <EntityAmountCardButton
+            title="Browse All"
+            onClick={() => navigate("/samples")}
+          />
           <EntityAmountCardButton title="Add New" />
         </EntityAmountCard>
 
@@ -80,7 +106,10 @@ const DashboardPage = () => {
           title="Total recipes"
           amount={recipesAmount?.data ?? 0}
         >
-          <EntityAmountCardButton title="Browse All" />
+          <EntityAmountCardButton
+            title="Browse All"
+            onClick={() => navigate("/recipes")}
+          />
           <EntityAmountCardButton title="Add New" />
         </EntityAmountCard>
 
@@ -93,6 +122,16 @@ const DashboardPage = () => {
           <p className="p-2 text-md">Recent Samples</p>
           <TableCard>
             <TableView<SampleDto> table={table} handleClickRow={() => {}} />
+          </TableCard>
+        </div>
+
+        <div className="col-span-1">
+          <p className="p-2 text-md">Recent Recipes</p>
+          <TableCard>
+            <TableView<SampleDto>
+              table={recipeTable}
+              handleClickRow={() => {}}
+            />
           </TableCard>
         </div>
       </div>
