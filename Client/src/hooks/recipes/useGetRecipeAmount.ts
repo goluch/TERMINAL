@@ -3,7 +3,7 @@ import { usePrefetchQuery, useQuery } from "@tanstack/react-query";
 
 const queryArg = {
   queryKey: ["amount", "recipes"],
-  queryFn: async () => await apiClient.get("/recipes/amount"),
+  queryFn: async () => await apiClient.get<number>("/recipes/amount"),
 };
 
 function useGetRecipeAmount() {

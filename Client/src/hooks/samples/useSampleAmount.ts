@@ -3,7 +3,7 @@ import { usePrefetchQuery, useQuery } from "@tanstack/react-query";
 
 const queryArg = {
   queryKey: ["amount", "samples"],
-  queryFn: async () => await apiClient.get("/samples/amount"),
+  queryFn: async () => await apiClient.get<number>("/samples/amount"),
 };
 
 function useGetSampleAmount() {
