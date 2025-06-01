@@ -4,7 +4,6 @@ import {
   EntityAmountCardButton,
 } from "@components/Dashboard/EntityAmountCard";
 import TableCard from "@components/Shared/Table/TableCard";
-import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";
@@ -77,9 +76,11 @@ const DashboardPage = () => {
   });
 
   return (
-    <div className="p-3 h-full w-full">
-      <p className="p-2 text-md">Stats</p>
-      <div className="md:grid md:grid-cols-4 flex flex-col gap-3">
+    <>
+      <div className="md:grid md:grid-cols-4 flex flex-col gap-3 p-3">
+        <div className="col-span-4">
+          <p className="px-2 text-md">Stats</p>
+        </div>
         <EntityAmountCard
           title="Total projects"
           amount={projectAmount?.data ?? 0}
@@ -135,7 +136,7 @@ const DashboardPage = () => {
           </TableCard>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
