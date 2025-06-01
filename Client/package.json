@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}"
+    "lint:pipeline": "eslint --output-file eslint_report.json --format json src",
+    "lint": "eslint src",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -24,7 +25,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.5.2",
-    "react-query": "^3.39.3",
     "react-router-dom": "^7.1.1",
     "react-toastify": "^11.0.5",
     "uuid": "^11.1.0"

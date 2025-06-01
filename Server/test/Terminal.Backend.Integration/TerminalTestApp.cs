@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Terminal.Backend.Api;
 
@@ -17,6 +18,13 @@ internal sealed class TerminalTestApp : WebApplicationFactory<Program>
             {
                 builder.ConfigureServices(services);
             }
+            builder.ConfigureAppConfiguration(b=>
+            {
+                b.SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile("appsettings.Test.json")
+                    .AddEnvironmentVariables()
+                    .Build();
+            });
             builder.UseEnvironment("test");
         }).CreateClient();
     }

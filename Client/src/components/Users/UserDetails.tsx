@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button, Input, Select } from "@headlessui/react";
+
 import {
   EnvelopeIcon,
   KeyIcon,

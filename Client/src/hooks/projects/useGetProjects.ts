@@ -1,33 +1,33 @@
-import { RecipeDto} from "@api/terminalSchemas.ts";
+import {ProjectDto} from "@api/terminalSchemas.ts";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 
-export type RecipesRequest = {
+export type ProjectsRequest = {
     pageNumber: number;
     pageSize: number;
     desc?: boolean;
 }
 
-export type RecipesQueryResponse = {
-    rows: RecipeDto[];
+export type ProjectsResponse = {
+    rows: ProjectDto[];
     pageAmount: number;
     rowsAmount: number;
 }
 
-async function fetchDataProject(params:RecipesRequest): Promise<RecipesQueryResponse> {
-    const recipes = await apiClient.get('/recipes', {params});
-    const amountOfProjects = await apiClient.get('/recipes/amount');
+async function fetchDataProject(params:ProjectsRequest): Promise<ProjectsResponse> {
+    const projects = await apiClient.get('/projects', {params});
+    const amountOfProjects = await apiClient.get('/projects/amount');
     return{
-        rows: recipes.data.recipes,
+        rows: projects.data.projects,
         pageAmount: Math.ceil(amountOfProjects.data / params.pageSize),
         rowsAmount: amountOfProjects.data,
     }
 }
 
-export function useRecipes(params: RecipesRequest) {
+export function useProjects(params: ProjectsRequest) {
     return useQuery(
         {
-            queryKey: ['recipes', params],
+            queryKey: ['projects', params],
             queryFn: () => fetchDataProject(params),
             placeholderData: keepPreviousData
         }
