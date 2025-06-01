@@ -15,6 +15,7 @@ import RecipesPage from "@pages/RecipesPage.tsx";
 import SamplesPage from "@pages/SamplesPage";
 import UsersPage from "@pages/UsersPage.tsx";
 import AddRecipeWithContexts from "@pages/AddRecipe.tsx";
+import DashboardPage from "@pages/DashboardPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,9 @@ export default function App() {
         <Routes>
           <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
             <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Dashboard" />}>
+            <Route path="/" element={<DashboardPage />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Projects" />}>
             <Route path="/projects" element={<ProjectsPage />} />
