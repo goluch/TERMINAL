@@ -69,45 +69,47 @@ const AddRecipe = () => {
         </div>
         <div className="bg-gray-100 h-full">
           <TabGroup
-            className="flex flex-col overflow-y-hidden overflow-x-auto"
+            className="flex flex-col h-full overflow-y-hidden overflow-x-auto"
             selectedIndex={currentStep == null ? undefined : currentStep}
             onChange={setCurrentStep}
           >
             <StepTabList />
-            <TabPanels className="h-full overflow-hidden rounded-md p-2">
-              {recipe.steps.map((step, index) => (
-                <TabPanel
-                  key={index}
-                  className="rounded-md bg-white border border-gray-200 h-screen shadow-sm w-full p-2 grid grid-cols-10 gap-2"
-                >
-                  <div className="flex flex-col gap-1 w-full col-span-6 overflow-y-auto">
-                    <ParameterDroppable>
-                      <SortableContext
-                        items={step.parameters}
-                        strategy={horizontalListSortingStrategy}
-                      >
-                        {step.parameters.map((parameter) => (
-                          <ParameterBox
-                            key={parameter.id}
-                            parameter={parameter}
-                          />
-                        ))}
-                      </SortableContext>
-                    </ParameterDroppable>
-                  </div>
-                  <div className="flex flex-col gap-1 w-full col-span-4">
-                    <div className="rounded-md border border-gray-200 shadow-sm">
-                      <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
-                        <p className="p-2 text-sm">Comment</p>
-                      </div>
-                      <div className="p-2">
-                        <textarea className="h-auto w-full" rows={20} />
+            <div className="h-full relative">
+              <TabPanels className="h-full overflow-hidden rounded-md p-2">
+                {recipe.steps.map((step, index) => (
+                  <TabPanel
+                    key={index}
+                    className="rounded-md h-full bg-white border border-gray-200 shadow-sm w-full p-2 grid grid-cols-10 gap-2"
+                  >
+                    <div className="flex flex-col gap-1 w-full col-span-6 overflow-y-auto">
+                      <ParameterDroppable>
+                        <SortableContext
+                          items={step.parameters}
+                          strategy={horizontalListSortingStrategy}
+                        >
+                          {step.parameters.map((parameter) => (
+                            <ParameterBox
+                              key={parameter.id}
+                              parameter={parameter}
+                            />
+                          ))}
+                        </SortableContext>
+                      </ParameterDroppable>
+                    </div>
+                    <div className="flex flex-col gap-1 w-full col-span-4">
+                      <div className="rounded-md border border-gray-200 shadow-sm">
+                        <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+                          <p className="p-2 text-sm">Comment</p>
+                        </div>
+                        <div className="p-2">
+                          <textarea className="h-auto w-full" rows={20} />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </TabPanel>
-              ))}
-            </TabPanels>
+                  </TabPanel>
+                ))}
+              </TabPanels>
+            </div>
           </TabGroup>
         </div>
       </div>
@@ -138,7 +140,7 @@ type ParameterSelectListProps = {
 
 const ParameterSelectList = ({ parameters }: ParameterSelectListProps) => {
   return (
-    <div className="flex flex-col border border-gray-200 rounded-md bg-white shadow-sm overflow-auto h-full">
+    <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-white shadow-sm overflow-auto">
       <div className="p-4 border-b border-gray-200 rounded-t-md">
         <p>Parameters</p>
       </div>
@@ -215,7 +217,7 @@ const ParameterDroppable = ({ children }: { children: ReactNode }) => {
     <div
       ref={setNodeRef}
       style={style}
-      className="h-screen w-full flex flex-col gap-1 col-span-6"
+      className="h-full w-full flex flex-col gap-1 col-span-6"
     >
       {children}
     </div>
@@ -309,7 +311,16 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
             <p className="text-xs border-e border-gray-200 p-2 bg-gray-100 text-gray-700">
               default
             </p>
-            <input className="rounded-md w-full text-sm ms-2 focus:outline-none" />
+            <input
+              className="rounded-md w-full text-sm ms-2 focus:outline-none"
+              value={parameter.value}
+              onChange={(val) =>
+                (parameter.value =
+                  parameter.$type == "text"
+                    ? val.currentTarget.value
+                    : parseInt(val.currentTarget.value))
+              }
+            />
             <DragHandle attributes={attributes} listeners={listeners} />
           </div>
           {(parameter.$type === "integer" || parameter.$type === "decimal") && (

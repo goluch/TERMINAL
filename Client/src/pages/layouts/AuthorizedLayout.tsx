@@ -19,15 +19,15 @@ const AuthorizedNavbarLayout = ({ pageName }: AuthorizedNavbarLayoutProps) => {
   }
 
   return (
-    <div className="min-h-screen w-screen flex flex-col sm:flex-row bg-gray-100">
+    <div className="w-screen flex flex-col sm:flex-row bg-gray-100">
       <div className="drawer md:drawer-open md:gap-2">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-center justify-center">
+        <div className="drawer-content flex flex-col items-center justify-center relative">
           {/* Menu - only mobile  */}
           <MobileNavbar />
           {/* Page content */}
-          <div className="p-2 ps-0 md:h-screen w-full">
-            <div className="rounded-md inline-block border border-gray-200 shadow-sm w-full h-full overflow-hidden">
+          <div className="p-2 ps-0 w-full h-full flex flex-col">
+            <div className="rounded-md flex flex-col border border-gray-200 shadow-sm w-full h-full overflow-hidden">
               <div className="bg-white h-[60px] text-xl flex font-medium items-center px-4 rounded-md">
                 {pageName}
               </div>
