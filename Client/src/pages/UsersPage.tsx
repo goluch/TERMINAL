@@ -105,6 +105,7 @@ const UsersPage = () => {
             <UserDetails
               dataQuery={dataQueryUserDetails.data}
               onDeleted={handleDeletion}
+              onSubmit={handleSubmit}
             />
           ) : (
             <div className="text-center text-gray-500">

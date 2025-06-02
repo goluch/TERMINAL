@@ -12,6 +12,7 @@ import {
 export interface UserDetailsProps {
   dataQuery: UserDetailsDto;
   onDeleted: (id: string) => void;
+  onSubmit: (id: string, email: string, role: string) => void;
 }
 
 const UserDetails = (props: UserDetailsProps) => {
@@ -29,10 +30,6 @@ const UserDetails = (props: UserDetailsProps) => {
     setEmail(props.dataQuery?.email || "");
     setRole(props.dataQuery?.role || "");
     setIsChanged(false);
-  };
-
-  const handleSubmit = () => {
-    // Submit logic here
   };
 
   const handleDeletion = () => {
@@ -88,7 +85,7 @@ const UserDetails = (props: UserDetailsProps) => {
         </Button>
         <Button
           className="btn btn-sm btn-soft rounded"
-          onClick={handleSubmit}
+          onClick={() => props.onSubmit(props.dataQuery.id, email, role)}
           disabled={!isChanged}
         >
           Submit changes
