@@ -16,7 +16,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4, validate } from "uuid";
 import { useAddRecipeContext } from "./useAddRecipeContext";
 import { arrayMove } from "@dnd-kit/sortable";
-import { AllParameters } from "./useGetParameters";
+import useGetParameters, { AllParameters } from "./useGetParameters";
 import { ParameterSelect } from "@pages/AddRecipe";
 
 type RecipeDragContextValue = {
@@ -85,10 +85,14 @@ const RecipeDragProvider = ({
 
         const item = parameters.find((x) => x.name === activeId);
         const id = uuidv4();
+        if (!item) return;
         setActiveId(id);
         const newParameters = [
           ...step.parameters.slice(0, newIndex),
-          { ...item!, id: id },
+          {
+            ...item!,
+            id: parameters.find((param) => param.name === item!.name)!.id,
+          },
           ...step.parameters.slice(newIndex, step.parameters.length),
         ];
 
@@ -137,7 +141,7 @@ const RecipeDragProvider = ({
       ...newStep.parameters,
       {
         ...item,
-        id: uuidv4(),
+        id: parameters.find((param) => param.name === item.name)!.id,
       },
     ];
 
@@ -159,9 +163,9 @@ const RecipeDragProvider = ({
           {activeId && (
             <ParameterSelect
               parameter={{
-                id: "dupa",
+                id: "",
                 name: activeId,
-                unit: "dupa",
+                unit: "",
                 step: 1,
                 $type: "integer",
                 value: 0,

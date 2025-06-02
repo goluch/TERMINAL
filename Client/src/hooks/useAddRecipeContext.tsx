@@ -182,7 +182,6 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     const newStep = { ...recipe.steps[currentStep] };
     newStep.parameters = newStep.parameters.map((param) => ({
       ...param,
-      id: uuidv4(),
     }));
 
     const newRecipe = {
