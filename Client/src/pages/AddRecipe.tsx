@@ -1,4 +1,3 @@
-import { Step } from "@api/models/Step";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import {
@@ -16,16 +15,14 @@ import useGetParameters, {
 } from "@hooks/useGetParameters";
 import { IntegerParameter } from "@hooks/useGetParameters";
 import { ReactNode } from "react";
-import { useDroppable, useDraggable, DraggableAttributes } from "@dnd-kit/core";
+import { useDroppable, useDraggable } from "@dnd-kit/core";
 import {
   defaultAnimateLayoutChanges,
   horizontalListSortingStrategy,
-  rectSortingStrategy,
   SortableContext,
   useSortable,
 } from "@dnd-kit/sortable";
 import clsx from "clsx";
-import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { RecipeDragProvider } from "@hooks/useRecipeDragContext";
 import {
   AddRecipeProvider,
@@ -261,8 +258,13 @@ function animateLayoutChanges(args) {
 }
 
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
-  const { removeParameter, moveParameterUp, moveParameterDown, currentStep } =
-    useAddRecipeContext();
+  const {
+    removeParameter,
+    moveParameterUp,
+    moveParameterDown,
+    currentStep,
+    updateParameter,
+  } = useAddRecipeContext();
   const {
     listeners,
     attributes,
@@ -313,13 +315,19 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
             </p>
             <input
               className="rounded-md w-full text-sm ms-2 focus:outline-none"
+              type="text"
+              defaultValue={parameter.defaultValue}
               value={parameter.value}
-              onChange={(val) =>
-                (parameter.value =
-                  parameter.$type == "text"
-                    ? val.currentTarget.value
-                    : parseInt(val.currentTarget.value))
-              }
+              onChange={(val) => {
+                const newParameter =
+                  parameter.$type === "text"
+                    ? { ...parameter, value: val.currentTarget.value }
+                    : {
+                        ...parameter,
+                        value: parseInt(val.currentTarget.value),
+                      };
+                updateParameter(currentStep, newParameter);
+              }}
             />
             <DragHandle attributes={attributes} listeners={listeners} />
           </div>

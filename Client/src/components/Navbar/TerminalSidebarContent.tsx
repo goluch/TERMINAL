@@ -21,7 +21,7 @@ const TerminalSidebarContent = () => {
         />
         <SidebarItem
           text="Add new"
-          href="/add"
+          href="/new-recipe"
           icon={<PlusCircleIcon className="h-5 w-5" />}
         />
       </SidebarLinkGroup>

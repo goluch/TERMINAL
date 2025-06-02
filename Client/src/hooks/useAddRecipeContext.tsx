@@ -6,6 +6,12 @@ import { arrayMove, arraySwap } from "@dnd-kit/sortable";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useStickyState from "./useSessionStore";
+import {
+  AllParameters,
+  DecimalParameter,
+  IntegerParameter,
+  TextParameter,
+} from "./useGetParameters";
 
 type AddRecipeContextValue = {
   recipe: Recipe;
@@ -18,6 +24,10 @@ type AddRecipeContextValue = {
   getCurrentStep: () => Step | null;
   findParameterIndex: (id: string | null) => number;
   removeParameter: (stepIndex: number | null, parameterId: string) => void;
+  updateParameter: (
+    stepIndex: number | null,
+    parameter: TextParameter | DecimalParameter | IntegerParameter,
+  ) => void;
   moveParameterUp: (
     stepIndex: number | null,
     parameterId: string | null,
@@ -95,6 +105,26 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
               ...step,
               parameters: step.parameters.filter(
                 (param) => param.id !== parameterId,
+              ),
+            }
+          : step,
+      ),
+    }));
+  };
+
+  const updateParameter = (
+    stepIndex: number | null,
+    parameter: AllParameters,
+  ) => {
+    if (stepIndex === null) return;
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      steps: prevRecipe.steps.map((step, i) =>
+        i === stepIndex
+          ? {
+              ...step,
+              parameters: step.parameters.map((param) =>
+                param.id === parameter.id ? parameter : param,
               ),
             }
           : step,
@@ -182,6 +212,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
         findParameterIndex,
         getCurrentStep,
         removeParameter,
+        updateParameter,
         moveParameterUp,
         moveParameterDown,
         copyStepAsNext,
