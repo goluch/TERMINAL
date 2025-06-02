@@ -9,15 +9,6 @@ import {
 import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
 import clsx from "clsx";
 
-function animateLayoutChanges(args) {
-  const { isSorting, wasDragging } = args;
-
-  if (isSorting || wasDragging) {
-    return defaultAnimateLayoutChanges(args);
-  }
-
-  return true;
-}
 type ParameterBoxProps = {
   parameter: AllParameters;
 };
@@ -38,7 +29,10 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
     transition,
     isDragging,
   } = useSortable({
-    animateLayoutChanges,
+    animateLayoutChanges: (args) =>
+      args.isSorting || args.wasDragging
+        ? defaultAnimateLayoutChanges(args)
+        : true,
     id: parameter.id,
     data: parameter,
   });

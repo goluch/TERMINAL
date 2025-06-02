@@ -2,10 +2,8 @@
 
 import { Recipe } from "@api/models/Recipe";
 import { Step } from "@api/models/Step";
-import { arrayMove, arraySwap } from "@dnd-kit/sortable";
+import { arraySwap } from "@dnd-kit/sortable";
 import { createContext, ReactNode, useContext, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import useStickyState from "./useSessionStore";
 import {
   AllParameters,
   DecimalParameter,
