@@ -1,5 +1,5 @@
 import apiClient from "@api/apiClient";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 type ParameterType = "decimal" | "text" | "integer";
 
