@@ -1,40 +1,59 @@
-import {
-  Button,
-  Description,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/20/solid";
+import clsx from "clsx";
+import { ReactNode, HTMLAttributes } from "react";
 
-interface DialogProps {
+export type DialogProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  handleClose?: () => void;
   title: string;
   description?: string;
-  children: string | JSX.Element;
-}
+  children?: ReactNode | ReactNode[];
+};
 
 const DialogComp = (props: DialogProps) => {
+  const closeDialog = props.handleClose ?? (() => props.setIsOpen(false));
+
   return (
     <Dialog
       open={props.isOpen}
-      onClose={() => props.setIsOpen(false)}
+      onClose={() => closeDialog()}
       transition
-      className="fixed inset-0 flex w-screen items-center justify-center bg-black/30 p-4 transition duration-300 ease-out data-[closed]:opacity-0"
+      className="fixed inset-0 flex w-screen backdrop-blur-sm items-center justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0"
     >
-      <DialogPanel className="modal-box">
-        <DialogTitle className="font-bold">{props.title}</DialogTitle>
-        <Description>{props.description}</Description>
-        {/* CONTENT */}
-        {props.children}
-        <div className="modal-action">
-          <Button className="btn" onClick={() => props.setIsOpen(false)}>
-            Cancel
-          </Button>
-        </div>
+      <DialogPanel className="rounded-md bg-white p-4 w-[25rem] border shadow-sm">
+        <DialogTitle>
+          <div className="flex justify-between items-center w-full pb-5">
+            <p className="font-medium text-lg">{props.title}</p>
+            <XMarkIcon
+              className="h-6 rounded-full hover:bg-gray-100 cursor-pointer"
+              onClick={() => closeDialog()}
+            />
+          </div>
+        </DialogTitle>
+        <div className="flex flex-col gap-3">{props.children}</div>
       </DialogPanel>
     </Dialog>
   );
 };
 
-export default DialogComp;
+const DialogButton = ({
+  children,
+  className,
+  ...rest
+}: HTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <button
+      className={clsx(
+        "font-normal text-sm h-10 bg-gray-100 text-black border w-full inline-flex items-center justify-center gap-2 rounded-md transition-colors duration-100 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        className,
+      )}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+};
+
+export { DialogComp, DialogButton };
