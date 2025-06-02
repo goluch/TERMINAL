@@ -75,8 +75,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
             <input
               className="rounded-md w-full text-sm ms-2 focus:outline-none"
               type="text"
-              defaultValue={parameter.defaultValue}
-              value={parameter.value}
+              value={parameter.value ?? (parameter.$type === "text" ? "" : 0)}
               onChange={(val) => {
                 const newParameter =
                   parameter.$type === "text"

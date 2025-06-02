@@ -16,8 +16,8 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4, validate } from "uuid";
 import { useAddRecipeContext } from "./useAddRecipeContext";
 import { arrayMove } from "@dnd-kit/sortable";
-import useGetParameters, { AllParameters } from "./useGetParameters";
-import { ParameterSelect } from "@pages/AddRecipe";
+import { AllParameters } from "./useGetParameters";
+import { ParameterSelect } from "@components/AddRecipe/ParameterSelect";
 
 type RecipeDragContextValue = {
   onDragStart: (event: DragStartEvent) => void;
