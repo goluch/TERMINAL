@@ -30,6 +30,16 @@ const columns = [
     }),
 ];
 
+/**
+ * Recipes Component
+ *
+ * A component that displays a list of recipes in a table format.
+ * It allows sorting and pagination of the recipes.
+ * It also provides a way to change the recipe details when a row is clicked.
+ *
+ * @component
+ * @param {RecipesProps} props - The properties for the Recipes component.
+ */
 const Recipes = (props: RecipesProps) => {
     const table = useReactTable({
         columns: columns,

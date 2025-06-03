@@ -5,6 +5,13 @@ import { useState } from "react";
 import { toastPromise } from "utils/toast.utils";
 import AddRecipeDialog from "./AddRecipeDialog";
 
+/**
+ * AddRecipeActions Component
+ *
+ * Provides actions for adding a recipe, including resetting the form and submitting the recipe.
+ *
+ * @component
+ */
 const AddRecipeActions = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();

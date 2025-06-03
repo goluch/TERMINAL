@@ -11,6 +11,15 @@ export interface SampleDetailsProps {
     isPending: boolean;
 }
 
+/**
+ * SampleDetails Component
+ *
+ * Displays details of a sample including code, creation date, tags, comment, and number of steps.
+ * Provides a button to delete the sample.
+ *
+ * @component
+ * @param {SampleDetailsProps} props - The properties for the component.
+ */
 const SampleDetails = (props: SampleDetailsProps) => {
 
     const date = new Date(props.dataQuery?.createdAtUtc ?? "");

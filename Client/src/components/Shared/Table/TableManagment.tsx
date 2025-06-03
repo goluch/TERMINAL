@@ -12,6 +12,14 @@ export interface TableManagementProps<T> {
     table: Table<T>;
 }
 
+/**
+ * TableManagement Component
+ *
+ * A component that provides pagination and page size selection for a table.
+ * It allows users to navigate through pages of data and select how many items to display per page.
+ *
+ * @component
+ */
 const TableManagement = <T, >(props: TableManagementProps<T>) => {
     return (
         <div className="flex p-3 border-t border-gray-200 justify-end">

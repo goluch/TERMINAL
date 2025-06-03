@@ -29,6 +29,15 @@ const columns = [
     }),
 ];
 
+/**
+ * Projects Component
+ *
+ * A component that displays a list of projects in a table format.
+ * It allows sorting and pagination of the project data.
+ * It also provides a way to change the project details view when a project is clicked.
+ *
+ * @component
+ */
 const Projects = (props: ProjectsProps) => {
     const table = useReactTable({
         columns: columns,

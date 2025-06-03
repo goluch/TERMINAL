@@ -8,13 +8,21 @@ import {AxiosResponse} from "axios";
 import {Button} from "@headlessui/react";
 import {toastPromise} from "../../utils/toast.utils.tsx";
 
-
 export interface ProjectDetailsProps {
     dataQuery: ProjectDetailsDto | undefined;
     mutateAsync: (id: string) => Promise<AxiosResponse>;
     isPending: boolean;
 }
 
+/**
+ * ProjectDetails Component
+ *
+ * Displays details of a project including its name, active status, and number of samples.
+ * Provides a button to delete the project.
+ *
+ * @param {ProjectDetailsProps} props - The properties for the component.
+ * @component
+ */
 const ProjectDetails = (props: ProjectDetailsProps) => {
 
     const handleDeletion = async () => {

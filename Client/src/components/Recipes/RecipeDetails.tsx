@@ -11,6 +11,15 @@ export interface RecipeDetailsProps {
     isPending: boolean;
 }
 
+/**
+ * RecipeDetails Component
+ *
+ * Displays details of a recipe including its name and steps.
+ * Provides functionality to delete the recipe.
+ *
+ * @component
+ * @param {RecipeDetailsProps} props - The properties for the component.
+ */
 const RecipeDetails = (props: RecipeDetailsProps) => {
 
     const handleDeletion = async () => {

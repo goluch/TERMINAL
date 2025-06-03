@@ -10,6 +10,14 @@ export interface User {
   role: string;
 }
 
+/**
+ * Users Component
+ *
+ * A component that displays user information and allows inviting new users.
+ * It includes a button to open a dialog for inviting new users and displays the current user information.
+ *
+ * @component
+ */
 const Users = () => {
   const user: User = {
     email: "Test",
