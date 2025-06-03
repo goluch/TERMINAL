@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
-import TerminalBanner from "@components/Shared/Forms/TerminalBanner.tsx";
-import InputField from "@components/Shared/Forms/InputField.tsx";
-import SubmitButton from "@components/Shared/Forms/SubmitButton.tsx";
+import TerminalBanner from "@components/Shared/TerminalBanner.tsx";
+import InputField from "@components/Shared/InputField.tsx";
+import SubmitButton from "@components/Shared/SubmitButton.tsx";
 import SelectField from "./SelectField.tsx";
 import InvitationLink from "./InvitationLink.tsx";
 

@@ -3,7 +3,7 @@ import {
   DialogComp,
   DialogProps,
 } from "@components/Shared/DialogComp";
-import InputField from "@components/Shared/Forms/InputField";
+import InputField from "@components/Shared/InputField";
 import { useState } from "react";
 
 function isRecipeNameValid(name: string) {
