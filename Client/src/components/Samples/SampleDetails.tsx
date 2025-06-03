@@ -4,6 +4,7 @@ import {toastPromise} from "../../utils/toast.utils.tsx";
 import {ClockIcon, TagIcon, ChatBubbleBottomCenterTextIcon, NumberedListIcon} from "@heroicons/react/16/solid";
 import {EyeDropperIcon} from "@heroicons/react/20/solid";
 import {AxiosResponse} from "axios";
+import {useIsInRole} from "@hooks/useIsInRole.ts";
 
 export interface SampleDetailsProps {
     dataQuery: SampleDetailsDto | undefined;
@@ -12,7 +13,7 @@ export interface SampleDetailsProps {
 }
 
 const SampleDetails = (props: SampleDetailsProps) => {
-
+    const isAdmin = useIsInRole("Administrator");
     const date = new Date(props.dataQuery?.createdAtUtc ?? "");
 
     const handleDeletion = async () => {
@@ -78,14 +79,16 @@ const SampleDetails = (props: SampleDetailsProps) => {
                     <div className="font-medium pr-2">Number of steps:</div>
                     <div>{props.dataQuery?.steps?.length}</div>
                 </div>
-                <div className="mt-6 flex gap-2">
-                    {props.dataQuery && (
-                        <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
-                                disabled={props.isPending}>
-                            Delete
-                        </Button>
-                    )}
-                </div>
+                {isAdmin &&
+                    <div className="mt-6 flex gap-2">
+                        {props.dataQuery && (
+                            <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
+                                    disabled={props.isPending}>
+                                Delete
+                            </Button>
+                        )}
+                    </div>
+                }
             </div>
         </div>
     );
