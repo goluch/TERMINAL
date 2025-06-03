@@ -25,8 +25,25 @@ export default function App() {
       <Toaster toastOptions={toastOptions} />
       <BrowserRouter>
         <Routes>
-          <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
-            <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
+          <Route path="/add-new">
+            <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
+              <Route
+                path="/add-new/recipe"
+                element={<AddRecipeWithContexts />}
+              />
+            </Route>
+            <Route element={<AuthorizedLayout pageName="Add new project" />}>
+              <Route
+                path="/add-new/project"
+                element={<AddRecipeWithContexts />}
+              />
+            </Route>
+            <Route element={<AuthorizedLayout pageName="Add new sample" />}>
+              <Route
+                path="/add-new/sample"
+                element={<AddRecipeWithContexts />}
+              />
+            </Route>
           </Route>
           <Route element={<AuthorizedLayout pageName="Dashboard" />}>
             <Route path="/" element={<DashboardPage />} />
