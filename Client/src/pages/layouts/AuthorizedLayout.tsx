@@ -1,22 +1,29 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useIsAuthenticated } from "../../hooks/useIsAuthenticated";
+import { useIsAuthenticated } from "@hooks/useIsAuthenticated";
 import Sidebar from "@components/Navbar/Sidebar.tsx";
-import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
+import MobileNavbar from "@components/Navbar/MobileNavbar.tsx"
+import {useUserRoles} from "@hooks/useUserRoles.ts";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
+  roles?: Array<string>;
 };
 
-const AuthorizedNavbarLayout = ({ pageName }: AuthorizedNavbarLayoutProps) => {
+const AuthorizedNavbarLayout = ({ pageName, roles }: AuthorizedNavbarLayoutProps) => {
   const isAuthenticated = useIsAuthenticated();
+  const userRole = useUserRoles();
 
   if (isAuthenticated === false) {
     return <Navigate to="/login" />;
   }
 
-  if (isAuthenticated === undefined) {
+  if (isAuthenticated === undefined || userRole === undefined) {
     return <div>Loading...</div>;
   }
+
+  if(roles && !roles.includes(userRole))
+    return <Navigate to="/"/>;
+
 
   return (
     <div className="w-screen flex flex-col sm:flex-row bg-gray-100">
@@ -37,7 +44,7 @@ const AuthorizedNavbarLayout = ({ pageName }: AuthorizedNavbarLayoutProps) => {
           </div>
         </div>
         <div className="drawer-side">
-          {/* Sidebar */}
+          {/* Navbar */}
           <label
             htmlFor="drawer"
             aria-label="close sidebar"

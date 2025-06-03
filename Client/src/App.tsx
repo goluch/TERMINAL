@@ -49,7 +49,7 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Samples" />}>
             <Route path="/samples" element={<SamplesPage />} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Users" />}>
+          <Route element={<AuthorizedLayout pageName="Users" roles={["Administrator"]}/>}>
             <Route path="/users" element={<UsersPage />} />
           </Route>
           <Route element={<NoNavbarLayout />}>

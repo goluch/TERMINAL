@@ -3,7 +3,7 @@ import TerminalSidebarContent from "./TerminalSidebarContent.tsx";
 import SidebarUserProfile from "./SidebarUserProfile.tsx";
 
 /**
- * Sidebar Component
+ * Navbar Component
  *
  * A navigation bar component that includes navigation items, a user profile dropdown, and authentication buttons.
  *
