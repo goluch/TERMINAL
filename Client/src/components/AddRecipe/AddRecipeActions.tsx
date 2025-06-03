@@ -4,6 +4,7 @@ import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
 import { useState } from "react";
 import { toastPromise } from "utils/toast.utils";
 import AddRecipeDialog from "./AddRecipeDialog";
+import AddSampleDialog from "@components/AddSample/AddSampleDialog";
 
 const AddRecipeActions = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -22,7 +23,7 @@ const AddRecipeActions = () => {
           <CheckIcon className="h-5 w-5" onClick={() => setDialogOpen(true)} />
         </button>
       </div>
-      <AddRecipeDialog
+      <AddSampleDialog
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
         onSubmit={(name) =>
