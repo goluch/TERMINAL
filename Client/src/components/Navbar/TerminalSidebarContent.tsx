@@ -1,4 +1,5 @@
 import SidebarItem from "./SidebarItem.tsx";
+import SidebarItemWithSubLinks from "./SidebarItemWithSubLinks.tsx";
 import SidebarLinkGroup from "./SidebarLinkGroup.tsx";
 import {
   Squares2X2Icon,
@@ -19,11 +20,14 @@ const TerminalSidebarContent = () => {
           href="/"
           icon={<Squares2X2Icon className="h-5 w-5" />}
         />
-        <SidebarItem
+        <SidebarItemWithSubLinks
           text="Add new"
-          href="/new-recipe"
           icon={<PlusCircleIcon className="h-5 w-5" />}
-        />
+        >
+          <SidebarItem text="Recipe" href="/new-recipe" />
+          <SidebarItem text="Sample" href="/new-sample" />
+          <SidebarItem text="Project" href="/new-project" />
+        </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
         <SidebarItem

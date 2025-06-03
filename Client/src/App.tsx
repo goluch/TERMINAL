@@ -28,6 +28,12 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
             <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
           </Route>
+          <Route element={<AuthorizedLayout pageName="Add new project" />}>
+            <Route path="/new-project" element={<AddRecipeWithContexts />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Add new sample" />}>
+            <Route path="/new-sample" element={<AddRecipeWithContexts />} />
+          </Route>
           <Route element={<AuthorizedLayout pageName="Dashboard" />}>
             <Route path="/" element={<DashboardPage />} />
           </Route>
