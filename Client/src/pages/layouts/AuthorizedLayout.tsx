@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useIsAuthenticated } from "../../hooks/useIsAuthenticated";
+import { useIsAuthenticated } from "@hooks/useIsAuthenticated";
 import Sidebar from "@components/Navbar/Sidebar.tsx";
-import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
+import MobileNavbar from "@components/Navbar/MobileNavbar.tsx"
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
@@ -37,7 +37,7 @@ const AuthorizedNavbarLayout = ({ pageName }: AuthorizedNavbarLayoutProps) => {
           </div>
         </div>
         <div className="drawer-side">
-          {/* Sidebar */}
+          {/* Navbar */}
           <label
             htmlFor="drawer"
             aria-label="close sidebar"
