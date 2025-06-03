@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 import {
-  Label,
-  Field,
   Combobox,
   ComboboxInput,
   ComboboxOptions,
@@ -12,14 +10,15 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import InputLabelAndValidation, {
+  InputLabelAndValidationProps,
+} from "./InputLabelAndValidation";
 
-type LabeledSelectProps<T> = ComboboxProps<T, false> & {
-  label: string;
-  isValid?: boolean;
-  validationInfo?: string;
-  displayValue?: (arg0: T) => string;
-  children: ReactNode;
-};
+type LabeledSelectProps<T> = InputLabelAndValidationProps &
+  ComboboxProps<T, false> & {
+    displayValue?: (arg0: T) => string;
+    children: ReactNode;
+  };
 
 /**
  * Reusable input field component with validation support.
@@ -36,10 +35,11 @@ const LabeledSelect = <T,>({
   ...rest
 }: LabeledSelectProps<T>) => {
   return (
-    <Field>
-      <Label className="text-sm font-normal font-sans text-gray-700">
-        {label}:
-      </Label>
+    <InputLabelAndValidation
+      label={label}
+      isValid={isValid}
+      validationInfo={validationInfo}
+    >
       <Combobox {...rest}>
         <div className="relative">
           <ComboboxInput
@@ -62,10 +62,7 @@ const LabeledSelect = <T,>({
           {children}
         </ComboboxOptions>
       </Combobox>
-      <div className={clsx(isValid && "invisible")}>
-        <p className="text-xs pt-1 text-red-500">{validationInfo}</p>
-      </div>
-    </Field>
+    </InputLabelAndValidation>
   );
 };
 

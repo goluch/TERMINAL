@@ -4,7 +4,7 @@ import {
   DialogComp,
   DialogProps,
 } from "@components/Shared/DialogComp";
-import InputField from "@components/Shared/Forms/InputField";
+import InputField from "@components/Shared/InputField";
 import LabeledCheckbox from "@components/Shared/LabeledCheckbox";
 import { SelectItem, LabeledSelect } from "@components/Shared/LabeledSelect";
 import { useProjects } from "@hooks/projects/useGetProjects";

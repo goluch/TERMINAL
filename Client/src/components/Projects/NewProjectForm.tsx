@@ -1,4 +1,4 @@
-import InputField from "../Shared/Forms/InputField";
+import InputField from "../Shared/InputField";
 import { useState } from "react";
 import { DialogButton } from "../Shared/DialogComp";
 import useAddProject from "@hooks/projects/useAddProject";

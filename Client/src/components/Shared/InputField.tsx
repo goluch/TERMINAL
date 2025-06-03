@@ -1,16 +1,15 @@
 import React from "react";
-import { Input, Label, Field } from "@headlessui/react";
+import { Input } from "@headlessui/react";
 import clsx from "clsx";
+import InputLabelAndValidation, {
+  InputLabelAndValidationProps,
+} from "./InputLabelAndValidation";
 
 /**
- * Props interface for InputField component
+ * Props type for InputField component
  */
-export interface InputFieldProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  isValid?: boolean;
-  validationInfo?: string;
-}
+export type InputFieldProps = InputLabelAndValidationProps &
+  React.InputHTMLAttributes<HTMLInputElement>;
 
 /**
  * Reusable input field component with validation support.
@@ -26,10 +25,11 @@ const InputField = ({
   ...rest
 }: InputFieldProps) => {
   return (
-    <Field>
-      <Label className="text-sm font-normal font-sans text-gray-700">
-        {label}:
-      </Label>
+    <InputLabelAndValidation
+      label={label}
+      isValid={isValid}
+      validationInfo={validationInfo}
+    >
       <Input
         {...rest}
         autoComplete="disabled"
@@ -41,10 +41,7 @@ const InputField = ({
           className,
         )}
       />
-      <div className={clsx(isValid && "invisible")}>
-        <p className="text-xs pt-1 text-red-500">{validationInfo}</p>
-      </div>
-    </Field>
+    </InputLabelAndValidation>
   );
 };
 
