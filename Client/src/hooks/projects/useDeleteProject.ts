@@ -7,6 +7,14 @@ async function deleteProject(id: string | undefined): Promise<AxiosResponse> {
     return await apiClient.delete(`projects/${id}`);
 }
 
+/**
+ * useDeleteProject Hook
+ *
+ * A custom hook that provides functionality to delete a project.
+ *
+ * @hook
+ * @param {ProjectsRequest} params - The parameters for the projects request.
+ */
 export function useDeleteProject(params: ProjectsRequest) {
     const queryClient = useQueryClient();
 

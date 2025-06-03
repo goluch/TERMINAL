@@ -24,6 +24,15 @@ async function fetchDataProject(params:RecipesRequest): Promise<RecipesResponse>
     }
 }
 
+/**
+ * useRecipes Hook
+ *
+ * Fetches recipes data from the API based on the provided parameters.
+ * It uses React Query to manage the data fetching and caching.
+ *
+ * @hook
+ * @param {RecipesRequest} params - The parameters for fetching recipes.
+ */
 export function useRecipes(params: RecipesRequest) {
     return useQuery(
         {

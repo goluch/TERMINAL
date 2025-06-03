@@ -1,5 +1,12 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
+/**
+ * useStickyState Hook
+ *
+ * A custom hook that manages a state variable that persists in session storage.
+ *
+ * @hook
+ */
 function useStickyState<T>(
   defaultValue: T,
   key: string,
