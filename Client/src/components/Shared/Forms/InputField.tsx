@@ -42,8 +42,7 @@ const InputField = ({
         )}
       />
       <div className={clsx(isValid && "invisible")}>
-        <p className="text-sm text-red-500">Invalid {label}</p>
-        <p className="text-sm text-red-500">{validationInfo}</p>
+        <p className="text-xs py-1 text-red-500">{validationInfo}</p>
       </div>
     </Field>
   );
