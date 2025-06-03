@@ -5,17 +5,21 @@ import {
   DialogProps,
 } from "@components/Shared/DialogComp";
 import InputField from "@components/Shared/Forms/InputField";
+import LabeledCheckbox from "@components/Shared/LabeledCheckbox";
 import { SelectItem, LabeledSelect } from "@components/Shared/LabeledSelect";
-import { Checkbox } from "@headlessui/react";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useState } from "react";
 
-function isRecipeNameValid(name: string) {
+function validateName(name: string) {
   return name.length >= 5;
 }
 
+function validateProject(project: ProjectDto | null) {
+  return project !== null;
+}
+
 type AddSampleDialogProps = Omit<DialogProps, "title"> & {
-  onSubmit: (name: string) => void;
+  onSubmit: (name: string, project: string, saveAsRecipe: boolean) => void;
 };
 
 const AddSampleDialog = ({
@@ -23,27 +27,37 @@ const AddSampleDialog = ({
   setIsOpen,
   ...rest
 }: AddSampleDialogProps) => {
-  const [recipeName, setRecipeName] = useState("");
+  const [sampleName, setSampleName] = useState("");
   const [selectedProject, setSelectedProject] = useState<ProjectDto | null>(
     null,
   );
+  const [saveAsRecipe, setSaveAsRecipe] = useState(false);
+
   const [isNameValid, setIsNameValid] = useState(true);
+  const [isProjectValid, setIsProjectValid] = useState(true);
 
   const { data, isLoading } = useProjects({ pageSize: 999, pageNumber: 0 });
 
   const handleClose = () => {
-    setRecipeName("");
+    setSampleName("");
+    setSelectedProject(null);
     setIsNameValid(true);
+    setIsProjectValid(true);
     setIsOpen(false);
   };
 
   const handleSubmit = () => {
-    if (!isRecipeNameValid(recipeName)) {
+    if (!validateName(sampleName)) {
       setIsNameValid(false);
       return;
     }
 
-    onSubmit(recipeName);
+    if (!validateProject(selectedProject)) {
+      setIsProjectValid(false);
+      return;
+    }
+
+    onSubmit(sampleName, selectedProject.id, saveAsRecipe);
     handleClose();
   };
 
@@ -59,8 +73,8 @@ const AddSampleDialog = ({
       <div className="flex flex-col">
         <InputField
           label="Name"
-          value={recipeName}
-          onChange={(e) => setRecipeName(e.currentTarget.value)}
+          value={sampleName}
+          onChange={(e) => setSampleName(e.currentTarget.value)}
           isValid={isNameValid}
           validationInfo="Sample name must be at least 5 characters long"
         />
@@ -69,7 +83,7 @@ const AddSampleDialog = ({
           value={selectedProject}
           displayValue={(project) => project?.name ?? ""}
           onChange={setSelectedProject}
-          isValid={isNameValid}
+          isValid={isProjectValid}
           validationInfo="Choose a project from the list"
         >
           {data?.rows.map((project) => (
@@ -80,7 +94,11 @@ const AddSampleDialog = ({
             />
           ))}
         </LabeledSelect>
-        <Checkbox />
+        <LabeledCheckbox
+          label="Save as recipe"
+          checked={saveAsRecipe}
+          onChange={setSaveAsRecipe}
+        />
       </div>
       <DialogButton className="hover:border-green-400" onClick={handleSubmit}>
         Add sample
