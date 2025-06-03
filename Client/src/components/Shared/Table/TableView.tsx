@@ -12,6 +12,13 @@ export interface TableViewProps<T extends TableElement> {
   handleClickRow: (id: string) => void;
 }
 
+/**
+ * TableView Component
+ *
+ * A generic table view component that renders a table with sortable headers and clickable rows.
+ *
+ * @component
+ */
 const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
   return (
     <div className="overflow-auto">

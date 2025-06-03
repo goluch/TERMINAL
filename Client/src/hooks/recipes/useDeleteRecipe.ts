@@ -7,6 +7,13 @@ async function deleteRecipe(id: string | undefined): Promise<AxiosResponse> {
     return await apiClient.delete(`recipes/${id}`);
 }
 
+/**
+ * useDeleteRecipe Hook
+ *
+ * A custom hook that provides functionality to delete a recipe.
+ *
+ * @hook
+ */
 export function useDeleteRecipe(params: RecipesRequest) {
     const queryClient = useQueryClient();
 

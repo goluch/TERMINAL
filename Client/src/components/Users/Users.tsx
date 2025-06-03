@@ -12,9 +12,6 @@ import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 
-/**
- * Props for the Users component.
- */
 export interface UsersProps {
     onChangeUserDetails?: (userId: string) => void;
     dataQuery: UsersResponse | undefined;
@@ -37,11 +34,13 @@ const columns= [
 ]
 
 /**
+ * Users Component
+ *
  * Users component displays a table of user details with sorting and pagination functionality.
  *
+ * @component
  * @param {UsersProps} props - The props for the Users component.
  *
- * @returns {JSX.Element} The rendered Users component.
  */
 const Users = (props: UsersProps) => {
 

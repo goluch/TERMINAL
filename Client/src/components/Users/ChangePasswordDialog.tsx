@@ -4,22 +4,11 @@ import { Input, Button } from "@headlessui/react";
 import { useChangeUserPassword } from "@hooks/users/useChangeUserPassword.ts";
 import { toastPromise } from "../../utils/toast.utils.tsx";
 
-/**
- * ChangePasswordDialogProps Interface
- *
- * Defines the properties for the ChangePasswordDialog component.
- * @interface
- * @property {boolean} isOpen - Indicates if the dialog is open.
- * @property {function} onClose - Function to close the dialog.
- * @property {string} userId - The ID of the user whose password is being changed.
- */
-
 export interface ChangePasswordDialogProps {
     isOpen: boolean;
     onClose: () => void;
     userId: string;
 }
-
 
 /**
  * ChangePasswordDialog Component
@@ -27,10 +16,6 @@ export interface ChangePasswordDialogProps {
  * A dialog component for changing user password.
  *
  * @component
- * @param {boolean} isOpen - Indicates if the dialog is open.
- * @param {function} onClose - Function to close the dialog.
- * @param {string} userId - The ID of the user whose password is being changed.
- * @returns {JSX.Element} - The rendered ChangePasswordDialog component.
  */
 const ChangePasswordDialog = ({isOpen, onClose, userId}: ChangePasswordDialogProps) => {
     const [newPassword, setNewPassword] = useState("");

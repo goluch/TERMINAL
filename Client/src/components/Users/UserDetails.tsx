@@ -15,6 +15,14 @@ export interface UserDetailsProps {
   onSubmit: (id: string, email: string, role: string) => void;
 }
 
+/**
+ * UserDetails Component
+ *
+ * Displays details of a user including email and role.
+ * Provides functionality to reset changes, submit changes, change password, and delete the user.
+ *
+ * @component
+ */
 const UserDetails = (props: UserDetailsProps) => {
   const [email, setEmail] = useState(props.dataQuery?.email);
   const [role, setRole] = useState(props.dataQuery?.role);

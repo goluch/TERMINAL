@@ -25,6 +25,14 @@ async function fetchDataUsers(params:UsersRequest): Promise<UsersResponse> {
     }
 }
 
+/**
+ * useUsers Hook
+ *
+ * Fetches a list of users based on the provided parameters.
+ *
+ * @hook
+ * @param {UsersRequest} params - The parameters for the user request.
+ */
 export function useUsers(params: UsersRequest) {
     return useQuery(
         {

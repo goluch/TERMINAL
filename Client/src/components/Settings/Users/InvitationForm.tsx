@@ -7,6 +7,13 @@ import InvitationLink from "./InvitationLink.tsx";
 
 const roles: string[] = ["ADMINISTRATOR", "MODERATOR", "USER"];
 
+/**
+ * InvitationForm Component
+ *
+ * A form component for inviting users with email validation and role selection.
+ *
+ * @component
+ */
 const InvitationForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState({

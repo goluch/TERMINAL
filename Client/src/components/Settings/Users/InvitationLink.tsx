@@ -6,6 +6,14 @@ interface InvitationLinkProps {
   link: string;
 }
 
+/**
+ * InvitationLink Component
+ *
+ * A component that displays an invitation link with options to show/hide the link and copy it to the clipboard.
+ *
+ * @component
+ * @param {InvitationLinkProps} props - The properties for the component.
+ */
 const InvitationLink = (props: InvitationLinkProps) => {
   const [linkIsOpen, setLinkIsOpen] = useState(false);
   const [isCopied, setCopied] = useState(false);

@@ -3,6 +3,14 @@ type NavbarLinkGroupProps = {
   children: React.ReactNode;
 };
 
+/**
+ * SidebarLinkGroup Component
+ *
+ * A component that represents a group of links in the sidebar navigation.
+ * It displays a title for the group and renders its children links.
+ *
+ * @component
+ */
 const SidebarLinkGroup = ({ text, children }: NavbarLinkGroupProps) => {
   return (
     <div>

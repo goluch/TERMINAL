@@ -6,6 +6,13 @@ type ParameterBoxProps = {
   parameter: AllParameters;
 };
 
+/**
+ * ParameterSelect Component
+ *
+ * A component that displays a selectable parameter box with drag-and-drop functionality.
+ *
+ * @component
+ */
 export const ParameterSelect = ({ parameter }: ParameterBoxProps) => {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: parameter.name,

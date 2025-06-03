@@ -3,6 +3,13 @@ import InputField from "../Shared/Forms/InputField.tsx";
 import React, { useCallback, useState } from "react";
 import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
 
+/**
+ * RegisterForm Component
+ *
+ * A form component for user registration with password validation.
+ *
+ * @component
+ */
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
