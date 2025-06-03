@@ -22,12 +22,11 @@ const TerminalSidebarContent = () => {
         />
         <SidebarItemWithSubLinks
           text="Add new"
-          href="/add-new"
           icon={<PlusCircleIcon className="h-5 w-5" />}
         >
-          <SidebarItem text="Recipe" href="/add-new/recipe" />
-          <SidebarItem text="Sample" href="/add-new/sample" />
-          <SidebarItem text="Project" href="/add-new/project" />
+          <SidebarItem text="Recipe" href="/new-recipe" />
+          <SidebarItem text="Sample" href="/new-sample" />
+          <SidebarItem text="Project" href="/new-project" />
         </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">

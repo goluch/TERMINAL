@@ -45,6 +45,8 @@ const SidebarItemWithSubLinks = ({
             <DisclosurePanel
               static
               transition
+              onFocus={(e) => e.preventDefault()}
+              onFocusCapture={(e) => e.preventDefault()}
               className="flex flex-col gap-1 p-1 bg-white mx-2 border-s ml-4 origin-top transition duration-200 ease-out data-closed:-translate-y-6 data-closed:opacity-0"
             >
               {children}
