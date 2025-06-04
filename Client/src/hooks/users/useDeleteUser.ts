@@ -6,6 +6,14 @@ async function deleteUser(id: string) {
     return await apiClient.delete(`users/${id}`);
 }
 
+/**
+ * useDeleteUser Hook
+ *
+ * A custom hook that provides functionality to delete a user.
+ *
+ * @hook
+ * @param {UsersRequest} params - The parameters for the users request.
+ */
 export function useDeleteUser(params: UsersRequest) {
     const queryClient = useQueryClient();
 

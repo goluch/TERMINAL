@@ -9,6 +9,14 @@ interface SelectFieldProps {
   isValid?: boolean;
 }
 
+/**
+ * SelectField Component
+ *
+ * A component that renders a select dropdown field with a label.
+ * It is used to select a value from a predefined list of options.
+ *
+ * @component
+ */
 const SelectField = (props: SelectFieldProps) => {
   return (
     <Field>

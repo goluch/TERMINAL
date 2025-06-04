@@ -24,6 +24,14 @@ async function fetchDataProject(params:ProjectsRequest): Promise<ProjectsRespons
     }
 }
 
+/**
+ * useProjects Hook
+ *
+ * Fetches a list of projects based on the provided parameters.
+ *
+ * @hook
+ * @param {ProjectsRequest} params - The parameters for the project request.
+ */
 export function useProjects(params: ProjectsRequest) {
     return useQuery(
         {

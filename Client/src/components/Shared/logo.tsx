@@ -1,5 +1,12 @@
 import { CommandLineIcon } from "@heroicons/react/24/outline";
 
+/**
+ * Logo Component
+ *
+ * A simple logo component that displays a terminal-like interface with an icon.
+ *
+ * @component
+ */
 const Logo = () => {
   return (
     <div className="w-screen h-screen flex justify-center items-center">

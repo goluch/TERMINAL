@@ -3,6 +3,13 @@ import { HTMLAttributes, PropsWithChildren } from "react";
 
 type TableCardProps = PropsWithChildren<HTMLAttributes<HTMLDivElement>>;
 
+/**
+ * TableCard Component
+ *
+ * A card component that displays a table-like structure with scrollable content.
+ *
+ * @component
+ */
 const TableCard = ({ children, className, ...props }: TableCardProps) => {
   return (
     <div

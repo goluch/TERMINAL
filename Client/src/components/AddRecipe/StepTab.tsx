@@ -6,6 +6,15 @@ type StepTabProps = {
   index: number;
 };
 
+
+/**
+ * StepTab Component
+ *
+ * A component that represents a tab for a step in a recipe.
+ * It allows users to copy the step as the next step or remove the step.
+ *
+ * @component
+ */
 const StepTab = ({ index }: StepTabProps) => {
   const { copyStepAsNext, removeStep } = useAddRecipeContext();
   return (

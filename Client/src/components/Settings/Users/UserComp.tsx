@@ -5,6 +5,14 @@ interface UserProps {
   user: User;
 }
 
+/**
+ * UserComp Component
+ *
+ * A component that displays user information including email and role.
+ * It also provides a button to reset the user's password.
+ *
+ * @component
+ */
 const UserComp = (props: UserProps) => {
   return (
     <div className="card w-full my-4 items-center">

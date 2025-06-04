@@ -39,6 +39,13 @@ type AddRecipeContextValue = {
 
 const AddRecipeContext = createContext<AddRecipeContextValue | null>(null);
 
+/**
+ * useAddRecipeContext Hook
+ *
+ * A custom hook that provides access to the AddRecipeContext.
+ *
+ * @hook
+ */
 function useAddRecipeContext(): AddRecipeContextValue {
   const context = useContext(AddRecipeContext);
   if (!context) {
@@ -49,6 +56,14 @@ function useAddRecipeContext(): AddRecipeContextValue {
   return context;
 }
 
+/**
+ * AddRecipeProvider Hook
+ *
+ * Provides context for managing the recipe creation process, including steps and parameters.
+ * It allows adding, removing, and updating steps and parameters within a recipe.
+ *
+ * @hook
+ */
 const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
   const [currentStep, setCurrentStep] = useState<number | null>(null);
   const [recipe, setRecipe] = useState<Recipe>({

@@ -17,6 +17,14 @@ async function updateUserRole({id, role} : UpdateUserRoleDto) {
     return await apiClient.patch(`users/${id}/role`, { role });
 }
 
+/**
+ * useUpdateUserRole Hook
+ *
+ * A custom hook that provides functionality to update a user's role.
+ *
+ * @hook
+ * @param {UsersRequest} params - The parameters for the users request.
+ */
 export function useUpdateUserRole(params: UsersRequest) {
     const queryClient = useQueryClient();
 

@@ -24,6 +24,14 @@ async function fetchDataProject(params:RecipesRequest): Promise<RecipesResponse>
     }
 }
 
+/**
+ * useRecipes Hook
+ *
+ * Fetches recipes data from the API based on the provided parameters.
+ *
+ * @hook
+ * @param {RecipesRequest} params - The parameters for fetching recipes.
+ */
 export function useRecipes(params: RecipesRequest) {
     return useQuery(
         {

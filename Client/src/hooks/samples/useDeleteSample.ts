@@ -7,6 +7,14 @@ async function deleteSample(id: string | undefined): Promise<AxiosResponse> {
     return await apiClient.delete(`samples/${id}`);
 }
 
+/**
+ * useDeleteSample Hook
+ *
+ * A custom hook for deleting a sample.
+ *
+ * @hook
+ * @param {SamplesRequest} params - The parameters for the samples request.
+ */
 export function useDeleteSample(params: SamplesRequest) {
     const queryClient = useQueryClient();
 

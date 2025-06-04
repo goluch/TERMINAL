@@ -6,6 +6,13 @@ async function fetchDataSampleDetails(id: string | null): Promise<SampleDetailsD
     return (await apiClient.get(`/samples/${id}`)).data;
 }
 
+/**
+ * useSampleDetails Hook
+ *
+ * A custom hook that fetches the details of a sample by its ID.
+ *
+ * @hook
+ */
 export function useSampleDetails(id: string | null){
     return useQuery({
         queryKey: ['sampleDetails', id],

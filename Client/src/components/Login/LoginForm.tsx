@@ -13,7 +13,6 @@ import { toastNotify, toastPromise } from "../../utils/toast.utils.tsx";
  * A form component for user login supporting email validation.
  *
  * @component
- * @returns {JSX.Element} - The rendered LoginForm component.
  */
 const LoginForm = () => {
   const mutation = useLoginMutation();

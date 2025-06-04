@@ -27,6 +27,13 @@ type RecipeDragContextValue = {
 
 const RecipeDragContext = createContext<RecipeDragContextValue | null>(null);
 
+/**
+ * useRecipeDragContext Hook
+ *
+ * Custom hook to use the RecipeDragContext.
+ *
+ * @hook
+ */
 function useRecipeDragContext(): RecipeDragContextValue {
   const context = useContext(RecipeDragContext);
   if (!context) {
@@ -42,6 +49,13 @@ const measuringConfig = {
   },
 };
 
+/**
+ * RecipeDragProvider Component
+ *
+ * Provides a context for managing drag and drop functionality for recipe parameters.
+ *
+ * @component
+ */
 const RecipeDragProvider = ({
   children,
   parameters,

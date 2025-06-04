@@ -1,6 +1,13 @@
 import { useDroppable } from "@dnd-kit/core";
 import { ReactNode } from "react";
 
+/**
+ * ParameterDroppable Component
+ *
+ * A component that serves as a droppable area for parameters in a recipe.
+ *
+ * @component
+ */
 const ParameterDroppable = ({ children }: { children: ReactNode }) => {
   const { setNodeRef } = useDroppable({
     id: "droppable",

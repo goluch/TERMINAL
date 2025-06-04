@@ -13,6 +13,14 @@ type ParameterBoxProps = {
   parameter: AllParameters;
 };
 
+/**
+ * ParameterBox Component
+ *
+ * A component that displays a parameter box with options to edit, remove, and reorder parameters.
+ * It includes input fields for parameter values and units, and allows drag-and-drop reordering.
+ *
+ * @component
+ */
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
   const {
     removeParameter,

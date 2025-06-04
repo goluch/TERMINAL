@@ -4,6 +4,14 @@ interface StepProps {
     step: SampleStepDto;
 }
 
+/**
+ * Step Component
+ *
+ * A component that displays a step in a recipe.
+ * It renders a table with the parameters of the step, including their name, value, and unit.
+ *
+ * @component
+  */
 const Step = (props: StepProps) => {
 
     return (

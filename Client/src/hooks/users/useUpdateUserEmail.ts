@@ -17,6 +17,14 @@ async function updateUserEmail({id, email} : UpdateUserEmailDto) {
     return await apiClient.patch(`users/${id}/email`, { email });
 }
 
+/**
+ * useUpdateUserEmail Hook
+ *
+ * A custom hook that provides functionality to update a user's email.
+ *
+ * @hook
+ * @param {UsersRequest} params - The parameters for the users request.
+ */
 export function useUpdateUserEmail(params: UsersRequest) {
     const queryClient = useQueryClient();
 

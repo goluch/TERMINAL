@@ -11,6 +11,15 @@ import {
   UserIcon,
 } from "@heroicons/react/20/solid";
 
+/**
+ * TerminalSidebarContent Component
+ *
+ * A component that represents the content of the sidebar in the terminal application.
+ * It includes various navigation links grouped by categories such as General, Manage, and Users.
+ * This component is designed to be used within a sidebar layout, providing easy access to different sections of the application.
+ *
+ * @component
+ */
 const TerminalSidebarContent = () => {
   return (
     <div className="flex flex-col p-4 gap-5 bg-white">

@@ -6,6 +6,13 @@ export type NavbarItemProps = {
   href: string;
 };
 
+/**
+ * SidebarItem Component
+ *
+ * A component that represents an item in the sidebar navigation.
+ *
+ * @component
+ */
 const SidebarItem = ({ icon, text, href }: NavbarItemProps) => {
   return (
     <NavLink
