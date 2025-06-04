@@ -82,37 +82,35 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="flex flex-wrap sm:flex-nowrap  justify-center p-5">
-        <div className="flex-1 bg-white p-3 rounded-md m-1">
-          {dataQueryUsers.isLoading ? (
-            <div className="flex justify-center">
-              <span className="loading loading-spinner loading-md"></span>
-            </div>
-          ) : (
-            <Users
-              dataQuery={dataQueryUsers.data}
-              sorting={sorting}
-              setSorting={setSorting}
-              pagination={pagination}
-              setPagination={setPagination}
-              onChangeUserDetails={changeUserDetails}
-            />
-          )}
-        </div>
-        <div className="flex-1 bg-white rounded-md m-1 self-start">
-          {userDetailsId && dataQueryUserDetails.data ? (
-            <UserDetails
-              dataQuery={dataQueryUserDetails.data}
-              onDeleted={handleDeletion}
-              onSubmit={handleSubmit}
-            />
-          ) : (
-            <div className="text-center text-gray-500">
-              Select a user to view details
-            </div>
-          )}
-        </div>
+    <div className="flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
+      <div className="flex-1">
+        {dataQueryUsers.isLoading ? (
+          <div className="flex justify-center">
+            <span className="loading loading-spinner loading-md"></span>
+          </div>
+        ) : (
+          <Users
+            dataQuery={dataQueryUsers.data}
+            sorting={sorting}
+            setSorting={setSorting}
+            pagination={pagination}
+            setPagination={setPagination}
+            onChangeUserDetails={changeUserDetails}
+          />
+        )}
+      </div>
+      <div className="flex-1">
+        {userDetailsId && dataQueryUserDetails.data ? (
+          <UserDetails
+            dataQuery={dataQueryUserDetails.data}
+            onDeleted={handleDeletion}
+            onSubmit={handleSubmit}
+          />
+        ) : (
+          <div className="text-center text-gray-500">
+            Select a user to view details
+          </div>
+        )}
       </div>
     </div>
   );
