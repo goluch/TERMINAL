@@ -7,7 +7,8 @@ import {
 import {AxiosResponse} from "axios";
 import {Button} from "@headlessui/react";
 import {toastPromise} from "../../utils/toast.utils.tsx";
-import {useIsInRole} from "@hooks/useIsInRole.ts";
+import {Role} from "../../utils/roles.ts";
+import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 
 
 export interface ProjectDetailsProps {
@@ -17,7 +18,6 @@ export interface ProjectDetailsProps {
 }
 
 const ProjectDetails = (props: ProjectDetailsProps) => {
-    const isAdmin = useIsInRole("Administrator");
 
     const handleDeletion = async () => {
         if (props.dataQuery?.id === undefined) return null;
@@ -56,7 +56,7 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
                     <div className="font-medium pr-1">Amount of samples::</div>
                     <div>{props.dataQuery?.samplesIds.length}</div>
                 </div>
-                {isAdmin &&
+                <VisibleForRoles roles={[Role.ADMINISTRATOR]}>
                     <div className="mt-6 flex gap-2">
                         {props.dataQuery && (
                             <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
@@ -65,8 +65,7 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
                             </Button>
                         )}
                     </div>
-                }
-
+                </VisibleForRoles>
             </div>
         </div>
 
