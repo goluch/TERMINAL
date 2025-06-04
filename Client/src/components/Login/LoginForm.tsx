@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import TerminalBanner from "@components/Shared/Forms/TerminalBanner.tsx";
-import InputField from "@components/Shared/Forms/InputField.tsx";
-import SubmitButton from "@components/Shared/Forms/SubmitButton.tsx";
+import TerminalBanner from "@components/Shared/TerminalBanner.tsx";
+import InputField from "@components/Shared/InputField.tsx";
+import SubmitButton from "@components/Shared/SubmitButton.tsx";
 import { useLoginMutation } from "@hooks/useLoginMutation.ts";
 import { LoginRequest } from "@api/terminalSchemas";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,6 @@ import { toastNotify, toastPromise } from "../../utils/toast.utils.tsx";
  * A form component for user login supporting email validation.
  *
  * @component
- * @returns {JSX.Element} - The rendered LoginForm component.
  */
 const LoginForm = () => {
   const mutation = useLoginMutation();

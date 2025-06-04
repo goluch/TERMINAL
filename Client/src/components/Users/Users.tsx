@@ -33,8 +33,11 @@ export type UsersProps = {
 const columnHelper = createColumnHelper<UserDetailsDto>();
 
 /**
+ * Users Component
+ *
  * Users component displays a table of user details with sorting and pagination functionality.
  *
+ * @component
  * @param {UsersProps} props - The props for the Users component.
  *
  */

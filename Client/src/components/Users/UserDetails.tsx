@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
-import InputField from "@components/Shared/Forms/InputField";
+import InputField from "@components/Shared/InputField";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
@@ -12,6 +12,14 @@ export interface UserDetailsProps {
   setOpen: (arg0: boolean) => void;
 }
 
+/**
+ * UserDetails Component
+ *
+ * Displays details of a user including email and role.
+ * Provides functionality to reset changes, submit changes, change password, and delete the user.
+ *
+ * @component
+ */
 const UserDetails = (props: UserDetailsProps) => {
   const [email, setEmail] = useState(props.dataQuery?.email);
   const [role, setRole] = useState(props.dataQuery?.role);

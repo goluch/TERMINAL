@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SettingsPage from "./pages/SettingsPage";
 import RegisterPage from "./pages/RegisterPage";
-import NewProjectForm from "./components/Shared/Forms/NewProjectForm";
+import NewProjectForm from "./components/Projects/NewProjectForm.tsx";
 import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
 import { toastOptions } from "./utils/toast.utils.tsx";
@@ -29,7 +29,7 @@ export default function App() {
             <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Add new project" />}>
-            <Route path="/new-project" element={<AddRecipeWithContexts />} />
+            <Route path="/new-project" element={<NewProjectForm />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Add new sample" />}>
             <Route path="/new-sample" element={<AddRecipeWithContexts />} />
@@ -53,7 +53,6 @@ export default function App() {
             <Route path="/users" element={<UsersPage />} />
           </Route>
           <Route element={<NoNavbarLayout />}>
-            <Route path="/add-new-project" element={<NewProjectForm />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

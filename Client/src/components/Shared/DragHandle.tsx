@@ -8,6 +8,14 @@ type DragHandleProps = {
   listeners: SyntheticListenerMap | undefined;
 };
 
+
+/**
+ * DragHandle Component
+ *
+ * A component that renders a drag handle icon for draggable items.
+ *
+ * @component
+ */
 const DragHandle = ({ className, attributes, listeners }: DragHandleProps) => {
   return (
     <svg

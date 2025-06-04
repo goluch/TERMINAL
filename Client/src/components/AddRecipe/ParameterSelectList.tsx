@@ -5,6 +5,14 @@ type ParameterSelectListProps = {
   parameters: AllParameters[];
 };
 
+/**
+ * ParameterSelectList Component
+ *
+ * A component that displays a list of selectable parameters.
+ * It allows users to select parameters for a recipe, with each parameter displayed as a selectable item.
+ *
+ * @component
+ */
 const ParameterSelectList = ({ parameters }: ParameterSelectListProps) => {
   return (
     <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-white shadow-sm overflow-auto">

@@ -6,10 +6,24 @@ const queryArg = {
   queryFn: async () => await apiClient.get<number>("/samples/amount"),
 };
 
+/**
+ * useGetSampleAmount Hook
+ *
+ * Fetches the total number of samples from the API.
+ *
+ * @hook
+ */
 function useGetSampleAmount() {
   return useQuery(queryArg);
 }
 
+/**
+ * usePrefetchSampleAmount Hook
+ *
+ * Prefetches the total number of samples from the API.
+ *
+ * @hook
+ */
 function usePrefetchSampleAmount() {
   return usePrefetchQuery(queryArg);
 }

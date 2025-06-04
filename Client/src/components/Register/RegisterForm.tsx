@@ -1,8 +1,15 @@
-import TerminalBanner from "../Shared/Forms/TerminalBanner.tsx";
-import InputField from "../Shared/Forms/InputField.tsx";
+import TerminalBanner from "../Shared/TerminalBanner.tsx";
+import InputField from "../Shared/InputField.tsx";
 import React, { useCallback, useState } from "react";
-import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
+import SubmitButton from "../Shared/SubmitButton.tsx";
 
+/**
+ * RegisterForm Component
+ *
+ * A form component for user registration with password validation.
+ *
+ * @component
+ */
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 

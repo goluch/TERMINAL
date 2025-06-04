@@ -12,6 +12,13 @@ export type DialogProps = {
   children?: ReactNode | ReactNode[];
 };
 
+/**
+ * DialogComp Component
+ *
+ * A reusable dialog component that displays a modal with a title, content, and a close button.
+ *
+ * @component
+ */
 const DialogComp = (props: DialogProps) => {
   const closeDialog = props.handleClose ?? (() => props.setIsOpen(false));
 
@@ -38,6 +45,13 @@ const DialogComp = (props: DialogProps) => {
   );
 };
 
+/**
+ * DialogButton Component
+ *
+ * A button component styled for use within a dialog.
+ *
+ * @component
+ */
 const DialogButton = ({
   children,
   className,

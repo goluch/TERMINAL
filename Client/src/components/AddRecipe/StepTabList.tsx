@@ -3,6 +3,15 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
 import StepTab from "./StepTab";
 
+
+/**
+ * StepTabList Component
+ *
+ * A component that displays a list of tabs for each step in a recipe.
+ * It allows users to add new steps and navigate between existing steps.
+ *
+ * @component
+ */
 const StepTabList = () => {
   const { addStep, recipe } = useAddRecipeContext();
   return (
@@ -14,7 +23,7 @@ const StepTabList = () => {
       </div>
       <button
         onClick={() => addStep()}
-        className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100 z-50"
+        className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100"
       >
         <PlusIcon className="h-5 aspect-square" />
       </button>

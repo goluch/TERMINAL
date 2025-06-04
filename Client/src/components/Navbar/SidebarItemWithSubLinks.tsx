@@ -11,6 +11,14 @@ type SidebarItemWithSubLinksProps = React.PropsWithChildren<
   Omit<NavbarItemProps, "href">
 >;
 
+/**
+ * SidebarItemWithSubLinks Component
+ *
+ * A component that represents an item in the sidebar navigation with sub-links.
+ * It allows for expanding and collapsing the sub-links section.
+ *
+ * @component
+ */
 const SidebarItemWithSubLinks = ({
   children,
   icon,

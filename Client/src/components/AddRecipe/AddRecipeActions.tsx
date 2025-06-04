@@ -5,6 +5,13 @@ import { useState } from "react";
 import { toastPromise } from "utils/toast.utils";
 import AddRecipeDialog from "./AddRecipeDialog";
 
+/**
+ * AddRecipeActions Component
+ *
+ * Provides actions for adding a recipe, including resetting the form and submitting the recipe.
+ *
+ * @component
+ */
 const AddRecipeActions = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();
@@ -12,14 +19,17 @@ const AddRecipeActions = () => {
   return (
     <>
       <div className="flex border gap-2 border-gray-200 rounded-md bg-white overflow-auto p-2 justify-center shadow-sm">
-        <button className="p-2 border border-gray-200 rounded hover:bg-gray-100 hover:border-red-300 transition-colors duration-100">
-          <ArrowPathIcon
-            onClick={() => updateRecipe({ id: "", name: "", steps: [] })}
-            className="h-5 w-5"
-          />
+        <button
+          className="p-2 border border-gray-200 rounded hover:bg-gray-100 hover:border-red-300 transition-colors duration-100"
+          onClick={() => updateRecipe({ id: "", name: "", steps: [] })}
+        >
+          <ArrowPathIcon className="h-5 w-5" />
         </button>
-        <button className="p-2 border border-gray-200 rounded hover:bg-gray-50 hover:border-green-300 transition-colors duration-100 group">
-          <CheckIcon className="h-5 w-5" onClick={() => setDialogOpen(true)} />
+        <button
+          className="p-2 border border-gray-200 rounded hover:bg-gray-50 hover:border-green-300 transition-colors duration-100 group"
+          onClick={() => setDialogOpen(true)}
+        >
+          <CheckIcon className="h-5 w-5" />
         </button>
       </div>
       <AddRecipeDialog

@@ -8,6 +8,13 @@ async function getUserData(): Promise<UserDataResponse> {
   return response.data;
 }
 
+/**
+ * useUserData Hook
+ *
+ * A custom hook that fetches the user data from the API.
+ *
+ * @hook
+ */
 function useUserData() {
   return useQuery({
     queryKey: ["user"],

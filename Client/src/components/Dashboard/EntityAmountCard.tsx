@@ -7,6 +7,13 @@ type EntityAmountCardProps = {
   children: ReactNode | ReactNode[];
 };
 
+/**
+ * EntityAmountCard Component
+ *
+ * A card component that displays a title and an animated amount.
+ *
+ * @returns {JSX.Element} - The rendered EntityAmountCard component.
+ */
 const EntityAmountCard = ({
   title,
   amount,
@@ -45,6 +52,13 @@ type EntityAmountCardButtonProps = HTMLAttributes<HTMLButtonElement> & {
   title: string;
 };
 
+/**
+ * EntityAmountCardButton Component
+ *
+ * A button component for the EntityAmountCard that can be used for actions like view details.
+ *
+ * @component
+ */
 const EntityAmountCardButton = ({
   title,
   ...rest
