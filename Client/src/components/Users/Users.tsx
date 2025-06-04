@@ -1,37 +1,36 @@
 import {
-    createColumnHelper,
-    getCoreRowModel,
-    OnChangeFn,
-    PaginationState,
-    SortingState,
-    useReactTable
+  createColumnHelper,
+  getCoreRowModel,
+  OnChangeFn,
+  PaginationState,
+  SortingState,
+  useReactTable,
 } from "@tanstack/react-table";
-import {UserDetailsDto} from "@api/terminalSchemas.ts";
-import {UsersResponse} from "@hooks/users/useGetUsers.ts";
+import { UserDetailsDto } from "@api/terminalSchemas.ts";
+import { UsersResponse } from "@hooks/users/useGetUsers.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
+import { useMemo } from "react";
+import UsersRowActions from "./UsersRowActions";
+import Chip from "@components/Shared/Chip";
 
-export interface UsersProps {
-    onChangeUserDetails?: (userId: string) => void;
-    dataQuery: UsersResponse | undefined;
-    sorting: SortingState;
-    pagination: PaginationState;
-    setSorting: OnChangeFn<SortingState>;
-    setPagination: OnChangeFn<PaginationState>
-}
+/**
+ * Props for the Users component.
+ */
+export type UsersProps = {
+  onChangeUserDetails?: (userId: string) => void;
+  dataQuery: UsersResponse | undefined;
+  sorting: SortingState;
+  pagination: PaginationState;
+  setSorting: OnChangeFn<SortingState>;
+  setPagination: OnChangeFn<PaginationState>;
+  onEdit: (userId: string) => void;
+  onDelete: (userId: string) => void;
+  onChangePassword: (userId: string) => void;
+};
 
 const columnHelper = createColumnHelper<UserDetailsDto>();
-const columns= [
-    columnHelper.accessor("email", {
-        header: "Email",
-        cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("role", {
-        header: "Role",
-        cell: (info) => info.getValue(),
-    }),
-]
 
 /**
  * Users Component
@@ -43,32 +42,55 @@ const columns= [
  *
  */
 const Users = (props: UsersProps) => {
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor("email", {
+        header: "Email",
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor("role", {
+        header: "Role",
+        cell: (info) => <Chip value={info.getValue()} />,
+      }),
+      columnHelper.display({
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => (
+          <UsersRowActions
+            onEdit={() => props.onEdit(row.original.id)}
+            onDelete={() => props.onDelete(row.original.id)}
+            onChangePassword={() => props.onChangePassword(row.original.id)}
+          />
+        ),
+      }),
+    ],
+    [],
+  );
+  const table = useReactTable({
+    columns: columns,
+    data: props.dataQuery?.rows ?? [],
+    getCoreRowModel: getCoreRowModel(),
+    state: {
+      sorting: props.sorting,
+      pagination: props.pagination,
+    },
+    rowCount: props.dataQuery?.rowsAmount ?? 0,
+    onSortingChange: props.setSorting,
+    onPaginationChange: props.setPagination,
+    manualSorting: true,
+    manualPagination: true,
+  });
 
-    const table = useReactTable({
-        columns: columns,
-        data: props.dataQuery?.rows ?? [],
-        getCoreRowModel: getCoreRowModel(),
-        state: {
-            sorting: props.sorting,
-            pagination: props.pagination,
-        },
-        rowCount: props.dataQuery?.rowsAmount ?? 0,
-        onSortingChange: props.setSorting,
-        onPaginationChange: props.setPagination,
-        manualSorting: true,
-        manualPagination: true,
-    });
+  const handleClick = (id: string | null | undefined) => {
+    props.onChangeUserDetails?.(id?.toString() ?? "");
+  };
 
-    const handleClick = (id: string | null | undefined) => {
-        props.onChangeUserDetails?.(id?.toString() ?? "");
-    };
-
-    return (
-        <TableCard>
-            <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
-            <TableManagement<UserDetailsDto> table={table} />
-        </TableCard>
-    );
+  return (
+    <TableCard className="!h-full">
+      <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
+      <TableManagement<UserDetailsDto> table={table} />
+    </TableCard>
+  );
 };
 
 export default Users;
