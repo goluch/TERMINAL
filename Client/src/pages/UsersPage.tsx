@@ -16,6 +16,7 @@ const UsersPage = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const dataQueryUsers = useUsers({
     pageNumber: pagination.pageIndex,
@@ -77,13 +78,14 @@ const UsersPage = () => {
     }
   };
 
-  const changeUserDetails = (userId: string) => {
+  const editUser = (userId: string) => {
+    setDetailsOpen(true);
     setUserDetailsId(userId);
   };
 
   return (
     <div className="flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
-      <div className="flex-1">
+      <div className="w-8/12 h-full">
         {dataQueryUsers.isLoading ? (
           <div className="flex justify-center">
             <span className="loading loading-spinner loading-md"></span>
@@ -95,23 +97,21 @@ const UsersPage = () => {
             setSorting={setSorting}
             pagination={pagination}
             setPagination={setPagination}
-            onChangeUserDetails={changeUserDetails}
+            onEdit={editUser}
+            onDelete={handleDeletion}
+            onChangePassword={(id) => {}}
           />
         )}
       </div>
-      <div className="flex-1">
-        {userDetailsId && dataQueryUserDetails.data ? (
-          <UserDetails
-            dataQuery={dataQueryUserDetails.data}
-            onDeleted={handleDeletion}
-            onSubmit={handleSubmit}
-          />
-        ) : (
-          <div className="text-center text-gray-500">
-            Select a user to view details
-          </div>
-        )}
-      </div>
+      {dataQueryUserDetails.data && (
+        <UserDetails
+          open={detailsOpen}
+          setOpen={setDetailsOpen}
+          dataQuery={dataQueryUserDetails.data}
+          onDeleted={handleDeletion}
+          onSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 };
