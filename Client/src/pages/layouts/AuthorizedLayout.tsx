@@ -26,8 +26,11 @@ const AuthorizedNavbarLayout = ({ pageName }: AuthorizedNavbarLayoutProps) => {
           {/* Menu - only mobile  */}
           <MobileNavbar />
           {/* Page content */}
-          <div className="p-2 ps-0 w-full h-full flex flex-col">
-            <div className="rounded-md flex flex-col border border-gray-200 shadow-sm w-full h-full overflow-hidden">
+          <div className="sm:p-2 sm:ps-0 w-full h-full flex flex-col">
+            <div className="sm:hidden h-full">
+              <Outlet />
+            </div>
+            <div className="rounded-md sm:flex hidden flex-col border border-gray-200 shadow-sm w-full h-full overflow-hidden">
               <div className="bg-white h-[60px] text-xl flex font-medium items-center px-4 rounded-md">
                 {pageName}
               </div>
