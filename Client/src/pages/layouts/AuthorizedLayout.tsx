@@ -22,7 +22,7 @@ const AuthorizedNavbarLayout = ({ pageName }: AuthorizedNavbarLayoutProps) => {
     <div className="w-screen flex flex-col sm:flex-row bg-gray-100">
       <div className="drawer md:drawer-open md:gap-2">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-center justify-center relative">
+        <div className="drawer-content flex flex-col sm:h-auto h-screen items-center justify-center relative">
           {/* Menu - only mobile  */}
           <MobileNavbar />
           {/* Page content */}
