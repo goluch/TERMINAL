@@ -83,7 +83,7 @@ const Users = (props: UsersProps) => {
   };
 
   return (
-    <TableCard>
+    <TableCard className="!h-full">
       <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
       <TableManagement<UserDetailsDto> table={table} />
     </TableCard>

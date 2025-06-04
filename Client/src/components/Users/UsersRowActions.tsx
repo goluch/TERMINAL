@@ -25,7 +25,7 @@ const UsersRowActions = ({
       </IconButton>
       <IconButton
         onClick={onChangePassword}
-        className="hover:bg-gray-100 hover:border-blue-200"
+        className="hover:bg-gray-100 hover:border-blue-200 hidden"
       >
         <EllipsisHorizontalIcon className="h-4 rounded-md" />
       </IconButton>

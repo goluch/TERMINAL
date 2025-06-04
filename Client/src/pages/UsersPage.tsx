@@ -84,7 +84,7 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
+    <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
       <div className="w-8/12 h-full">
         {dataQueryUsers.isLoading ? (
           <div className="flex justify-center">
@@ -99,7 +99,7 @@ const UsersPage = () => {
             setPagination={setPagination}
             onEdit={editUser}
             onDelete={handleDeletion}
-            onChangePassword={(id) => {}}
+            onChangePassword={() => {}}
           />
         )}
       </div>
