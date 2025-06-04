@@ -23,7 +23,7 @@ const StepTabList = () => {
       </div>
       <button
         onClick={() => addStep()}
-        className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100 z-50"
+        className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100"
       >
         <PlusIcon className="h-5 aspect-square" />
       </button>
