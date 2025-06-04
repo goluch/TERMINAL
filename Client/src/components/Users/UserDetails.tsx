@@ -3,10 +3,11 @@ import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import InputField from "@components/Shared/InputField";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { LabeledSelect, SelectItem } from "@components/Shared/LabeledSelect";
+import roles from "@api/models/Role";
 
 export interface UserDetailsProps {
   dataQuery: UserDetailsDto;
-  onDeleted: (id: string) => void;
   onSubmit: (id: string, email: string, role: string) => void;
   open: boolean;
   setOpen: (arg0: boolean) => void;
@@ -37,12 +38,6 @@ const UserDetails = (props: UserDetailsProps) => {
     setIsChanged(false);
   };
 
-  const handleDeletion = () => {
-    if (props.dataQuery?.id) {
-      props.onDeleted(props.dataQuery.id);
-    }
-  };
-
   return (
     <DialogComp
       isOpen={props.open}
@@ -59,16 +54,19 @@ const UserDetails = (props: UserDetailsProps) => {
           setIsChanged(true);
         }}
       />
-      {/* TODO: Change to combobox after merging */}
-      <InputField
+      <LabeledSelect
         label="Role"
-        id="role"
         value={role}
-        onChange={(e) => {
-          setRole(e.target.value);
+        onChange={(value) => {
+          if (!value) return;
+          setRole(value);
           setIsChanged(true);
         }}
-      />
+      >
+        {roles.map((role) => (
+          <SelectItem value={role} displayValue={role} key={role} />
+        ))}
+      </LabeledSelect>
       <div className="flex flex-col gap-2 mt-4">
         <div className="flex gap-1">
           <DialogButton
@@ -86,15 +84,6 @@ const UserDetails = (props: UserDetailsProps) => {
             <ArrowPathIcon className="h-4 w-4" />
           </DialogButton>
         </div>
-        <DialogButton className="hover:border-blue-400">
-          Change password
-        </DialogButton>
-        <DialogButton
-          className="border-red-200 hover:border-red-400"
-          onClick={handleDeletion}
-        >
-          Delete
-        </DialogButton>
       </div>
     </DialogComp>
   );
