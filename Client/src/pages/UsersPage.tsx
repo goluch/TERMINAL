@@ -85,7 +85,7 @@ const UsersPage = () => {
 
   return (
     <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
-      <div className="sm:w-8/12 h-full">
+      <div className="sm:w-10/12 xl:w-8-12 h-full">
         {dataQueryUsers.isLoading ? (
           <div className="flex justify-center">
             <span className="loading loading-spinner loading-md"></span>
