@@ -13,6 +13,7 @@ import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 import { useMemo } from "react";
 import UsersRowActions from "./UsersRowActions";
+import Chip from "@components/Shared/Chip";
 
 /**
  * Props for the Users component.
@@ -46,11 +47,7 @@ const Users = (props: UsersProps) => {
       }),
       columnHelper.accessor("role", {
         header: "Role",
-        cell: (info) => (
-          <span className="bg-green-200 border-green-400 border text-green-600 rounded-full py-1 px-2">
-            {info.getValue()}
-          </span>
-        ),
+        cell: (info) => <Chip value={info.getValue()} />,
       }),
       columnHelper.display({
         id: "actions",
