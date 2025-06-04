@@ -28,7 +28,7 @@ const colorStyles = {
 const Chip = ({ value }: ChipProps) => {
   const colorClasses = useMemo(() => {
     return colorStyles[tailwindColorFrom(value)];
-  }, []);
+  }, [value]);
 
   return (
     <span className={clsx("border rounded-full py-1 px-2", colorClasses)}>

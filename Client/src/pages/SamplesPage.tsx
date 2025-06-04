@@ -1,79 +1,87 @@
-import {useState} from "react";
-import {SortingState, PaginationState} from "@tanstack/react-table";
+import { useState } from "react";
+import { SortingState, PaginationState } from "@tanstack/react-table";
 import Samples from "@components/Samples/Samples.tsx";
 import SampleDetails from "@components/Samples/SampleDetails.tsx";
-import {useSamples} from "@hooks/samples/useGetSamples.ts";
-import {useSampleDetails} from "@hooks/samples/useGetSampleDetails.ts";
-import {useDeleteSample} from "@hooks/samples/useDeleteSample.ts";
-
+import { useSamples } from "@hooks/samples/useGetSamples.ts";
+import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
+import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
+import { toastPromise } from "utils/toast.utils";
 
 const SamplesPage = () => {
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [pagination, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
-    });
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
-    const dataQuerySamples = useSamples({
-        pageNumber: pagination.pageIndex,
-        pageSize: pagination.pageSize,
-        orderBy: sorting[0]?.id ?? "",
-        desc: sorting[0]?.desc ?? true,
-    });
+  const dataQuerySamples = useSamples({
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+    orderBy: sorting[0]?.id ?? "",
+    desc: sorting[0]?.desc ?? true,
+  });
 
-    const mutation = useDeleteSample(
-        {
-            pageNumber: pagination.pageIndex,
-            pageSize: pagination.pageSize,
-            orderBy: sorting[0]?.id ?? "",
-            desc: sorting[0]?.desc ?? true
-        }
-    );
+  const deleteMutation = useDeleteSample({
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+    orderBy: sorting[0]?.id ?? "",
+    desc: sorting[0]?.desc ?? true,
+  });
 
-    const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
+  const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
 
-    const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
+  const changeSampleDetails = (id: string) => {
+    setDetailsOpen(true);
+    setSampleDetailsId(id);
+  };
 
-    const changeSampleDetails = (id: string) => {
-        setSampleDetailsId(id);
-    };
+  const handleDelete = async (id: string | null) => {
+    if (!id) return;
+    try {
+      await toastPromise(deleteMutation.mutateAsync(id), {
+        loading: "Deleting sample...",
+        success: "Deletion successful",
+        error: "Deletion failed",
+      });
+    } catch {
+      // Error is handled by toastPromise
+    }
+  };
 
-    return (
-        <div className="min-h-screen bg-gray-100">
-            <div className="flex flex-wrap sm:flex-nowrap justify-center p-1 gap-1">
-                <div className="basis-3/5 rounded-lg bg-white">
-                    {dataQuerySamples.isLoading ? (
-                        <div className="flex justify-center">
-                            <span className="loading loading-spinner loading-md"></span>
-                        </div>
-                    ) : (
-                        <Samples
-                            dataQuery={dataQuerySamples.data}
-                            sorting={sorting}
-                            pagination={pagination}
-                            setSorting={setSorting}
-                            setPagination={setPagination}
-                            onChangeSampleDetails={changeSampleDetails}
-                        />
-                    )}
-                </div>
-                <div className="basis-2/5 rounded-md self-start">
-                    {dataQuerySampleDetails.isLoading ? (
-                        <div className="flex justify-center">
-                            <span className="loading loading-spinner loading-md"></span>
-                        </div>
-                    ) : sampleDetailsId ? (
-                        <SampleDetails dataQuery={dataQuerySampleDetails.data}
-                                       mutateAsync={mutation.mutateAsync}
-                                       isPending={mutation.isPending}
-                        />
-                    ) : (
-                        <div className="bg-white text-center text-gray-500 p-3 rounded">Select a sample to view details</div>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
+      <div className="sm:w-8/12 h-full">
+        {dataQuerySamples.isLoading ? (
+          <div className="flex justify-center">
+            <span className="loading loading-spinner loading-md"></span>
+          </div>
+        ) : (
+          <Samples
+            dataQuery={dataQuerySamples.data}
+            sorting={sorting}
+            pagination={pagination}
+            setSorting={setSorting}
+            setPagination={setPagination}
+            onDelete={handleDelete}
+            onEdit={changeSampleDetails}
+          />
+        )}
+        {dataQuerySampleDetails.isLoading ? (
+          <div className="flex justify-center">
+            <span className="loading loading-spinner loading-md"></span>
+          </div>
+        ) : (
+          <SampleDetails
+            sample={dataQuerySampleDetails.data}
+            open={detailsOpen}
+            openChange={setDetailsOpen}
+          />
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default SamplesPage;

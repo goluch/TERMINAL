@@ -1,48 +1,32 @@
-import {SampleDto} from "@api/terminalSchemas";
-import {OnChangeFn} from "@tanstack/react-table";
+import { SampleDto } from "@api/terminalSchemas";
+import { OnChangeFn } from "@tanstack/react-table";
 import {
-    getCoreRowModel,
-    useReactTable,
-    createColumnHelper,
-    SortingState,
-    PaginationState,
+  getCoreRowModel,
+  useReactTable,
+  createColumnHelper,
+  SortingState,
+  PaginationState,
 } from "@tanstack/react-table";
-import {SamplesResponse} from "@hooks/samples/useGetSamples.ts";
+import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
+import SamplesRowActions from "./SamplesRowActions";
+import { useMemo } from "react";
+import Chip from "@components/Shared/Chip";
 
 export interface SamplesProps {
-    onChangeSampleDetails?: (code: string) => void;
-    dataQuery: SamplesResponse | undefined;
-    sorting: SortingState;
-    pagination: PaginationState;
-    setSorting: OnChangeFn<SortingState>;
-    setPagination: OnChangeFn<PaginationState>;
+  onChangeSampleDetails?: (code: string) => void;
+  dataQuery: SamplesResponse | undefined;
+  sorting: SortingState;
+  pagination: PaginationState;
+  setSorting: OnChangeFn<SortingState>;
+  setPagination: OnChangeFn<PaginationState>;
+  onEdit: (sampleId: string) => void;
+  onDelete: (sampleId: string) => void;
 }
 
 const columnHelper = createColumnHelper<SampleDto>();
-const columns = [
-    columnHelper.accessor("code", {
-        header: "Code",
-        cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("project", {
-        header: "Project Name",
-        cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("createdAtUtc", {
-        header: "Created At",
-        cell: (info) => {
-            const date: Date = new Date(info.getValue());
-            return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-        },
-    }),
-    columnHelper.accessor("comment", {
-        header: "Comment",
-        cell: (info) => info.getValue(),
-    }),
-];
 
 /**
  * Samples Component
@@ -55,31 +39,61 @@ const columns = [
  * @param {SamplesProps} props - The properties for the Samples component.
  */
 const Samples = (props: SamplesProps) => {
-    const table = useReactTable({
-        columns: columns,
-        data: props.dataQuery?.rows ?? [],
-        getCoreRowModel: getCoreRowModel(),
-        state: {
-            sorting: props.sorting,
-            pagination: props.pagination,
-        },
-        rowCount: props.dataQuery?.rowsAmount ?? 0,
-        onSortingChange: props.setSorting,
-        onPaginationChange: props.setPagination,
-        manualSorting: true,
-        manualPagination: true,
-    });
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor("code", {
+        header: "Code",
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor("project", {
+        header: "Project Name",
+        cell: (info) => <Chip value={info.getValue()} />,
+      }),
+      columnHelper.accessor("createdAtUtc", {
+        header: "Created At",
+        cell: (info) => new Date(info.getValue()).toDateString(),
+      }),
+      columnHelper.display({
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => (
+          <SamplesRowActions
+            onEdit={() => props.onEdit(row.original.id)}
+            onDelete={() => props.onDelete(row.original.id)}
+          />
+        ),
+      }),
+    ],
+    [],
+  );
 
-    const handleClick = (id: string | null | undefined) => {
-        props.onChangeSampleDetails?.(id?.toString() ?? "");
-    };
+  const table = useReactTable({
+    columns: columns,
+    data: props.dataQuery?.rows ?? [],
+    getCoreRowModel: getCoreRowModel(),
+    state: {
+      sorting: props.sorting,
+      pagination: props.pagination,
+    },
+    rowCount: props.dataQuery?.rowsAmount ?? 0,
+    onSortingChange: props.setSorting,
+    onPaginationChange: props.setPagination,
+    manualSorting: true,
+    manualPagination: true,
+  });
 
-    return (
-        <TableCard>
-            <TableView<SampleDto> table={table} handleClickRow={handleClick}/>
-            <TableManagement<SampleDto> table={table}/>
-        </TableCard>
-    );
+  const handleClickRow = (id: string | null) => {
+    if (!props.onChangeSampleDetails || !id) return;
+
+    props?.onChangeSampleDetails(id);
+  };
+
+  return (
+    <TableCard className="!h-full">
+      <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
+      <TableManagement<SampleDto> table={table} />
+    </TableCard>
+  );
 };
 
 export default Samples;
