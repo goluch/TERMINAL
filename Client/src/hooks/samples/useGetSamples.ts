@@ -46,7 +46,6 @@ async function fetchDataSamples(params: SamplesRequest): Promise<SamplesResponse
  * useSamples Hook
  *
  * A custom hook that fetches samples data from the API.
- * It uses React Query to manage the fetching state and caching of samples data.
  * It returns the samples data for the given parameters, or keeps previous data while loading new data.
  *
  * @hook
