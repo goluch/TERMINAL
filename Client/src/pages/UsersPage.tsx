@@ -108,7 +108,6 @@ const UsersPage = () => {
           open={detailsOpen}
           setOpen={setDetailsOpen}
           dataQuery={dataQueryUserDetails.data}
-          onDeleted={handleDeletion}
           onSubmit={handleSubmit}
         />
       )}
