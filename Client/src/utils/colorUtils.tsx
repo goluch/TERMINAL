@@ -12,6 +12,7 @@ const colors = [
   "emerald",
   "green",
   "lime",
+  "red",
   "yellow",
   "amber",
   "orange",

@@ -63,7 +63,7 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
               className="hover:bg-gray-50 cursor-pointer text-xs"
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} {...cell.getContext()}>
+                <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
