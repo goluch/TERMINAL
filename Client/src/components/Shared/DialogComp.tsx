@@ -1,7 +1,7 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import { ReactNode, HTMLAttributes } from "react";
+import { ReactNode, ButtonHTMLAttributes } from "react";
 
 export type DialogProps = {
   isOpen: boolean;
@@ -12,6 +12,13 @@ export type DialogProps = {
   children?: ReactNode | ReactNode[];
 };
 
+/**
+ * DialogComp Component
+ *
+ * A reusable dialog component that displays a modal with a title, content, and a close button.
+ *
+ * @component
+ */
 const DialogComp = (props: DialogProps) => {
   const closeDialog = props.handleClose ?? (() => props.setIsOpen(false));
 
@@ -38,15 +45,22 @@ const DialogComp = (props: DialogProps) => {
   );
 };
 
+/**
+ * DialogButton Component
+ *
+ * A button component styled for use within a dialog.
+ *
+ * @component
+ */
 const DialogButton = ({
   children,
   className,
   ...rest
-}: HTMLAttributes<HTMLButtonElement>) => {
+}: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       className={clsx(
-        "font-normal text-sm h-10 bg-gray-100 text-black border w-full inline-flex items-center justify-center gap-2 rounded-md transition-colors duration-100 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        "font-normal text-sm h-10 bg-gray-100 text-black border w-full inline-flex items-center justify-center gap-2 rounded-md transition-colors duration-100 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:border-none disabled:bg-gray-200",
         className,
       )}
       {...rest}

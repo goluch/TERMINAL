@@ -12,6 +12,13 @@ async function fetchRecentSamples(length: number) {
   });
 }
 
+/**
+ * useGetRecentSamples Hook
+ *
+ * A custom hook that fetches recent samples from the API.
+ *
+ * @hook
+ */
 function useGetRecentSamples(length: number) {
   return useQuery({
     queryKey: ["recent", "samples"],

@@ -1,5 +1,5 @@
-import {CommandLineIcon} from "@heroicons/react/24/outline";
-import {Bars3Icon} from "@heroicons/react/24/outline";
+import { CommandLineIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 
 /**
  * MobileNavbar Component
@@ -9,21 +9,24 @@ import {Bars3Icon} from "@heroicons/react/24/outline";
  * @component
  */
 const MobileNavbar = () => {
-    return (
-        <div className="navbar bg-base-100 shadow-sm md:hidden p-0">
-            <div className="flex-none">
-                <label htmlFor="drawer" className="btn border-none shadow-none bg-base-100 drawer-button lg:hidden">
-                    <Bars3Icon className="h-5 w-5"/>
-                </label>
-            </div>
-            <div className="flex-1">
-                <div className="flex y-4 items-center bg-white p-4 rounded-t-md">
-                    <p className="text-xl font-semibold">Terminal</p>
-                    <CommandLineIcon className="h-5 w-5"/>
-                </div>
-            </div>
+  return (
+    <div className="navbar bg-base-100 shadow-sm sm:hidden p-0">
+      <div className="flex-none">
+        <label
+          htmlFor="drawer"
+          className="py-4 px-3 border-none shadow-none bg-base-100 drawer-button sm:hidden"
+        >
+          <Bars3Icon className="h-5 w-5" />
+        </label>
+      </div>
+      <div className="absolute justify-center items-center w-full pointer-events-none">
+        <div className="flex items-center bg-white py-4 rounded-t-md">
+          <p className="text-xl font-semibold">Terminal</p>
+          <CommandLineIcon className="h-5 w-5" />
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default MobileNavbar;

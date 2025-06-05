@@ -24,6 +24,15 @@ function getAvatarColor(email: string): string {
   return `hsl(${hue}, 50%, 50%)`;
 }
 
+/**
+ * SidebarUserProfile Component
+ *
+ * A component that displays the user's profile information in the sidebar.
+ * It includes the user's email, role, and an avatar with initials.
+ * It also provides a logout button that triggers the logout function.
+ *
+ * @component
+ */
 const SidebarUserProfile = () => {
   const { data, status } = useUserData();
   const logout = useLogout();

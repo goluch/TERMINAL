@@ -12,6 +12,13 @@ export interface TableViewProps<T extends TableElement> {
   handleClickRow: (id: string) => void;
 }
 
+/**
+ * TableView Component
+ *
+ * A generic table view component that renders a table with sortable headers and clickable rows.
+ *
+ * @component
+ */
 const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
   return (
     <div className="overflow-auto">
@@ -53,7 +60,7 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
             <tr
               key={row.id}
               onClick={() => props.handleClickRow(row.original.id)}
-              className="hover:bg-gray-100 cursor-pointer text-xs"
+              className="hover:bg-gray-50 cursor-pointer text-xs"
             >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>

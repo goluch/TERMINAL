@@ -3,7 +3,7 @@ import {
   DialogComp,
   DialogProps,
 } from "@components/Shared/DialogComp";
-import InputField from "@components/Shared/Forms/InputField";
+import InputField from "@components/Shared/InputField";
 import { useState } from "react";
 
 function isRecipeNameValid(name: string) {
@@ -14,6 +14,15 @@ type AddRecipeDialog = Omit<DialogProps, "title"> & {
   onSubmit: (name: string) => void;
 };
 
+/**
+ * AddRecipeDialog Component
+ *
+ * A dialog component for adding a new recipe.
+ * It includes an input field for the recipe name and validation to ensure the name is at least 5 characters long.
+ *
+ *
+ * @component
+ */
 const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
   const [recipeName, setRecipeName] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);

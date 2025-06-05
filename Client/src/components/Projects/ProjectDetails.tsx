@@ -7,7 +7,8 @@ import {
 import {AxiosResponse} from "axios";
 import {Button} from "@headlessui/react";
 import {toastPromise} from "../../utils/toast.utils.tsx";
-
+import {Role} from "../../utils/roles.ts";
+import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 
 export interface ProjectDetailsProps {
     dataQuery: ProjectDetailsDto | undefined;
@@ -15,6 +16,15 @@ export interface ProjectDetailsProps {
     isPending: boolean;
 }
 
+/**
+ * ProjectDetails Component
+ *
+ * Displays details of a project including its name, active status, and number of samples.
+ * Provides a button to delete the project.
+ *
+ * @param {ProjectDetailsProps} props - The properties for the component.
+ * @component
+ */
 const ProjectDetails = (props: ProjectDetailsProps) => {
 
     const handleDeletion = async () => {
@@ -54,14 +64,16 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
                     <div className="font-medium pr-1">Amount of samples::</div>
                     <div>{props.dataQuery?.samplesIds.length}</div>
                 </div>
-                <div className="mt-6 flex gap-2">
-                    {props.dataQuery && (
-                        <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
-                                disabled={props.isPending}>
-                            Delete
-                        </Button>
-                    )}
-                </div>
+                <VisibleForRoles roles={[Role.ADMINISTRATOR]}>
+                    <div className="mt-6 flex gap-2">
+                        {props.dataQuery && (
+                            <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
+                                    disabled={props.isPending}>
+                                Delete
+                            </Button>
+                        )}
+                    </div>
+                </VisibleForRoles>
             </div>
         </div>
 

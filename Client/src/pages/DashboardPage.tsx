@@ -3,6 +3,7 @@ import {
   EntityAmountCard,
   EntityAmountCardButton,
 } from "@components/Dashboard/EntityAmountCard";
+import Chip from "@components/Shared/Chip";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
@@ -33,21 +34,13 @@ const columns = [
   }),
   columnHelper.accessor("project", {
     header: "Project Name",
-    cell: (info) => info.getValue(),
+    cell: (info) => <Chip value={info.getValue()} />,
   }),
   columnHelper.accessor("createdAtUtc", {
     header: "Created At",
-    cell: (info) => {
-      const date: Date = new Date(info.getValue());
-      return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    },
-  }),
-  columnHelper.accessor("comment", {
-    header: "Comment",
-    cell: (info) => info.getValue(),
+    cell: (info) => new Date(info.getValue()).toDateString(),
   }),
 ];
-
 const DashboardPage = () => {
   const { data: projectAmount } = useGetProjectAmount();
   const { data: sampleAmount } = useGetSampleAmount();

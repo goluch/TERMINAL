@@ -47,6 +47,13 @@ async function fetchParameters(): Promise<ParameterResponse> {
   return result.data;
 }
 
+/**
+ * useGetParameters Hook
+ *
+ * A custom hook that fetches parameters from the API.
+ *
+ * @hook
+ */
 function useGetParameters() {
   return useQuery({
     queryKey: ["parameters"],

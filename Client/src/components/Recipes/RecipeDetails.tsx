@@ -4,6 +4,7 @@ import Step from "@components/Recipes/Step.tsx";
 import {IdentificationIcon,} from "@heroicons/react/16/solid";
 import {toastPromise} from "../../utils/toast.utils.tsx";
 import {AxiosResponse} from "axios";
+import {useIsInRole} from "@hooks/useIsInRole.ts";
 
 export interface RecipeDetailsProps {
     dataQuery: RecipeDetailsDto | undefined;
@@ -11,7 +12,17 @@ export interface RecipeDetailsProps {
     isPending: boolean;
 }
 
+/**
+ * RecipeDetails Component
+ *
+ * Displays details of a recipe including its name and steps.
+ * Provides functionality to delete the recipe.
+ *
+ * @component
+ * @param {RecipeDetailsProps} props - The properties for the component.
+ */
 const RecipeDetails = (props: RecipeDetailsProps) => {
+    const isAdmin = useIsInRole("Administrator");
 
     const handleDeletion = async () => {
         if (props.dataQuery?.id === undefined) return null;
@@ -54,14 +65,16 @@ const RecipeDetails = (props: RecipeDetailsProps) => {
                         )}
                     </TabPanels>
                 </TabGroup>
-                <div className="flex p-4 pb-16 mb">
-                    {props.dataQuery && (
-                        <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
-                                disabled={props.isPending}>
-                            Delete
-                        </Button>
-                    )}
-                </div>
+                {isAdmin &&
+                    <div className="flex p-4 pb-16 mb">
+                        {props.dataQuery && (
+                            <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
+                                    disabled={props.isPending}>
+                                Delete
+                            </Button>
+                        )}
+                    </div>
+                }
             </div>
         </div>
 
