@@ -51,7 +51,9 @@ const columns = [
     id: "actions",
     header: "Actions",
     size: 0,
-    cell: () => <ProjectsRowActions onEdit={() => {}} onDelete={() => {}} />,
+    cell: () => (
+      <ProjectsRowActions onDeactivate={() => {}} onDelete={() => {}} />
+    ),
   }),
 ];
 
