@@ -16,10 +16,6 @@ const ProjectsPage = () => {
     desc: sorting[0]?.desc ?? true,
   });
 
-  // this is temporary
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
-
   return (
     <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
       <div className="sm:w-10/12 xl:w-8-12 h-full">
@@ -34,7 +30,7 @@ const ProjectsPage = () => {
             setSorting={setSorting}
             pagination={pagination}
             setPagination={setPagination}
-            onChangeProjectDetails={setProjectDetailsId}
+            onChangeProjectDetails={() => {}}
           />
         )}
       </div>
