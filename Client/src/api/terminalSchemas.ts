@@ -237,6 +237,7 @@ export type SampleDetailsDto = {
 
 export type ProjectDto = {
   id: string;
+  isActive: boolean;
   name: string;
 };
 
@@ -275,4 +276,4 @@ export type UserDetailsDto = {
   id: string;
   email: string;
   role: string;
-}
+};

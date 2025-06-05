@@ -56,6 +56,7 @@ const Samples = (props: SamplesProps) => {
       columnHelper.display({
         id: "actions",
         header: "Actions",
+        size: 0,
         cell: ({ row }) => (
           <SamplesRowActions
             onEdit={() => props.onEdit(row.original.id)}
@@ -71,6 +72,9 @@ const Samples = (props: SamplesProps) => {
     columns: columns,
     data: props.dataQuery?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
+    defaultColumn: {
+      size: "auto" as unknown as number,
+    },
     state: {
       sorting: props.sorting,
       pagination: props.pagination,
