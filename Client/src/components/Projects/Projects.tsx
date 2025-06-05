@@ -50,9 +50,8 @@ const columns = [
   columnHelper.display({
     id: "actions",
     header: "Actions",
-    cell: ({ row, table }) => (
-      <ProjectsRowActions onEdit={() => {}} onDelete={() => {}} />
-    ),
+    size: 0,
+    cell: () => <ProjectsRowActions onEdit={() => {}} onDelete={() => {}} />,
   }),
 ];
 
@@ -70,6 +69,9 @@ const Projects = (props: ProjectsProps) => {
     columns: columns,
     data: props.dataQuery?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
+    defaultColumn: {
+      size: "auto" as unknown as number,
+    },
     state: {
       sorting: props.sorting,
       pagination: props.pagination,

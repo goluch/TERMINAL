@@ -30,24 +30,22 @@ const ProjectsPage = () => {
   const dataQueryProjectDetails = useProjectDetails(projectDetailsId);
 
   return (
-    <div className="h-full bg-gray-100">
-      <div className=" h-full flex flex-wrap sm:flex-nowrap  justify-center p-1 gap-1">
-        <div className="flex-1 basis-3/5 bg-white rounded-md">
-          {dataQueryProjects.isLoading ? (
-            <div className="flex justify-center">
-              <span className="loading loading-spinner loading-md"></span>
-            </div>
-          ) : (
-            <Projects
-              dataQuery={dataQueryProjects.data}
-              sorting={sorting}
-              setSorting={setSorting}
-              pagination={pagination}
-              setPagination={setPagination}
-              onChangeProjectDetails={setProjectDetailsId}
-            />
-          )}
-        </div>
+    <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
+      <div className="sm:w-10/12 xl:w-8-12 h-full">
+        {dataQueryProjects.isLoading ? (
+          <div className="flex justify-center">
+            <span className="loading loading-spinner loading-md"></span>
+          </div>
+        ) : (
+          <Projects
+            dataQuery={dataQueryProjects.data}
+            sorting={sorting}
+            setSorting={setSorting}
+            pagination={pagination}
+            setPagination={setPagination}
+            onChangeProjectDetails={setProjectDetailsId}
+          />
+        )}
       </div>
     </div>
   );
