@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,11 +17,14 @@ internal static class Extensions
         services.Configure<PostgresOptions>(configuration.GetRequiredSection(OptionsSectionName));
         var postgresOptions = configuration.GetOptions<PostgresOptions>(OptionsSectionName);
         services.AddDbContext<TerminalDbContext>(x =>
+        {
+            x.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
             x.UseNpgsql(postgresOptions.ConnectionString)
                 .UseLoggerFactory(LoggerFactory.Create(b => b
                     .AddConsole()
                     .SetMinimumLevel(LogLevel.Debug)))
-                .EnableSensitiveDataLogging());
+                .EnableSensitiveDataLogging();
+        });
         services.AddScoped(typeof(IUnitOfWork<>), typeof(PostgresUnitOfWork<>));
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
