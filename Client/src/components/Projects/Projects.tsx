@@ -14,6 +14,7 @@ import TableCard from "@components/Shared/Table/TableCard";
 import ProjectsRowActions from "./ProjectsRowActions";
 import { Color } from "utils/colorUtils";
 import Chip from "@components/Shared/Chip";
+import {useMemo} from "react";
 
 export interface ProjectsProps {
   dataQuery: ProjectsResponse | undefined;
@@ -45,7 +46,7 @@ const columnHelper = createColumnHelper<ProjectDto>();
  * @component
  */
 const Projects = (props: ProjectsProps) => {
-  const columns = [
+  const columns = useMemo(()=>[
     columnHelper.accessor("name", {
       header: "Name",
       cell: (info) => info.getValue(),
@@ -67,7 +68,8 @@ const Projects = (props: ProjectsProps) => {
           <ProjectsRowActions onDeactivate={() => {}} onDelete={()=> props.onDelete(row.original.id)} />
       ),
     }),
-  ];
+  ],
+  [])
 
   const table = useReactTable({
     columns: columns,
