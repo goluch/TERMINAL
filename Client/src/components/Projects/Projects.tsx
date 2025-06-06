@@ -29,7 +29,7 @@ function getChipColors(isActive: boolean): Color {
 }
 
 function getChipValue(isActive: boolean): string {
-  return isActive ? "Yes" : "No";
+  return isActive ? "Active" : "Not Active";
 }
 
 const columnHelper = createColumnHelper<ProjectDto>();
@@ -39,7 +39,7 @@ const columns = [
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("isActive", {
-    header: "Active",
+    header: "Status",
     cell: (info) => (
       <Chip
         value={getChipValue(info.getValue())}
