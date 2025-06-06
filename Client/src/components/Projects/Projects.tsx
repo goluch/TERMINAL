@@ -22,6 +22,7 @@ export interface ProjectsProps {
   pagination: PaginationState;
   setPagination: OnChangeFn<PaginationState>;
   onChangeProjectDetails: (id: string) => void;
+  onDelete: (projectId: string) => void;
 }
 
 function getChipColors(isActive: boolean): Color {
@@ -33,29 +34,6 @@ function getChipValue(isActive: boolean): string {
 }
 
 const columnHelper = createColumnHelper<ProjectDto>();
-const columns = [
-  columnHelper.accessor("name", {
-    header: "Name",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("isActive", {
-    header: "Active",
-    cell: (info) => (
-      <Chip
-        value={getChipValue(info.getValue())}
-        getColorValue={() => getChipColors(info.getValue())}
-      />
-    ),
-  }),
-  columnHelper.display({
-    id: "actions",
-    header: "Actions",
-    size: 0,
-    cell: () => (
-      <ProjectsRowActions onDeactivate={() => {}} onDelete={() => {}} />
-    ),
-  }),
-];
 
 /**
  * Projects Component
@@ -67,6 +45,30 @@ const columns = [
  * @component
  */
 const Projects = (props: ProjectsProps) => {
+  const columns = [
+    columnHelper.accessor("name", {
+      header: "Name",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("isActive", {
+      header: "Active",
+      cell: (info) => (
+          <Chip
+              value={getChipValue(info.getValue())}
+              getColorValue={() => getChipColors(info.getValue())}
+          />
+      ),
+    }),
+    columnHelper.display({
+      id: "actions",
+      header: "Actions",
+      size: 0,
+      cell: ({ row }) => (
+          <ProjectsRowActions onDeactivate={() => {}} onDelete={()=> props.onDelete(row.original.id)} />
+      ),
+    }),
+  ];
+
   const table = useReactTable({
     columns: columns,
     data: props.dataQuery?.rows ?? [],

@@ -22,7 +22,7 @@ export function useDeleteProject(params: ProjectsRequest) {
         mutationFn: (id: string) => deleteProject(id),
         onSuccess: (_data, variables) => {
             queryClient.setQueryData(['projectDetails', variables], (() => null))
-            queryClient.setQueryData(['projects', params], ((projects: ProjectsResponse): ProjectsResponse =>
+            queryClient.setQueryData(['projects', 'all', params], ((projects: ProjectsResponse): ProjectsResponse =>
                     (
                         {
                             ...projects,
