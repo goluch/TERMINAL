@@ -21,7 +21,7 @@ internal sealed class SearchProjectQueryHandler : IRequestHandler<SearchProjectQ
             Projects = await _projects
                 .AsNoTracking()
                 .Where(p => EF.Functions.ILike(p.Name, $"%{request.SearchPhrase}%"))
-                .Select(p => new GetProjectsDto.ProjectDto(p.Id, p.Name))
+                .Select(p => new GetProjectsDto.ProjectDto(p.Id, p.Name, p.IsActive))
                 .Paginate(request.Parameters)
                 .ToListAsync(cancellationToken)
         };

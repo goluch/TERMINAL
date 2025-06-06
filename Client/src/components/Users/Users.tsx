@@ -55,6 +55,7 @@ const Users = (props: UsersProps) => {
       columnHelper.display({
         id: "actions",
         header: "Actions",
+        size: 0,
         cell: ({ row }) => (
           <UsersRowActions
             onEdit={() => props.onEdit(row.original.id)}
@@ -70,6 +71,9 @@ const Users = (props: UsersProps) => {
     columns: columns,
     data: props.dataQuery?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
+    defaultColumn: {
+      size: "auto" as unknown as number,
+    },
     state: {
       sorting: props.sorting,
       pagination: props.pagination,

@@ -3,9 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
-import NotFoundPage from "./pages/NotFoundPage";
 import SettingsPage from "./pages/SettingsPage";
-import RegisterPage from "./pages/RegisterPage";
 import NewProjectForm from "./components/Projects/NewProjectForm.tsx";
 import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
@@ -16,7 +14,8 @@ import SamplesPage from "@pages/SamplesPage";
 import UsersPage from "@pages/UsersPage.tsx";
 import AddRecipeWithContexts from "@pages/AddRecipe.tsx";
 import DashboardPage from "@pages/DashboardPage.tsx";
-import {Role} from "./utils/roles.ts";
+import { Role } from "./utils/roles.ts";
+import LoginOrNotFound from "@pages/LoginOrNotFound.tsx";
 
 const queryClient = new QueryClient();
 
@@ -50,13 +49,16 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Samples" />}>
             <Route path="/samples" element={<SamplesPage />} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Users" roles={[Role.ADMINISTRATOR]}/>}>
+          <Route
+            element={
+              <AuthorizedLayout pageName="Users" roles={[Role.ADMINISTRATOR]} />
+            }
+          >
             <Route path="/users" element={<UsersPage />} />
           </Route>
           <Route element={<NoNavbarLayout />}>
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<LoginOrNotFound />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

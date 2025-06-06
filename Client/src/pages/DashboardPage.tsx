@@ -4,8 +4,10 @@ import {
   EntityAmountCardButton,
 } from "@components/Dashboard/EntityAmountCard";
 import Chip from "@components/Shared/Chip";
+import IconButton from "@components/Shared/IconButton";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
+import { TagIcon } from "@heroicons/react/24/outline";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";
 import useGetRecentSamples from "@hooks/samples/useGetRecentSamples";
@@ -23,7 +25,18 @@ const columnHelper = createColumnHelper<SampleDto>();
 const recipeColumns = [
   columnHelper.accessor("code", {
     header: "Code",
-    cell: (info) => info.getValue(),
+    cell: (info) => (
+      <div className="flex items-center justify-between">
+        {info.getValue()}
+        <div className="relative">
+          <div className="flex items-center justify-center absolute top-0 right-1 -translate-y-1/2">
+            <IconButton className="!p-1 border-none hover:bg-gray-200 flex items-center justify-center">
+              <TagIcon className="h-4" />
+            </IconButton>
+          </div>
+        </div>
+      </div>
+    ),
   }),
 ];
 
@@ -120,7 +133,7 @@ const DashboardPage = () => {
         </div>
 
         <div className="col-span-1">
-          <p className="p-2 text-md">Recent Recipes</p>
+          <p className="p-2 text-md">Pinned Recipes</p>
           <TableCard>
             <TableView<SampleDto>
               table={recipeTable}
