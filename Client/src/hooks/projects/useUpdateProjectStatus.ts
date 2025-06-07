@@ -3,12 +3,12 @@ import apiClient from "@api/apiClient.ts";
 import {ProjectDetailsDto} from "@api/terminalSchemas.ts";
 import {ProjectsRequest, ProjectsResponse} from "@hooks/projects/useGetProjects.ts";
 
-interface UpdateProjectActivityDto {
+interface UpdateProjectStatusDto {
     id: string;
     isActive: boolean;
 }
 
-async function updateProjectActivity({id, isActive} : UpdateProjectActivityDto) {
+async function updateProjectStatus({id, isActive} : UpdateProjectStatusDto) {
     if(isActive) return await apiClient.post(`projects/${id}/activate`);
     return await apiClient.post(`projects/${id}/deactivate`);
 }
@@ -21,11 +21,11 @@ async function updateProjectActivity({id, isActive} : UpdateProjectActivityDto) 
  * @hook
  * @param {UpdateProjectNameDto} params - The parameters for the users request.
  */
-export function useUpdateProjectActivity(params: ProjectsRequest) {
+export function useUpdateProjectStatus(params: ProjectsRequest) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: UpdateProjectActivityDto) => updateProjectActivity(data),
+        mutationFn: (data: UpdateProjectStatusDto) => updateProjectStatus(data),
         onSuccess: (_data, { id, isActive }) => {
             queryClient.setQueryData<ProjectDetailsDto>(['projectDetails', id], (oldData) => {
                 if (!oldData) return undefined;

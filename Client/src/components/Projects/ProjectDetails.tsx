@@ -7,7 +7,7 @@ import { Field, Label, Switch} from "@headlessui/react";
 import clsx from "clsx";
 
 export interface ProjectDetailsProps {
-    dataQuery: ProjectDetailsDto;
+    project: ProjectDetailsDto;
     onSubmit: (id: string, name: string, isActive: boolean) => void;
     open: boolean;
     setOpen: (arg0: boolean) => void;
@@ -23,17 +23,17 @@ export interface ProjectDetailsProps {
  */
 const ProjectDetails = (props: ProjectDetailsProps) => {
     const [isChanged, setIsChanged] = useState(false);
-    const [name, setName] = useState(props.dataQuery?.name);
-    const [isActive, setActive] = useState(props.dataQuery?.isActive)
+    const [name, setName] = useState(props.project?.name);
+    const [isActive, setActive] = useState(props.project?.isActive)
 
     useEffect(() => {
-        setName(props.dataQuery?.name || "")
-        setActive(props.dataQuery?.isActive || false)
+        setName(props.project?.name || "")
+        setActive(props.project?.isActive || false)
         setIsChanged(false);
-    }, [props.dataQuery]);
+    }, [props.project]);
 
     const handleReset = () => {
-        setName(props.dataQuery?.name)
+        setName(props.project?.name)
         setIsChanged(false);
     };
 
@@ -77,7 +77,7 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
                     <DialogButton
                         disabled={!isChanged}
                         className="hover:border-blue-400 "
-                        onClick={() => props.onSubmit(props.dataQuery.id, name, isActive)}
+                        onClick={() => props.onSubmit(props.project.id, name, isActive)}
                     >
                         Submit changes
                     </DialogButton>

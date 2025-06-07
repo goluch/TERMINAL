@@ -10,7 +10,7 @@ import Loader from "@components/Shared/Loader";
 import {useProjectDetails} from "@hooks/projects/useGetProjectDetails.ts";
 import ProjectDetails from "@components/Projects/ProjectDetails.tsx";
 import {useUpdateProjectName} from "@hooks/projects/useUpdateProjectName.ts";
-import {useUpdateProjectActivity} from "@hooks/projects/useUpdateProjectActivity.ts";
+import {useUpdateProjectStatus} from "@hooks/projects/useUpdateProjectStatus.ts";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -21,13 +21,13 @@ const ProjectsPage = () => {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
 
-  const dataQueryProjects = useAllProjects({
+  const queryProjects = useAllProjects({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
 
-  const dataQueryProjectDetails = useProjectDetails(projectDetailsId);
+  const queryProjectDetails = useProjectDetails(projectDetailsId);
 
   const deleteMutation = useDeleteProject({
     pageNumber: pagination.pageIndex,
@@ -41,7 +41,7 @@ const ProjectsPage = () => {
     desc: sorting[0]?.desc ?? true,
   })
 
-  const updateActivityMutation = useUpdateProjectActivity({
+  const updateActivityMutation = useUpdateProjectStatus({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
@@ -67,7 +67,7 @@ const ProjectsPage = () => {
 
   const handleSubmit = async (id: string, name: string, isActive: boolean) => {
     try {
-      if (dataQueryProjectDetails.data?.name !== name) {
+      if (queryProjectDetails.data?.name !== name) {
         await toastPromise(updateNameMutation.mutateAsync({ id, name }), {
           success: "Name updated successfully",
           error: "Failed to update name",
@@ -75,7 +75,7 @@ const ProjectsPage = () => {
         });
       }
 
-      if (dataQueryProjectDetails.data?.isActive !== isActive) {
+      if (queryProjectDetails.data?.isActive !== isActive) {
         await toastPromise(updateActivityMutation.mutateAsync({ id, isActive }), {
           success: "Activity updated successfully",
           error: "Failed to update activity",
@@ -90,11 +90,11 @@ const ProjectsPage = () => {
   return (
     <TableLayout>
       <ComponentOrLoader
-        isLoading={dataQueryProjects.isLoading}
+        isLoading={queryProjects.isLoading}
         loader={<Loader />}
       >
         <Projects
-          dataQuery={dataQueryProjects.data}
+          projects={queryProjects.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}
@@ -105,11 +105,11 @@ const ProjectsPage = () => {
         />
       </ComponentOrLoader>
       <ComponentOrLoader
-          isLoading={dataQueryProjectDetails.isLoading}
+          isLoading={queryProjectDetails.isLoading}
           loader={<Loader />}
       >
         <ProjectDetails
-          dataQuery={dataQueryProjectDetails.data!}
+          project={queryProjectDetails.data!}
           onSubmit={handleSubmit}
           open={detailsOpen}
           setOpen={setDetailsOpen}
