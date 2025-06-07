@@ -54,7 +54,6 @@ const SamplesPage = () => {
   };
 
   return (
-<<<<<<< HEAD
     <TableLayout>
       <ComponentOrLoader
         isLoading={dataQuerySamples.isLoading}
@@ -81,38 +80,6 @@ const SamplesPage = () => {
         />
       </ComponentOrLoader>
     </TableLayout>
-=======
-    <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
-      <div className="sm:w-10/12 xl:w-8-12 h-full flex flex-col overflow-x-auto">
-        {dataQuerySamples.isLoading ? (
-          <div className="flex justify-center">
-            <span className="loading loading-spinner loading-md"></span>
-          </div>
-        ) : (
-          <Samples
-            dataQuery={dataQuerySamples.data}
-            sorting={sorting}
-            pagination={pagination}
-            setSorting={setSorting}
-            setPagination={setPagination}
-            onDelete={handleDelete}
-            onEdit={changeSampleDetails}
-          />
-        )}
-        {dataQuerySampleDetails.isLoading ? (
-          <div className="flex justify-center">
-            <span className="loading loading-spinner loading-md"></span>
-          </div>
-        ) : (
-          <SampleDetails
-            sample={dataQuerySampleDetails.data}
-            open={detailsOpen}
-            openChange={setDetailsOpen}
-          />
-        )}
-      </div>
-    </div>
->>>>>>> origin/main
   );
 };
 

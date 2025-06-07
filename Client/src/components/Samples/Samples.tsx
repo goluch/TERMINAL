@@ -110,14 +110,10 @@ const Samples = (props: SamplesProps) => {
       pagination: props.pagination,
       rowSelection: rowSelection,
     },
-<<<<<<< HEAD
-    rowCount: props.samples?.rowsAmount ?? 0,
-=======
     getRowId: (row) => row.id,
     onRowSelectionChange: setRowSelection,
     enableMultiRowSelection: true,
-    rowCount: props.dataQuery?.rowsAmount ?? 0,
->>>>>>> origin/main
+    rowCount: props.samples?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,
