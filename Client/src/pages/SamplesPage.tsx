@@ -6,6 +6,9 @@ import { useSamples } from "@hooks/samples/useGetSamples.ts";
 import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
 import { toastPromise } from "utils/toast.utils";
+import TableLayout from "./layouts/TableLayout";
+import Loader from "@components/Shared/Loader";
+import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 
 const SamplesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -51,36 +54,32 @@ const SamplesPage = () => {
   };
 
   return (
-    <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
-      <div className="sm:w-10/12 xl:w-8-12 h-full flex flex-col overflow-x-auto">
-        {dataQuerySamples.isLoading ? (
-          <div className="flex justify-center">
-            <span className="loading loading-spinner loading-md"></span>
-          </div>
-        ) : (
-          <Samples
-            dataQuery={dataQuerySamples.data}
-            sorting={sorting}
-            pagination={pagination}
-            setSorting={setSorting}
-            setPagination={setPagination}
-            onDelete={handleDelete}
-            onEdit={changeSampleDetails}
-          />
-        )}
-        {dataQuerySampleDetails.isLoading ? (
-          <div className="flex justify-center">
-            <span className="loading loading-spinner loading-md"></span>
-          </div>
-        ) : (
-          <SampleDetails
-            sample={dataQuerySampleDetails.data}
-            open={detailsOpen}
-            openChange={setDetailsOpen}
-          />
-        )}
-      </div>
-    </div>
+    <TableLayout>
+      <ComponentOrLoader
+        isLoading={dataQuerySamples.isLoading}
+        loader={<Loader />}
+      >
+        <Samples
+          samples={dataQuerySamples.data}
+          sorting={sorting}
+          pagination={pagination}
+          setSorting={setSorting}
+          setPagination={setPagination}
+          onDelete={handleDelete}
+          onEdit={changeSampleDetails}
+        />
+      </ComponentOrLoader>
+      <ComponentOrLoader
+        isLoading={dataQuerySampleDetails.isLoading}
+        loader={<Loader />}
+      >
+        <SampleDetails
+          sample={dataQuerySampleDetails.data}
+          open={detailsOpen}
+          openChange={setDetailsOpen}
+        />
+      </ComponentOrLoader>
+    </TableLayout>
   );
 };
 
