@@ -23,6 +23,7 @@ export interface ProjectsProps {
   pagination: PaginationState;
   setPagination: OnChangeFn<PaginationState>;
   onChangeProjectDetails: (id: string) => void;
+  onEdit: (projectId: string) => void;
   onDelete: (projectId: string) => void;
 }
 
@@ -65,7 +66,10 @@ const Projects = (props: ProjectsProps) => {
       header: "Actions",
       size: 0,
       cell: ({ row }) => (
-          <ProjectsRowActions onDeactivate={() => {}} onDelete={()=> props.onDelete(row.original.id)} />
+          <ProjectsRowActions
+              onEdit={() => {props.onEdit(row.original.id)}}
+              onDeactivate={() => {}}
+              onDelete={()=> props.onDelete(row.original.id)} />
       ),
     }),
   ],

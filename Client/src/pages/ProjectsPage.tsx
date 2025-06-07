@@ -7,6 +7,9 @@ import {useDeleteProject} from "@hooks/projects/useDeleteProject.ts";
 import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 import Loader from "@components/Shared/Loader";
+import {useProjectDetails} from "@hooks/projects/useGetProjectDetails.ts";
+import ProjectDetails from "@components/Projects/ProjectDetails.tsx";
+import {useUpdateProjectName} from "@hooks/projects/useUpdateProjectName.ts";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -14,6 +17,8 @@ const ProjectsPage = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
 
   const dataQueryProjects = useAllProjects({
     pageNumber: pagination.pageIndex,
@@ -21,11 +26,19 @@ const ProjectsPage = () => {
     desc: sorting[0]?.desc ?? true,
   });
 
+  const dataQueryProjectDetails = useProjectDetails(projectDetailsId);
+
   const deleteMutation = useDeleteProject({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
+
+  const updateNameMutation = useUpdateProjectName({
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+    desc: sorting[0]?.desc ?? true,
+  })
 
   const handleDelete = async (id: string | null) => {
     if (!id) return;
@@ -37,6 +50,33 @@ const ProjectsPage = () => {
       });
     } catch {
       // Error is handled by toastPromise
+    }
+  };
+
+  const handleEdit = async (id: string | null) => {
+    setProjectDetailsId(id)
+    setDetailsOpen(true)
+  };
+
+  const handleSubmit = async (id: string, name: string, isActive: boolean) => {
+    try {
+      if (dataQueryProjectDetails.data?.name !== name) {
+        await toastPromise(updateNameMutation.mutateAsync({ id, name }), {
+          success: "Name updated successfully",
+          error: "Failed to update name",
+          loading: "Updating name...",
+        });
+      }
+
+      if (dataQueryProjectDetails.data?.isActive !== isActive) {
+        // await toastPromise(updateRoleMutation.mutateAsync({ id, role }), {
+        //   success: "Role updated successfully",
+        //   error: "Failed to update role",
+        //   loading: "Updating role...",
+        // });
+      }
+    } catch {
+      // Error is already handled by the toastPromise
     }
   };
 
@@ -53,7 +93,19 @@ const ProjectsPage = () => {
           pagination={pagination}
           setPagination={setPagination}
           onChangeProjectDetails={() => {}}
+          onEdit={handleEdit}
           onDelete={handleDelete}
+        />
+      </ComponentOrLoader>
+      <ComponentOrLoader
+          isLoading={dataQueryProjectDetails.isLoading}
+          loader={<Loader />}
+      >
+        <ProjectDetails
+          dataQuery={dataQueryProjectDetails.data!}
+          onSubmit={handleSubmit}
+          open={detailsOpen}
+          setOpen={setDetailsOpen}
         />
       </ComponentOrLoader>
     </TableLayout>
