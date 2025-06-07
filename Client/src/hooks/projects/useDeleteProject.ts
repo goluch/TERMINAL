@@ -30,6 +30,7 @@ export function useDeleteProject(params: ProjectsRequest) {
                         }
                     )
             ))
+            queryClient.invalidateQueries({queryKey: ['projects', 'all', params]})
         }
     });
 }
