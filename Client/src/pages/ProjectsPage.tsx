@@ -10,6 +10,7 @@ import Loader from "@components/Shared/Loader";
 import {useProjectDetails} from "@hooks/projects/useGetProjectDetails.ts";
 import ProjectDetails from "@components/Projects/ProjectDetails.tsx";
 import {useUpdateProjectName} from "@hooks/projects/useUpdateProjectName.ts";
+import {useUpdateProjectActivity} from "@hooks/projects/useUpdateProjectActivity.ts";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -35,6 +36,12 @@ const ProjectsPage = () => {
   });
 
   const updateNameMutation = useUpdateProjectName({
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+    desc: sorting[0]?.desc ?? true,
+  })
+
+  const updateActivityMutation = useUpdateProjectActivity({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
@@ -69,11 +76,11 @@ const ProjectsPage = () => {
       }
 
       if (dataQueryProjectDetails.data?.isActive !== isActive) {
-        // await toastPromise(updateRoleMutation.mutateAsync({ id, role }), {
-        //   success: "Role updated successfully",
-        //   error: "Failed to update role",
-        //   loading: "Updating role...",
-        // });
+        await toastPromise(updateActivityMutation.mutateAsync({ id, isActive }), {
+          success: "Activity updated successfully",
+          error: "Failed to update activity",
+          loading: "Updating activity...",
+        });
       }
     } catch {
       // Error is already handled by the toastPromise
