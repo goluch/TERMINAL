@@ -17,7 +17,7 @@ import Chip from "@components/Shared/Chip";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
-  dataQuery: SamplesResponse | undefined;
+  samples: SamplesResponse | undefined;
   sorting: SortingState;
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;
@@ -70,7 +70,7 @@ const Samples = (props: SamplesProps) => {
 
   const table = useReactTable({
     columns: columns,
-    data: props.dataQuery?.rows ?? [],
+    data: props.samples?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
@@ -79,7 +79,7 @@ const Samples = (props: SamplesProps) => {
       sorting: props.sorting,
       pagination: props.pagination,
     },
-    rowCount: props.dataQuery?.rowsAmount ?? 0,
+    rowCount: props.samples?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,
