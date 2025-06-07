@@ -3,6 +3,7 @@ import { useIsAuthenticated } from "@hooks/useIsAuthenticated";
 import Sidebar from "@components/Navbar/Sidebar.tsx";
 import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
 import { useUserRoles } from "@hooks/useUserRoles.ts";
+import Loader from "@components/Shared/Loader.tsx";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
@@ -21,7 +22,7 @@ const AuthorizedNavbarLayout = ({
   }
 
   if (isAuthenticated === undefined || userRole === undefined) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (roles && !roles.includes(userRole)) return <Navigate to="/" />;
