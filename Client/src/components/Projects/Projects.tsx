@@ -31,7 +31,7 @@ function getChipColors(isActive: boolean): Color {
 }
 
 function getChipValue(isActive: boolean): string {
-  return isActive ? "Yes" : "No";
+  return isActive ? "Active" : "Not Active";
 }
 
 const columnHelper = createColumnHelper<ProjectDto>();
