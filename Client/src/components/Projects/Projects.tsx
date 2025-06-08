@@ -17,12 +17,13 @@ import Chip from "@components/Shared/Chip";
 import {useMemo} from "react";
 
 export interface ProjectsProps {
-  dataQuery: ProjectsResponse | undefined;
+  projects: ProjectsResponse | undefined;
   sorting: SortingState;
   setSorting: OnChangeFn<SortingState>;
   pagination: PaginationState;
   setPagination: OnChangeFn<PaginationState>;
   onChangeProjectDetails: (id: string) => void;
+  onEdit: (projectId: string) => void;
   onDelete: (projectId: string) => void;
 }
 
@@ -65,7 +66,9 @@ const Projects = (props: ProjectsProps) => {
       header: "Actions",
       size: 0,
       cell: ({ row }) => (
-          <ProjectsRowActions onDeactivate={() => {}} onDelete={()=> props.onDelete(row.original.id)} />
+          <ProjectsRowActions
+              onEdit={() => {props.onEdit(row.original.id)}}
+              onDelete={()=> props.onDelete(row.original.id)} />
       ),
     }),
   ],
@@ -73,7 +76,7 @@ const Projects = (props: ProjectsProps) => {
 
   const table = useReactTable({
     columns: columns,
-    data: props.dataQuery?.rows ?? [],
+    data: props.projects?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
@@ -82,7 +85,7 @@ const Projects = (props: ProjectsProps) => {
       sorting: props.sorting,
       pagination: props.pagination,
     },
-    rowCount: props.dataQuery?.rowsAmount ?? 0,
+    rowCount: props.projects?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,
