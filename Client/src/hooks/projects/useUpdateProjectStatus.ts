@@ -14,12 +14,12 @@ async function updateProjectStatus({id, isActive} : UpdateProjectStatusDto) {
 }
 
 /**
- * useUpdateProjectName Hook
+ * useUpdateProjectStatus Hook
  *
- * A custom hook that provides functionality to update a project's name.
+ * A custom hook that provides functionality to update a project's status.
  *
  * @hook
- * @param {UpdateProjectNameDto} params - The parameters for the users request.
+ * @param {UpdateProjectStatusDto} params - The parameters for the users request.
  */
 export function useUpdateProjectStatus(params: ProjectsRequest) {
     const queryClient = useQueryClient();

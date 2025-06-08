@@ -62,8 +62,7 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
                     setIsChanged(true)
                 }}
             />
-            <div className="flex flex-col gap-2 mt-4">
-                <div className="flex gap-1">
+                <div className="flex gap-1 mt-4">
                     <DialogButton
                         disabled={!isChanged}
                         className="hover:border-blue-400 "
@@ -79,7 +78,6 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
                         <ArrowPathIcon className="h-4 w-4" />
                     </DialogButton>
                 </div>
-            </div>
         </DialogComp>
     );
 };

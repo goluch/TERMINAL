@@ -3,11 +3,10 @@ import clsx from "clsx";
 
 type LabeledSwitchProps = SwitchProps & {
     label?: string
-    onChange: () => void
 }
 
 const LabeledSwitch = (
-    {label, onChange, checked}: LabeledSwitchProps
+    {label, ...switchProps}: LabeledSwitchProps
 ) => {
     return (
         <Field>
@@ -16,13 +15,12 @@ const LabeledSwitch = (
                 {label}:
             </Label>
             <Switch
-                checked={checked}
-                onChange={onChange}
+                {...switchProps}
                 className={'toggle rounded-full toggle-success toggle-lg'}
             >
                 <span
                     className={clsx('size-4 rounded-full bg-white transition',
-                        checked ? 'translate-x-6' : 'translate-x-1')}
+                        switchProps.checked ? 'translate-x-6' : 'translate-x-1')}
                 >
                 </span>
             </Switch>

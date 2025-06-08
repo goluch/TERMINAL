@@ -68,7 +68,6 @@ const Projects = (props: ProjectsProps) => {
       cell: ({ row }) => (
           <ProjectsRowActions
               onEdit={() => {props.onEdit(row.original.id)}}
-              onDeactivate={() => {}}
               onDelete={()=> props.onDelete(row.original.id)} />
       ),
     }),
