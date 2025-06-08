@@ -3,8 +3,7 @@ import {ProjectDetailsDto} from "@api/terminalSchemas.ts";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import InputField from "@components/Shared/InputField.tsx";
-import { Field, Label, Switch} from "@headlessui/react";
-import clsx from "clsx";
+import LabeledSwitch from "@components/Shared/LabeledSwitch.tsx";
 
 export interface ProjectDetailsProps {
     project: ProjectDetailsDto;
@@ -27,13 +26,14 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
     const [isActive, setActive] = useState(props.project?.isActive)
 
     useEffect(() => {
-        setName(props.project?.name || "")
-        setActive(props.project?.isActive || false)
+        setName(props.project?.name || "");
+        setActive(props.project?.isActive || false);
         setIsChanged(false);
     }, [props.project]);
 
     const handleReset = () => {
-        setName(props.project?.name)
+        setName(props.project?.name);
+        setActive(props.project?.isActive || false);
         setIsChanged(false);
     };
 
@@ -53,25 +53,15 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
                     setIsChanged(true);
                 }}
             />
-            <Field className="h-fit flex flex-col">
-                <Label className="text-sm font-normal font-sans text-gray-700">
-                    Active:
-                </Label>
-                <Switch
-                    checked={isActive}
-                    onChange={() =>{
-                        setActive(!isActive)
-                        setIsChanged(true)
-                    } }
-                    className={'toggle rounded-full toggle-success toggle-lg'}
-                >
-                    <span
-                        className={clsx('size-4 rounded-full bg-white transition',
-                            isActive ? 'translate-x-6' : 'translate-x-1')}
-                    >
-                    </span>
-                </Switch>
-            </Field>
+            <LabeledSwitch
+                label="Status"
+                id="status"
+                checked={isActive}
+                onChange={() => {
+                    setActive(!isActive)
+                    setIsChanged(true)
+                }}
+            />
             <div className="flex flex-col gap-2 mt-4">
                 <div className="flex gap-1">
                     <DialogButton

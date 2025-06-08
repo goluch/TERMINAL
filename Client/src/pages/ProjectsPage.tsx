@@ -77,9 +77,9 @@ const ProjectsPage = () => {
 
       if (queryProjectDetails.data?.isActive !== isActive) {
         await toastPromise(updateActivityMutation.mutateAsync({ id, isActive }), {
-          success: "Activity updated successfully",
-          error: "Failed to update activity",
-          loading: "Updating activity...",
+          success: "Project status updated successfully",
+          error: "Failed to update project status",
+          loading: "Updating project status...",
         });
       }
     } catch {
