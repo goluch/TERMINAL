@@ -24,6 +24,7 @@ import TableCard from "@components/Shared/Table/TableCard";
 import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
 import { Link } from "react-router-dom";
+import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
@@ -140,24 +141,26 @@ const Samples = (props: SamplesProps) => {
           placeholder="Search"
           icon={<MagnifyingGlassIcon className="h-4" />}
         />
-        <div className="flex gap-1">
-          <IconButton
-            onClick={handleDeleteSelected}
-            disabled={
-              !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
-            }
-            className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
-          >
-            <XMarkIcon className="h-4 " />
-            <p className="text-xs">Delete Selected</p>
-          </IconButton>
-          <Link to="/new-sample">
-            <IconButton className="h-[40px] flex bg-white items-center gap-1">
-              <PlusIcon className="h-4" />
-              <p className="text-xs">Add new</p>
+        <VisibleForRoles roles={["Administrator", "Moderator"]}>
+          <div className="flex gap-1">
+            <IconButton
+              onClick={handleDeleteSelected}
+              disabled={
+                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+              }
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+            >
+              <XMarkIcon className="h-4 " />
+              <p className="text-xs">Delete Selected</p>
             </IconButton>
-          </Link>
-        </div>
+            <Link to="/new-sample">
+              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                <PlusIcon className="h-4" />
+                <p className="text-xs">Add new</p>
+              </IconButton>
+            </Link>
+          </div>
+        </VisibleForRoles>
       </div>
       <TableCard className="!h-full">
         <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
