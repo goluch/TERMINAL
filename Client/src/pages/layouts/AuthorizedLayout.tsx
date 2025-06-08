@@ -4,10 +4,11 @@ import Sidebar from "@components/Navbar/Sidebar.tsx";
 import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
 import { useUserRoles } from "@hooks/useUserRoles.ts";
 import Loader from "@components/Shared/Loader.tsx";
+import {Role} from "@api/models/Role.ts";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
-  roles?: Array<string>;
+  roles?: Array<Role>;
 };
 
 const AuthorizedNavbarLayout = ({

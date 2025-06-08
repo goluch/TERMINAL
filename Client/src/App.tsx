@@ -50,7 +50,7 @@ export default function App() {
           </Route>
           <Route
             element={
-              <AuthorizedLayout pageName="Users" />
+              <AuthorizedLayout pageName="Users" roles={["Administrator", "Moderator"]}/>
             }
           >
             <Route path="/users" element={<UsersPage />} />
