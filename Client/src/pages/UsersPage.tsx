@@ -48,36 +48,31 @@ const UsersPage = () => {
   });
 
   const handleDeletion = async (id: string) => {
-    try {
-      await toastPromise(deleteMutation.mutateAsync(id), {
-        success: "User deleted successfully",
-        error: "Failed to delete user",
-        loading: "Deleting user...",
-      });
-    } catch {
-      // Error is already handled by the toastPromise
-    }
+    await toastPromise(
+        deleteMutation.mutateAsync(id),
+        {
+          loading: 'Deleting user...',
+          success: 'User deleted successfully',
+          error: 'Failed to delete user'
+        }
+    );
   };
 
   const handleSubmit = async (id: string, email: string, role: string) => {
-    try {
-      if (dataQueryUserDetails.data?.email !== email) {
-        await toastPromise(updateEmailMutation.mutateAsync({ id, email }), {
-          success: "Email updated successfully",
-          error: "Failed to update email",
-          loading: "Updating email...",
-        });
-      }
+    if (dataQueryUserDetails.data?.email !== email) {
+      await toastPromise(updateEmailMutation.mutateAsync({ id, email }), {
+        success: "Email updated successfully",
+        error: "Failed to update email",
+        loading: "Updating email...",
+      });
+    }
 
-      if (dataQueryUserDetails.data?.role !== role) {
-        await toastPromise(updateRoleMutation.mutateAsync({ id, role }), {
-          success: "Role updated successfully",
-          error: "Failed to update role",
-          loading: "Updating role...",
-        });
-      }
-    } catch {
-      // Error is already handled by the toastPromise
+    if (dataQueryUserDetails.data?.role !== role) {
+      await toastPromise(updateRoleMutation.mutateAsync({ id, role }), {
+        success: "Role updated successfully",
+        error: "Failed to update role",
+        loading: "Updating role...",
+      });
     }
   };
 
