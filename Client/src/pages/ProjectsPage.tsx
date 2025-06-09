@@ -49,15 +49,11 @@ const ProjectsPage = () => {
 
   const handleDelete = async (id: string | null) => {
     if (!id) return;
-    try {
-      await toastPromise(deleteMutation.mutateAsync(id), {
-        loading: "Deleting project...",
-        success: "Deletion successful",
-        error: "Deletion failed",
-      });
-    } catch {
-      // Error is handled by toastPromise
-    }
+    await toastPromise(deleteMutation.mutateAsync(id), {
+      loading: "Deleting project...",
+      success: "Deletion successful",
+      error: "Deletion failed",
+    });
   };
 
   const handleEdit = async (id: string | null) => {
@@ -66,24 +62,20 @@ const ProjectsPage = () => {
   };
 
   const handleSubmit = async (id: string, name: string, isActive: boolean) => {
-    try {
-      if (queryProjectDetails.data?.name !== name) {
-        await toastPromise(updateNameMutation.mutateAsync({ id, name }), {
-          success: "Name updated successfully",
-          error: "Failed to update name",
-          loading: "Updating name...",
-        });
-      }
+    if (queryProjectDetails.data?.name !== name) {
+      await toastPromise(updateNameMutation.mutateAsync({ id, name }), {
+        success: "Name updated successfully",
+        error: "Failed to update name",
+        loading: "Updating name...",
+      });
+    }
 
-      if (queryProjectDetails.data?.isActive !== isActive) {
-        await toastPromise(updateActivityMutation.mutateAsync({ id, isActive }), {
-          success: "Project status updated successfully",
-          error: "Failed to update project status",
-          loading: "Updating project status...",
-        });
-      }
-    } catch {
-      // Error is already handled by the toastPromise
+    if (queryProjectDetails.data?.isActive !== isActive) {
+      await toastPromise(updateActivityMutation.mutateAsync({ id, isActive }), {
+        success: "Project status updated successfully",
+        error: "Failed to update project status",
+        loading: "Updating project status...",
+      });
     }
   };
 
